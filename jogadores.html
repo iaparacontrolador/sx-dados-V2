@@ -319,6 +319,45 @@ function loadSheetData() {
   document.head.appendChild(script);
 }
 
+// ── SAFENUM — converte valor para número, lidando com vírgula decimal ──
+function safeNum(v) {
+  if (v === null || v === undefined || v === '') return 0;
+  if (typeof v === 'number') return isNaN(v) ? 0 : v;
+  const s = String(v).trim().replace(',', '.');
+  const n = parseFloat(s);
+  return isNaN(n) ? 0 : n;
+}
+
+// ── FORMAT DATE — lida com Date objects do Google Sheets ──
+function formatDate(v) {
+  if (!v && v !== 0) return '';
+  // Caso 1: já é uma string legível (ex: "19/02/2026")
+  const s = String(v).trim();
+  if (/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(s)) return s;
+  // Caso 2: string no formato "Date(yyyy,m,d)" do gviz
+  const m = s.match(/^Date\((\d{4}),(\d{1,2}),(\d{1,2})\)/);
+  if (m) {
+    const d = String(m[3]).padStart(2,'0');
+    const mo = String(parseInt(m[2])+1).padStart(2,'0'); // mês é 0-based no gviz
+    return `${d}/${mo}/${m[1]}`;
+  }
+  // Caso 3: objeto Date nativo
+  if (v instanceof Date && !isNaN(v)) {
+    const d = String(v.getDate()).padStart(2,'0');
+    const mo = String(v.getMonth()+1).padStart(2,'0');
+    return `${d}/${mo}/${v.getFullYear()}`;
+  }
+  // Caso 4: número serial do Excel/Sheets (dias desde 30/12/1899)
+  if (!isNaN(v) && +v > 1000) {
+    const epoch = new Date(1899,11,30);
+    epoch.setDate(epoch.getDate() + Math.floor(+v));
+    const d = String(epoch.getDate()).padStart(2,'0');
+    const mo = String(epoch.getMonth()+1).padStart(2,'0');
+    return `${d}/${mo}/${epoch.getFullYear()}`;
+  }
+  return s;
+}
+
 // ── NORMROW — mesmo mapeamento do sistema do coach ──
 function normKey(s){ return String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[\s_\-\/\(\)%]/g,''); }
 function normRow(r){
@@ -341,16 +380,16 @@ function normRow(r){
   return {
     player:      String(g('PLAYER','player','jogador')||'').trim(),
     mapa:        String(g('MAPA','mapa','map')||'').trim(),
-    kills:       parseFloat(g('ABATES','KILLS','kills','kill')||0),
-    morreu:      parseFloat(g('CAIU/MORREU','MORREU','morreu','caiu','mortes')||0),
-    ass:         parseFloat(g('ASS','ass','assistencias')||0),
-    dano:        parseFloat(g('DANO','dano','damage','dmg')||0),
-    derrubou:    parseFloat(g('DERRUBOU','derrubou','knock')||0),
-    cura:        parseFloat(g('CURA','cura','heal')||0),
-    levantados:  parseFloat(g('LEVANTADOS','levantados','revived')||0),
-    ressurgidos: parseFloat(g('RESSURGIDOS','ressurgidos','respawn')||0),
-    headshot:    parseFloat(g('ACERTO NA CABECA','ACERTO NA CABEÇA','HEADSHOT','headshot','hs','cabeca')||0),
-    data:        String(g('DATA','data','date')||'').trim(),
+    kills:       safeNum(g('ABATES','KILLS','kills','kill')),
+    morreu:      safeNum(g('CAIU/MORREU','MORREU','morreu','caiu','mortes','morreu/caiu')),
+    ass:         safeNum(g('ASS','ASSIST','ass','assistencias','assistência','assistencias','assistencia')),
+    dano:        safeNum(g('DANO','DANO CAUSADO','dano','damage','dmg','dano causado')),
+    derrubou:    safeNum(g('DERRUBOU','derrubou','knock')),
+    cura:        safeNum(g('CURA','cura','heal','cura recebida')),
+    levantados:  safeNum(g('LEVANTADOS','levantados','revived')),
+    ressurgidos: safeNum(g('RESSURGIDOS','ressurgidos','respawn')),
+    headshot:    safeNum(g('ACERTO NA CABECA','ACERTO NA CABEÇA','HEADSHOT','headshot','hs','cabeca')),
+    data:        formatDate(g('DATA','data','date')),
     sala:        String(g('SALA','sala','room')||'').trim(),
     funcao:      (v => v.startsWith('http') ? '' : v)(String(g('FUNCAO','FUNÇÃO','funcao','função','role','cargo')||'').trim()),
     tipo:        String(g('TIPO','tipo','liga','campeonato','torneio','evento','event')||'').trim(),
@@ -453,7 +492,9 @@ function renderPlayer(name) {
   const avgA     = avg(pd.map(d=>d.ass));
   const avgHS    = avg(pd.filter(d=>d.headshot>0).map(d=>d.headshot));
   const totalCura= sum(pd.map(d=>d.cura));
-  const kd       = deaths > 0 ? totalK/deaths : totalK;
+  // K/D: média do K/D de cada partida (kills/mortes por partida)
+  const kdPerGame = pd.map(d => d.morreu > 0 ? d.kills / d.morreu : d.kills);
+  const kd        = avg(kdPerGame);
   const kda      = deaths > 0 ? (totalK + sum(pd.map(d=>d.ass)))/deaths : totalK;
   const mapas    = [...new Set(pd.map(d=>d.mapa).filter(Boolean))];
   const mapSt    = mapas.map(m => { const mp=pd.filter(d=>d.mapa===m); return{map:m,kills:sum(mp.map(d=>d.kills)),dano:Math.round(avg(mp.map(d=>d.dano))),games:mp.length}; });
@@ -517,7 +558,7 @@ function renderPlayer(name) {
         </tr></thead>
         <tbody>
           ${pd.map((d,i) => {
-            const kdP = d.morreu > 0 ? (d.kills/d.morreu).toFixed(2) : d.kills;
+            const kdP = d.morreu > 0 ? fmt(d.kills/d.morreu) : fmt(d.kills);
             return `<tr>
               <td class="td-n">${i+1}</td>
               <td><span class="mapb">${esc(d.mapa||'—')}</span></td>
