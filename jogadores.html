@@ -253,7 +253,39 @@ body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
 .focus-mini-kpi-v{font-family:'Orbitron',sans-serif;font-size:14px;font-weight:900;color:#ffd700;}
 .focus-mini-kpi-l{font-size:7px;letter-spacing:2px;color:var(--mu);}
 
-/* HEATMAP */
+/* TICKER — faixa de evolução no topo */
+.ticker-wrap{overflow:hidden;height:34px;background:rgba(8,12,20,.92);border-bottom:1px solid var(--brd);position:relative;}
+.ticker-track{display:flex;align-items:center;height:34px;white-space:nowrap;animation:ticker-scroll 30s linear infinite;}
+.ticker-track:hover{animation-play-state:paused;}
+.ticker-item{display:inline-flex;align-items:center;gap:6px;padding:0 20px;font-family:'Orbitron',sans-serif;font-size:10px;font-weight:700;letter-spacing:1px;border-right:1px solid rgba(255,255,255,.06);}
+.ticker-item.up{color:#4dff88;}
+.ticker-item.down{color:#ff5078;}
+.ticker-item.neutral{color:var(--mu);}
+.ticker-arrow-up{font-size:11px;}
+.ticker-arrow-dn{font-size:11px;}
+@keyframes ticker-scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* COLLAPSIBLE TABLE */
+.collapse-hdr{display:flex;align-items:center;justify-content:space-between;cursor:pointer;
+  padding:10px 16px;background:rgba(26,111,255,.06);border-bottom:1px solid var(--brd);user-select:none;transition:.2s;}
+.collapse-hdr:hover{background:rgba(26,111,255,.12);}
+.collapse-hdr-left{display:flex;align-items:center;gap:10px;}
+.collapse-hdr-title{font-family:'Orbitron',sans-serif;font-size:9px;font-weight:700;letter-spacing:3px;color:var(--bl3);}
+.collapse-hdr-count{font-size:10px;color:var(--mu);letter-spacing:1px;}
+.collapse-arrow{font-size:12px;color:var(--bl3);transition:transform .3s;}
+.collapse-arrow.open{transform:rotate(180deg);}
+.collapse-body{display:none;}
+.collapse-body.open{display:block;}
+
+/* PERFORMANCE SUMMARY */
+.perf-summary{display:flex;flex-wrap:wrap;gap:8px;padding:14px 16px;background:rgba(8,12,20,.5);border-top:1px solid var(--brd);}
+.perf-pill{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;font-size:10px;font-weight:700;letter-spacing:1px;border-radius:2px;}
+.perf-pill.excelente{background:rgba(204,102,255,.12);border:1px solid rgba(204,102,255,.3);color:#cc66ff;}
+.perf-pill.bom{background:rgba(77,255,136,.1);border:1px solid rgba(77,255,136,.25);color:#4dff88;}
+.perf-pill.medio{background:rgba(255,196,77,.1);border:1px solid rgba(255,196,77,.25);color:#ffc44d;}
+.perf-pill.ruim{background:rgba(255,80,120,.1);border:1px solid rgba(255,80,120,.25);color:#ff5078;}
+.perf-pill-num{font-family:'Orbitron',sans-serif;font-size:13px;}
+.perf-summary-title{width:100%;font-size:8px;letter-spacing:3px;color:var(--mu);font-weight:700;margin-bottom:4px;}
 .heatmap-wrap{display:grid;gap:3px;margin-bottom:16px;}
 .heatmap-cell{border-radius:2px;transition:.2s;cursor:default;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;color:rgba(255,255,255,.7);}
 .heatmap-row{display:flex;gap:3px;align-items:center;}
@@ -576,9 +608,18 @@ const THR = {
   derrubou:{ruim:0,medio:1,bom:2,excelente:3},
   headshot:{ruim:0,medio:5,bom:15,excelente:30},
   kd:{ruim:0,medio:0.5,bom:1,excelente:2},
+  morreu:{excelente:0,bom:1,medio:2,ruim:3},
 };
+// Métricas onde MENOR = melhor (lógica invertida)
+const THR_INV = new Set(['morreu']);
 function classify(key, val) {
   const t = THR[key]; if(!t) return 'bom';
+  if (THR_INV.has(key)) {
+    if(val <= t.excelente) return 'excelente';
+    if(val <= t.bom)       return 'bom';
+    if(val <= t.medio)     return 'medio';
+    return 'ruim';
+  }
   if(val >= t.excelente) return 'excelente';
   if(val >= t.bom)       return 'bom';
   if(val >= t.medio)     return 'medio';
@@ -588,7 +629,10 @@ function clsColor(cls){ return {ruim:'c-ruim',medio:'c-medio',bom:'c-bom',excele
 function badge(key,val){
   const cls = classify(key,val);
   const icons = {ruim:'▼',medio:'◆',bom:'▲',excelente:'★'};
-  const lbl   = {ruim:'RUIM',medio:'MÉDIO',bom:'BOM',excelente:'EXCELENTE'};
+  // Para métricas invertidas, ajusta o label para fazer sentido
+  const lbl = THR_INV.has(key)
+    ? {ruim:'MUITAS',medio:'MÉDIO',bom:'POUCAS',excelente:'NENHUMA'}
+    : {ruim:'RUIM',medio:'MÉDIO',bom:'BOM',excelente:'EXCELENTE'};
   return `<span class="badge ${cls}">${icons[cls]} ${lbl[cls]}</span>`;
 }
 
@@ -622,6 +666,42 @@ function renderPlayer(name) {
     : `<div class="ph-photo-ph">👤</div>`;
 
   document.getElementById('playerContent').innerHTML = `
+
+    <!-- TICKER DE EVOLUÇÃO -->
+    ${(()=>{
+      // Compara última data com a anterior — agrupa por data
+      const byDate = {};
+      pd.forEach(d => { if(!d.data) return; (byDate[d.data]=byDate[d.data]||[]).push(d); });
+      const dates = Object.keys(byDate).sort();
+      if (dates.length < 2) return '';
+      const last = byDate[dates[dates.length-1]];
+      const prev = byDate[dates[dates.length-2]];
+      const avgOf = (arr, key) => arr.length ? avg(arr.map(d=>d[key])) : 0;
+      const metrics = [
+        {k:'kills',  l:'KILLS',   inv:false, fmt: v=>v.toFixed(1)},
+        {k:'dano',   l:'DANO',    inv:false, fmt: v=>Math.round(v)},
+        {k:'ass',    l:'ASSISTS', inv:false, fmt: v=>v.toFixed(1)},
+        {k:'cura',   l:'CURA',    inv:false, fmt: v=>Math.round(v)},
+        {k:'morreu', l:'MORTES',  inv:true,  fmt: v=>v.toFixed(1)},
+        {k:'headshot',l:'HEADSHOT',inv:false, fmt: v=>v.toFixed(1)+'%'},
+      ];
+      const items = metrics.map(m => {
+        const vL = avgOf(last, m.k), vP = avgOf(prev, m.k);
+        const diff = vL - vP;
+        if (Math.abs(diff) < 0.01) return null;
+        // Para mortes: subiu = ruim (down), desceu = bom (up)
+        const isGood = m.inv ? diff < 0 : diff > 0;
+        const sign   = diff > 0 ? '+' : '';
+        const arrow  = isGood ? '▲' : '▼';
+        const cls    = isGood ? 'up' : 'down';
+        const fmtDiff = m.k==='dano'||m.k==='cura' ? Math.round(Math.abs(diff)) : Math.abs(diff).toFixed(1)+(m.k==='headshot'?'%':'');
+        return `<div class="ticker-item ${cls}">${arrow} ${esc(name)} ${sign}${m.k==='dano'||m.k==='cura'?Math.round(diff):diff.toFixed(1)+(m.k==='headshot'?'%':'')} em ${m.l} · ${esc(dates[dates.length-2])} → ${esc(dates[dates.length-1])}</div>`;
+      }).filter(Boolean);
+      if (!items.length) return '';
+      // Duplica itens para loop contínuo
+      const all = items.join('') + items.join('');
+      return `<div class="ticker-wrap"><div class="ticker-track">${all}</div></div>`;
+    })()}
 
     <!-- HERO -->
     <div class="ph-wrap">
@@ -680,28 +760,70 @@ function renderPlayer(name) {
 
       <!-- TABELA POR PARTIDA -->
       <div class="stitle">DADOS POR PARTIDA</div>
-      <div class="tpanel" style="overflow-x:auto;">
-        <table style="min-width:620px;">
-          <thead><tr>
-            <th>#</th><th>MAPA</th><th>TIPO</th><th>KILLS</th><th>ASS</th><th>DANO</th><th>CURA</th><th>K/D</th><th>DATA</th>
-          </tr></thead>
-          <tbody>
-            ${pd.map((d,i) => {
-              const kdP = d.morreu > 0 ? fmt(d.kills/d.morreu) : fmt(d.kills);
-              return `<tr>
-                <td class="td-n">${i+1}</td>
-                <td><span class="mapb">${esc(d.mapa||'—')}</span></td>
-                <td style="font-size:11px;color:var(--mu)">${esc(d.tipo||'—')}</td>
-                <td><span class="${clsColor(classify('kills',d.kills))}">${d.kills}</span> ${badge('kills',d.kills)}</td>
-                <td><span class="${clsColor(classify('ass',d.ass))}">${d.ass}</span></td>
-                <td><span class="${clsColor(classify('dano',d.dano))}">${d.dano}</span></td>
-                <td><span class="${clsColor(classify('cura',d.cura))}">${d.cura}</span></td>
-                <td>${kdP}</td>
-                <td style="font-size:11px;color:var(--mu)">${esc(d.data||'—')}</td>
-              </tr>`;
-            }).join('')}
-          </tbody>
-        </table>
+      <div class="tpanel" style="margin-bottom:8px;">
+        <!-- CABEÇALHO CLICÁVEL -->
+        <div class="collapse-hdr" onclick="toggleCollapse('tbl-partidas','arrow-partidas')">
+          <div class="collapse-hdr-left">
+            <span class="collapse-arrow" id="arrow-partidas">▼</span>
+            <span class="collapse-hdr-title">HISTÓRICO DE PARTIDAS</span>
+            <span class="collapse-hdr-count">${pd.length} registros</span>
+          </div>
+          <span style="font-size:9px;color:var(--mu);letter-spacing:1px;">CLIQUE PARA ${pd.length>6?'EXPANDIR':'RECOLHER'}</span>
+        </div>
+        <!-- CORPO RECOLHÍVEL -->
+        <div class="collapse-body ${pd.length<=6?'open':''}" id="tbl-partidas">
+          <div style="overflow-x:auto;">
+            <table style="min-width:680px;">
+              <thead><tr>
+                <th>#</th><th>MAPA</th><th>TIPO</th><th>KILLS</th><th>ASS</th><th>DANO</th><th>CURA</th><th>MORTES</th><th>K/D</th><th>DATA</th>
+              </tr></thead>
+              <tbody>
+                ${pd.map((d,i) => {
+                  const kdP = d.morreu > 0 ? fmt(d.kills/d.morreu) : fmt(d.kills);
+                  // Classificação geral da partida (baseada em kills + dano)
+                  const clsK = classify('kills', d.kills);
+                  const clsD = classify('dano', d.dano);
+                  const score = ['ruim','medio','bom','excelente'].indexOf(clsK) + ['ruim','medio','bom','excelente'].indexOf(clsD);
+                  const rowCls = score >= 6 ? 'excelente' : score >= 4 ? 'bom' : score >= 2 ? 'medio' : 'ruim';
+                  const rowColors = {excelente:'rgba(204,102,255,.04)',bom:'rgba(77,255,136,.03)',medio:'rgba(255,196,77,.03)',ruim:'rgba(255,80,120,.04)'};
+                  return `<tr style="background:${rowColors[rowCls]}">
+                    <td class="td-n">${i+1}</td>
+                    <td><span class="mapb">${esc(d.mapa||'—')}</span></td>
+                    <td style="font-size:11px;color:var(--mu)">${esc(d.tipo||'—')}</td>
+                    <td><span class="${clsColor(classify('kills',d.kills))}">${d.kills}</span> ${badge('kills',d.kills)}</td>
+                    <td><span class="${clsColor(classify('ass',d.ass))}">${d.ass}</span></td>
+                    <td><span class="${clsColor(classify('dano',d.dano))}">${d.dano}</span></td>
+                    <td><span class="${clsColor(classify('cura',d.cura))}">${d.cura}</span></td>
+                    <td><span class="${clsColor(classify('morreu',d.morreu))}">${d.morreu}</span> ${badge('morreu',d.morreu)}</td>
+                    <td>${kdP}</td>
+                    <td style="font-size:11px;color:var(--mu)">${esc(d.data||'—')}</td>
+                  </tr>`;
+                }).join('')}
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <!-- RESUMO DE DESEMPENHO POR PARTIDA -->
+        <div class="perf-summary">
+          ${(()=>{
+            const counts = {excelente:0, bom:0, medio:0, ruim:0};
+            pd.forEach(d => {
+              const clsK = classify('kills', d.kills);
+              const clsD = classify('dano', d.dano);
+              const score = ['ruim','medio','bom','excelente'].indexOf(clsK) + ['ruim','medio','bom','excelente'].indexOf(clsD);
+              const cls = score >= 6 ? 'excelente' : score >= 4 ? 'bom' : score >= 2 ? 'medio' : 'ruim';
+              counts[cls]++;
+            });
+            const icons = {excelente:'★', bom:'▲', medio:'◆', ruim:'▼'};
+            const labels = {excelente:'EXCELENTES', bom:'BOAS', medio:'MÉDIAS', ruim:'RUINS'};
+            return `<div class="perf-summary-title">RESUMO — QUALIDADE DAS PARTIDAS (kills + dano)</div>` +
+              ['excelente','bom','medio','ruim'].map(cls =>
+                counts[cls] > 0
+                  ? `<div class="perf-pill ${cls}"><span class="perf-pill-num">${counts[cls]}</span> ${icons[cls]} ${labels[cls]}</div>`
+                  : ''
+              ).join('');
+          })()}
+        </div>
       </div>
 
       <!-- KILL GRID -->
@@ -738,6 +860,7 @@ function renderPlayer(name) {
               {l:'Média de Assistência',k:'ass',   v:avgA,           s:''},
               {l:'Média de Dano',     k:'dano',    v:avgD,           s:' HP'},
               {l:'Média de Cura',     k:'cura',    v:avg(pd.map(d=>d.cura)), s:' HP'},
+              {l:'Média de Mortes',   k:'morreu',  v:avg(pd.map(d=>d.morreu)), s:''},
               {l:'K/D Ratio',         k:'kd',      v:kd,             s:''},
               {l:'% de Headshots',    k:'headshot',v:avgHS,          s:'%'},
             ].map(s => {
@@ -772,6 +895,22 @@ function renderPlayer(name) {
 
   // render charts after DOM update
   setTimeout(() => buildCharts(pd, mapSt, name, totalK, avgK, avgD, avgHS, kd, avgA, totalCura), 60);
+}
+
+// ── COLLAPSE ──
+function toggleCollapse(bodyId, arrowId) {
+  const body  = document.getElementById(bodyId);
+  const arrow = document.getElementById(arrowId);
+  if (!body) return;
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  if (arrow) arrow.classList.toggle('open', !isOpen);
+  // atualiza hint
+  const hdr = body.previousElementSibling;
+  if (hdr) {
+    const hint = hdr.querySelector('span:last-child');
+    if (hint) hint.textContent = isOpen ? 'CLIQUE PARA EXPANDIR' : 'CLIQUE PARA RECOLHER';
+  }
 }
 
 // ── TAB SWITCH ──
