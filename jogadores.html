@@ -136,11 +136,12 @@ body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
 .kpi-l{font-size:8px;letter-spacing:3px;color:var(--mu);text-transform:uppercase;margin-top:2px;}
 
 /* CHARTS */
-.charts-row{display:grid;grid-template-columns:1fr;gap:14px;margin-bottom:14px;}
-.charts-row3{display:grid;grid-template-columns:1fr;gap:14px;margin-bottom:14px;}
+.charts-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
+.charts-row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:12px;}
 .cpanel{background:linear-gradient(160deg,rgba(12,18,32,.98),rgba(8,12,20,.99));
-  border:1px solid rgba(26,111,255,.18);padding:18px;position:relative;}
-.cpanel canvas{max-height:220px !important;}
+  border:1px solid rgba(26,111,255,.18);padding:14px;position:relative;overflow:hidden;}
+.chart-box{position:relative;width:100%;height:180px;}
+.chart-box canvas{position:absolute;top:0;left:0;width:100%!important;height:100%!important;}
 .cpanel::after{content:'';position:absolute;top:0;left:0;right:0;height:1px;
   background:linear-gradient(90deg,transparent,var(--bl),var(--bl3),transparent);}
 .cpt{font-family:'Orbitron',sans-serif;font-size:9px;font-weight:700;color:var(--bl3);
@@ -184,11 +185,13 @@ body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
 .kill-cell-map{font-size:7px;letter-spacing:1px;color:var(--mu);}
 
 /* RESPONSIVE */
-@media(max-width:700px){
-  .ph-name{font-size:20px;}
-  .search-input{width:160px;}
-  .ph-photo,.ph-photo-ph{width:80px;height:106px;}
-  .ph-wrap{height:180px;}
+@media(max-width:600px){
+  .charts-row{grid-template-columns:1fr;}
+  .charts-row3{grid-template-columns:1fr 1fr;}
+  .ph-name{font-size:18px;}
+  .search-input{width:150px;}
+  .ph-photo,.ph-photo-ph{width:72px;height:96px;}
+  .ph-wrap{height:170px;}
   .kpi-grid{grid-template-columns:repeat(2,1fr);}
 }
 </style>
@@ -491,14 +494,13 @@ function renderPlayer(name) {
     <!-- CHARTS -->
     <div class="stitle">EVOLUÇÃO</div>
     <div class="charts-row">
-      <div class="cpanel"><div class="cpt">KILLS POR PARTIDA</div><div style="position:relative;height:200px;"><canvas id="ch_kills"></canvas></div></div>
-      <div class="cpanel"><div class="cpt">DANO & CURA POR PARTIDA</div><div style="position:relative;height:200px;"><canvas id="ch_dano"></canvas></div></div>
+      <div class="cpanel"><div class="cpt">KILLS POR PARTIDA</div><div class="chart-box"><canvas id="ch_kills"></canvas></div></div>
+      <div class="cpanel"><div class="cpt">DANO & CURA</div><div class="chart-box"><canvas id="ch_dano"></canvas></div></div>
     </div>
-
     <div class="charts-row3">
-      <div class="cpanel"><div class="cpt">RADAR DE PERFORMANCE</div><div style="position:relative;height:220px;"><canvas id="ch_radar"></canvas></div></div>
-      <div class="cpanel"><div class="cpt">KILLS POR MAPA</div><div style="position:relative;height:220px;"><canvas id="ch_mapa"></canvas></div></div>
-      <div class="cpanel"><div class="cpt">CONTRIBUIÇÕES</div><div style="position:relative;height:220px;"><canvas id="ch_pizza"></canvas></div></div>
+      <div class="cpanel"><div class="cpt">RADAR</div><div class="chart-box"><canvas id="ch_radar"></canvas></div></div>
+      <div class="cpanel"><div class="cpt">KILLS POR MAPA</div><div class="chart-box"><canvas id="ch_mapa"></canvas></div></div>
+      <div class="cpanel"><div class="cpt">CONTRIBUIÇÕES</div><div class="chart-box"><canvas id="ch_pizza"></canvas></div></div>
     </div>
 
     <!-- TABELA POR PARTIDA -->
