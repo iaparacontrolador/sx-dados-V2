@@ -665,38 +665,85 @@ loadSheetData();
 
 <!-- VIDEO INTRO -->
 <div id="videoIntro" style="display:none;position:fixed;inset:0;z-index:800;background:#000;">
-  <video id="introVideo" style="width:100%;height:100%;object-fit:cover;" playsinline
-    onended="closeIntro()"></video>
-  <div style="position:absolute;inset:0;background:linear-gradient(0deg,rgba(8,12,20,.9) 0%,transparent 40%,transparent 70%,rgba(8,12,20,.5) 100%);pointer-events:none;"></div>
-  <div style="position:absolute;bottom:12%;left:0;right:0;text-align:center;z-index:2;">
-    <div id="introName" style="font-family:'Orbitron',sans-serif;font-size:28px;font-weight:900;color:#fff;text-shadow:0 0 30px rgba(26,111,255,.8);letter-spacing:2px;"></div>
-    <div id="introRole" style="font-size:11px;letter-spacing:5px;color:#4D9FFF;margin-top:6px;font-weight:700;"></div>
+  <!-- Scanlines overlay -->
+  <div style="position:absolute;inset:0;pointer-events:none;z-index:5;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,.08) 3px,rgba(0,0,0,.08) 4px);"></div>
+  <!-- Side flares -->
+  <div style="position:absolute;left:0;top:0;bottom:0;width:120px;background:linear-gradient(90deg,rgba(26,111,255,.2),transparent);pointer-events:none;z-index:4;"></div>
+  <div style="position:absolute;right:0;top:0;bottom:0;width:120px;background:linear-gradient(270deg,rgba(26,111,255,.2),transparent);pointer-events:none;z-index:4;"></div>
+  <!-- Video nativo -->
+  <video id="introVideo" style="display:none;width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" playsinline onended="closeIntro()"></video>
+  <!-- iframe Google Drive -->
+  <iframe id="introIframe" style="display:none;width:100%;height:100%;border:none;position:absolute;inset:0;" allowfullscreen allow="autoplay"></iframe>
+  <!-- Gradient bottom -->
+  <div style="position:absolute;inset:0;background:linear-gradient(0deg,rgba(8,12,20,.95) 0%,transparent 35%,transparent 65%,rgba(8,12,20,.6) 100%);pointer-events:none;z-index:3;"></div>
+  <!-- Player info -->
+  <div style="position:absolute;bottom:10%;left:0;right:0;text-align:center;z-index:6;">
+    <div id="introName" style="font-family:'Orbitron',sans-serif;font-size:32px;font-weight:900;color:#fff;text-shadow:0 0 40px rgba(26,111,255,.9);letter-spacing:3px;animation:fen .8s both;"></div>
+    <div id="introRole" style="font-size:11px;letter-spacing:6px;color:#4D9FFF;margin-top:8px;font-weight:700;animation:fen .6s .4s both;"></div>
   </div>
-  <button onclick="closeIntro()" style="position:absolute;top:20px;right:20px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.3);color:#fff;padding:8px 18px;font-family:'Orbitron',sans-serif;font-size:9px;letter-spacing:2px;cursor:pointer;z-index:3;">[ PULAR ]</button>
+  <!-- Skip button -->
+  <button onclick="closeIntro()" style="position:absolute;top:20px;right:20px;background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.25);color:rgba(255,255,255,.7);padding:8px 20px;font-family:'Orbitron',sans-serif;font-size:9px;letter-spacing:2px;cursor:pointer;z-index:10;transition:.2s;" onmouseover="this.style.background='rgba(26,111,255,.3)';this.style.color='#fff'" onmouseout="this.style.background='rgba(0,0,0,.5)';this.style.color='rgba(255,255,255,.7)'">[ PULAR ]</button>
 </div>
-
+<style>
+@keyframes fen{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+</style>
 <script>
 let _introCb = null;
+
 function playIntro(name, role, videoUrl, cb) {
   _introCb = cb;
   if (!videoUrl || !videoUrl.trim()) { cb(); return; }
+
+  const url  = videoUrl.trim();
   const wrap = document.getElementById('videoIntro');
   const vid  = document.getElementById('introVideo');
+  const ifr  = document.getElementById('introIframe');
+
   document.getElementById('introName').textContent = name;
   document.getElementById('introRole').textContent = role;
-  vid.src = videoUrl.trim();
-  vid.load();
+
+  // Detecta se é Google Drive
+  const isDrive = url.includes('drive.google.com');
+
+  vid.style.display = 'none';
+  ifr.style.display = 'none';
+  vid.src = '';
+  ifr.src = '';
+
   wrap.style.display = 'block';
-  vid.play().catch(() => { closeIntro(); });
-  // safety timeout 30s
   clearTimeout(window._introTimer);
-  window._introTimer = setTimeout(closeIntro, 30000);
+
+  if (isDrive) {
+    // Extrai ID e monta URL de embed com autoplay
+    let fileId = '';
+    const m1 = url.match(/\/d\/([^\/\?]+)/);
+    const m2 = url.match(/id=([^&]+)/);
+    if (m1) fileId = m1[1];
+    else if (m2) fileId = m2[1];
+
+    if (!fileId) { closeIntro(); return; }
+
+    ifr.style.display = 'block';
+    ifr.src = `https://drive.google.com/file/d/${fileId}/preview?autoplay=1`;
+    // Drive iframe não dispara onended — fecha após duração máxima ou skip
+    window._introTimer = setTimeout(closeIntro, 35000);
+  } else {
+    // Vídeo normal (mp4 direto)
+    vid.style.display = 'block';
+    vid.src = url;
+    vid.load();
+    vid.play().catch(() => closeIntro());
+    window._introTimer = setTimeout(closeIntro, 35000);
+  }
 }
+
 function closeIntro() {
   clearTimeout(window._introTimer);
   const wrap = document.getElementById('videoIntro');
   const vid  = document.getElementById('introVideo');
+  const ifr  = document.getElementById('introIframe');
   wrap.style.display = 'none';
+  ifr.src = '';
   try { vid.pause(); vid.src = ''; vid.load(); } catch(e){}
   if (_introCb) { _introCb(); _introCb = null; }
 }
