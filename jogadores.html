@@ -136,8 +136,8 @@ body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
 .kpi-l{font-size:8px;letter-spacing:3px;color:var(--mu);text-transform:uppercase;margin-top:2px;}
 
 /* CHARTS */
-.charts-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
-.charts-row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:14px;}
+.charts-row{display:grid;grid-template-columns:1fr;gap:14px;margin-bottom:14px;}
+.charts-row3{display:grid;grid-template-columns:1fr;gap:14px;margin-bottom:14px;}
 .cpanel{background:linear-gradient(160deg,rgba(12,18,32,.98),rgba(8,12,20,.99));
   border:1px solid rgba(26,111,255,.18);padding:18px;position:relative;}
 .cpanel::after{content:'';position:absolute;top:0;left:0;right:0;height:1px;
@@ -184,9 +184,11 @@ body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
 
 /* RESPONSIVE */
 @media(max-width:700px){
-  .charts-row,.charts-row3{grid-template-columns:1fr;}
   .ph-name{font-size:20px;}
-  .search-input{width:180px;}
+  .search-input{width:160px;}
+  .ph-photo,.ph-photo-ph{width:80px;height:106px;}
+  .ph-wrap{height:180px;}
+  .kpi-grid{grid-template-columns:repeat(2,1fr);}
 }
 </style>
 </head>
@@ -388,9 +390,15 @@ function closeSearch() { document.getElementById('searchDropdown').classList.rem
 function selectPlayer(name) {
   document.getElementById('searchInput').value = name;
   closeSearch();
-  document.getElementById('welcomeScreen').style.display  = 'none';
-  document.getElementById('playerContent').style.display  = 'block';
-  renderPlayer(name);
+  const pd      = plData(name);
+  const videoUrl = pd[0]?.video || '';
+  const foto    = pd[0]?.foto   || '';
+  const role    = pd[0]?.funcao || 'PLAYER';
+  playIntro(name, role, videoUrl, () => {
+    document.getElementById('welcomeScreen').style.display = 'none';
+    document.getElementById('playerContent').style.display = 'block';
+    renderPlayer(name);
+  });
 }
 
 // ── THRESHOLDS ──
@@ -650,6 +658,45 @@ function buildCharts(pd, mapSt, name, totalK, avgK, avgD, avgHS, kd, avgA, total
 
 // ── BOOT ──
 loadSheetData();
+</script>
+
+<!-- VIDEO INTRO -->
+<div id="videoIntro" style="display:none;position:fixed;inset:0;z-index:800;background:#000;">
+  <video id="introVideo" style="width:100%;height:100%;object-fit:cover;" playsinline
+    onended="closeIntro()"></video>
+  <div style="position:absolute;inset:0;background:linear-gradient(0deg,rgba(8,12,20,.9) 0%,transparent 40%,transparent 70%,rgba(8,12,20,.5) 100%);pointer-events:none;"></div>
+  <div style="position:absolute;bottom:12%;left:0;right:0;text-align:center;z-index:2;">
+    <div id="introName" style="font-family:'Orbitron',sans-serif;font-size:28px;font-weight:900;color:#fff;text-shadow:0 0 30px rgba(26,111,255,.8);letter-spacing:2px;"></div>
+    <div id="introRole" style="font-size:11px;letter-spacing:5px;color:#4D9FFF;margin-top:6px;font-weight:700;"></div>
+  </div>
+  <button onclick="closeIntro()" style="position:absolute;top:20px;right:20px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.3);color:#fff;padding:8px 18px;font-family:'Orbitron',sans-serif;font-size:9px;letter-spacing:2px;cursor:pointer;z-index:3;">[ PULAR ]</button>
+</div>
+
+<script>
+let _introCb = null;
+function playIntro(name, role, videoUrl, cb) {
+  _introCb = cb;
+  if (!videoUrl || !videoUrl.trim()) { cb(); return; }
+  const wrap = document.getElementById('videoIntro');
+  const vid  = document.getElementById('introVideo');
+  document.getElementById('introName').textContent = name;
+  document.getElementById('introRole').textContent = role;
+  vid.src = videoUrl.trim();
+  vid.load();
+  wrap.style.display = 'block';
+  vid.play().catch(() => { closeIntro(); });
+  // safety timeout 30s
+  clearTimeout(window._introTimer);
+  window._introTimer = setTimeout(closeIntro, 30000);
+}
+function closeIntro() {
+  clearTimeout(window._introTimer);
+  const wrap = document.getElementById('videoIntro');
+  const vid  = document.getElementById('introVideo');
+  wrap.style.display = 'none';
+  try { vid.pause(); vid.src = ''; vid.load(); } catch(e){}
+  if (_introCb) { _introCb(); _introCb = null; }
+}
 </script>
 </body>
 </html>
