@@ -140,6 +140,7 @@ body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
 .charts-row3{display:grid;grid-template-columns:1fr;gap:14px;margin-bottom:14px;}
 .cpanel{background:linear-gradient(160deg,rgba(12,18,32,.98),rgba(8,12,20,.99));
   border:1px solid rgba(26,111,255,.18);padding:18px;position:relative;}
+.cpanel canvas{max-height:220px !important;}
 .cpanel::after{content:'';position:absolute;top:0;left:0;right:0;height:1px;
   background:linear-gradient(90deg,transparent,var(--bl),var(--bl3),transparent);}
 .cpt{font-family:'Orbitron',sans-serif;font-size:9px;font-weight:700;color:var(--bl3);
@@ -490,14 +491,14 @@ function renderPlayer(name) {
     <!-- CHARTS -->
     <div class="stitle">EVOLUÇÃO</div>
     <div class="charts-row">
-      <div class="cpanel"><div class="cpt">KILLS POR PARTIDA</div><canvas id="ch_kills" height="160"></canvas></div>
-      <div class="cpanel"><div class="cpt">DANO & CURA POR PARTIDA</div><canvas id="ch_dano" height="160"></canvas></div>
+      <div class="cpanel"><div class="cpt">KILLS POR PARTIDA</div><div style="position:relative;height:200px;"><canvas id="ch_kills"></canvas></div></div>
+      <div class="cpanel"><div class="cpt">DANO & CURA POR PARTIDA</div><div style="position:relative;height:200px;"><canvas id="ch_dano"></canvas></div></div>
     </div>
 
     <div class="charts-row3">
-      <div class="cpanel"><div class="cpt">RADAR DE PERFORMANCE</div><canvas id="ch_radar" height="200"></canvas></div>
-      <div class="cpanel"><div class="cpt">KILLS POR MAPA</div><canvas id="ch_mapa" height="200"></canvas></div>
-      <div class="cpanel"><div class="cpt">CONTRIBUIÇÕES</div><canvas id="ch_pizza" height="200"></canvas></div>
+      <div class="cpanel"><div class="cpt">RADAR DE PERFORMANCE</div><div style="position:relative;height:220px;"><canvas id="ch_radar"></canvas></div></div>
+      <div class="cpanel"><div class="cpt">KILLS POR MAPA</div><div style="position:relative;height:220px;"><canvas id="ch_mapa"></canvas></div></div>
+      <div class="cpanel"><div class="cpt">CONTRIBUIÇÕES</div><div style="position:relative;height:220px;"><canvas id="ch_pizza"></canvas></div></div>
     </div>
 
     <!-- TABELA POR PARTIDA -->
@@ -597,7 +598,7 @@ function buildCharts(pd, mapSt, name, totalK, avgK, avgD, avgHS, kd, avgA, total
       datasets:[
         {label:'Kills',data:pd.map(d=>d.kills),fill:true,backgroundColor:g,borderColor:'#4D9FFF',pointBackgroundColor:'#4D9FFF',pointRadius:3,tension:.4,borderWidth:2.5},
         {label:'Assist',data:pd.map(d=>d.ass),fill:false,borderColor:'rgba(255,255,255,.4)',pointBackgroundColor:'#fff',pointRadius:2,tension:.4,borderWidth:1.5,borderDash:[4,3]}
-      ]},options:{responsive:true,interaction:{mode:'index',intersect:false},plugins:{legend:{labels:{color:'#5A6880',font:{size:9}}},tooltip:tt},scales:{x:ax,y:ax},animation:{duration:1400}}});
+      ]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{labels:{color:'#5A6880',font:{size:9}}},tooltip:tt},scales:{x:ax,y:ax},animation:{duration:1400}}});
   }
 
   // Dano line
@@ -610,7 +611,7 @@ function buildCharts(pd, mapSt, name, totalK, avgK, avgD, avgHS, kd, avgA, total
       datasets:[
         {label:'Dano',data:pd.map(d=>d.dano),fill:true,backgroundColor:g2,borderColor:'rgba(255,255,255,.8)',pointBackgroundColor:'#fff',pointRadius:3,tension:.4,borderWidth:2.5},
         {label:'Cura',data:pd.map(d=>d.cura),fill:false,borderColor:'#1A6FFF',pointBackgroundColor:'#4D9FFF',pointRadius:2,tension:.4,borderWidth:1.8,borderDash:[4,3]}
-      ]},options:{responsive:true,interaction:{mode:'index',intersect:false},plugins:{legend:{labels:{color:'#5A6880',font:{size:9}}},tooltip:tt},scales:{x:ax,y:ax},animation:{duration:1400}}});
+      ]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{labels:{color:'#5A6880',font:{size:9}}},tooltip:tt},scales:{x:ax,y:ax},animation:{duration:1400}}});
   }
 
   // Radar
