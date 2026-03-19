@@ -184,6 +184,75 @@ body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
 .kill-cell.no-kill .kill-cell-num{color:#f87171;}
 .kill-cell-map{font-size:7px;letter-spacing:1px;color:var(--mu);}
 
+/* ── TABS ── */
+.tab-bar{display:flex;gap:0;margin-bottom:24px;border-bottom:1px solid var(--brd);position:relative;}
+.tab-btn{padding:12px 20px;font-family:'Orbitron',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;
+  color:var(--mu);background:transparent;border:none;cursor:pointer;position:relative;
+  transition:all .3s;text-transform:uppercase;white-space:nowrap;}
+.tab-btn::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:2px;
+  background:var(--bl);transform:scaleX(0);transition:transform .3s;}
+.tab-btn.active{color:var(--wh);}
+.tab-btn.active::after{transform:scaleX(1);}
+.tab-btn:hover{color:var(--bl3);}
+.tab-btn.cmp-btn{color:var(--bl3);border:1px solid rgba(26,111,255,.3);margin-left:8px;margin-bottom:3px;
+  background:rgba(26,111,255,.06);clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px));}
+.tab-btn.cmp-btn.active{color:#fff;background:rgba(26,111,255,.18);border-color:var(--bl);}
+.tab-content{display:none;}.tab-content.active{display:block;}
+
+/* ── COMPARATIVE ── */
+.cmp-filter-bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;align-items:center;}
+.cmp-filter-label{font-size:10px;letter-spacing:2px;color:var(--mu);font-weight:700;margin-right:4px;}
+.cmp-filter-btn{padding:6px 14px;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;
+  letter-spacing:1px;background:rgba(26,111,255,.06);border:1px solid var(--brd);color:var(--mu);
+  cursor:pointer;transition:all .2s;white-space:nowrap;}
+.cmp-filter-btn.active{background:rgba(26,111,255,.18);border-color:var(--bl);color:#fff;}
+.cmp-filter-btn:hover{border-color:var(--bl3);color:var(--owh);}
+
+/* Ranking table */
+.rank-table{width:100%;border-collapse:collapse;margin-bottom:12px;}
+.rank-table thead tr{background:rgba(26,111,255,.08);}
+.rank-table th{padding:8px 10px;font-family:'Orbitron',sans-serif;font-size:7px;font-weight:700;
+  color:var(--bl3);letter-spacing:2px;border-bottom:1px solid var(--brd);text-align:left;white-space:nowrap;}
+.rank-table td{padding:7px 10px;font-size:12px;font-weight:500;border-bottom:1px solid rgba(255,255,255,.025);vertical-align:middle;}
+.rank-table tr.is-focus{background:rgba(26,111,255,.12);outline:1px solid rgba(26,111,255,.4);}
+.rank-table tr.is-focus td{color:#fff;}
+.rank-medal{font-size:14px;min-width:22px;display:inline-block;text-align:center;}
+.rank-pos{font-family:'Orbitron',sans-serif;font-size:11px;font-weight:900;color:var(--mu);}
+.rank-name{font-family:'Orbitron',sans-serif;font-size:10px;font-weight:700;}
+.rank-bar-wrap{width:120px;height:6px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden;display:inline-block;vertical-align:middle;margin-left:8px;}
+.rank-bar{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--bl),var(--bl3));transition:width .8s;}
+.rank-bar.focus-bar{background:linear-gradient(90deg,#ffd700,#ffaa00);}
+.rank-pct{font-size:10px;color:var(--bl3);font-weight:700;margin-left:6px;}
+.rank-pct.focus-pct{color:#ffd700;}
+
+/* Contribution donut cards */
+.contrib-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:20px;}
+.contrib-card{background:var(--dk2);border:1px solid var(--brd);padding:16px;text-align:center;position:relative;overflow:hidden;}
+.contrib-card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--bl),transparent);}
+.contrib-title{font-family:'Orbitron',sans-serif;font-size:8px;letter-spacing:3px;color:var(--bl3);margin-bottom:10px;}
+.contrib-donut{position:relative;width:90px;height:90px;margin:0 auto 10px;}
+.contrib-donut svg{transform:rotate(-90deg);}
+.contrib-pct-text{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.contrib-pct-num{font-family:'Orbitron',sans-serif;font-size:16px;font-weight:900;color:#fff;}
+.contrib-pct-lbl{font-size:8px;letter-spacing:1px;color:var(--mu);}
+.contrib-rank-badge{font-size:10px;color:var(--mu);letter-spacing:1px;}
+.contrib-rank-badge em{color:#ffd700;font-style:normal;font-weight:700;}
+
+/* Highlight banner */
+.focus-banner{background:linear-gradient(135deg,rgba(26,111,255,.15),rgba(77,159,255,.08));
+  border:1px solid rgba(26,111,255,.35);padding:14px 20px;margin-bottom:20px;
+  display:flex;align-items:center;gap:16px;position:relative;overflow:hidden;}
+.focus-banner::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--bl);}
+.focus-banner-avatar{font-size:28px;}
+.focus-banner-info{flex:1;}
+.focus-banner-name{font-family:'Orbitron',sans-serif;font-size:14px;font-weight:900;color:#fff;letter-spacing:1px;}
+.focus-banner-sub{font-size:10px;color:var(--bl3);letter-spacing:2px;margin-top:2px;}
+.focus-banner-kpis{display:flex;gap:20px;flex-wrap:wrap;}
+.focus-mini-kpi{display:flex;flex-direction:column;gap:1px;text-align:center;}
+.focus-mini-kpi-v{font-family:'Orbitron',sans-serif;font-size:14px;font-weight:900;color:#ffd700;}
+.focus-mini-kpi-l{font-size:7px;letter-spacing:2px;color:var(--mu);}
+
 /* RESPONSIVE */
 @media(max-width:600px){
   .charts-row{grid-template-columns:1fr;}
@@ -504,6 +573,7 @@ function renderPlayer(name) {
     : `<div class="ph-photo-ph">👤</div>`;
 
   document.getElementById('playerContent').innerHTML = `
+
     <!-- HERO -->
     <div class="ph-wrap">
       <div class="ph-bg" style="background-image:url('${esc(foto)}')"></div>
@@ -524,108 +594,437 @@ function renderPlayer(name) {
       </div>
     </div>
 
-    <!-- KPIs -->
-    <div class="stitle">VISÃO GERAL</div>
-    <div class="kpi-grid">
-      <div class="kpi"><div class="kpi-i">💀</div><div class="kpi-v">${totalK}</div><div class="kpi-l">Total Kills</div></div>
-      <div class="kpi"><div class="kpi-i">⚔️</div><div class="kpi-v">${fmt(avgK)}</div><div class="kpi-l">Média Kills</div></div>
-      <div class="kpi"><div class="kpi-i">💥</div><div class="kpi-v">${Math.round(avgD)}</div><div class="kpi-l">Dano Médio</div></div>
-      <div class="kpi"><div class="kpi-i">🎯</div><div class="kpi-v">${fmt(avgHS)}%</div><div class="kpi-l">% Cabeça</div></div>
-      <div class="kpi"><div class="kpi-i">📊</div><div class="kpi-v">${fmt(kd)}</div><div class="kpi-l">K/D Ratio</div></div>
-      <div class="kpi"><div class="kpi-i">🤝</div><div class="kpi-v">${fmt(avgA)}</div><div class="kpi-l">Méd Assist</div></div>
-      <div class="kpi"><div class="kpi-i">💊</div><div class="kpi-v">${Math.round(avg(pd.map(d=>d.cura)))}</div><div class="kpi-l">Cura Média</div></div>
-      <div class="kpi"><div class="kpi-i">🔥</div><div class="kpi-v">${fmt(kda)}</div><div class="kpi-l">KDA</div></div>
+    <!-- TABS -->
+    <div class="tab-bar">
+      <button class="tab-btn active" onclick="switchTab('stats',this)">📊 Meus Stats</button>
+      <button class="tab-btn cmp-btn" onclick="switchTab('cmp',this)">⚔️ Análises Comparativas</button>
     </div>
 
-    <!-- CHARTS -->
-    <div class="stitle">EVOLUÇÃO</div>
-    <div class="charts-row">
-      <div class="cpanel"><div class="cpt">KILLS POR PARTIDA</div><div class="chart-box"><canvas id="ch_kills"></canvas></div></div>
-      <div class="cpanel"><div class="cpt">DANO & CURA</div><div class="chart-box"><canvas id="ch_dano"></canvas></div></div>
-    </div>
-    <div class="charts-row3">
-      <div class="cpanel"><div class="cpt">RADAR</div><div class="chart-box"><canvas id="ch_radar"></canvas></div></div>
-      <div class="cpanel"><div class="cpt">KILLS POR MAPA</div><div class="chart-box"><canvas id="ch_mapa"></canvas></div></div>
-      <div class="cpanel"><div class="cpt">CONTRIBUIÇÕES</div><div class="chart-box"><canvas id="ch_pizza"></canvas></div></div>
-    </div>
+    <!-- TAB: STATS -->
+    <div id="tab-stats" class="tab-content active">
+      <!-- KPIs -->
+      <div class="stitle">VISÃO GERAL</div>
+      <div class="kpi-grid">
+        <div class="kpi"><div class="kpi-i">💀</div><div class="kpi-v">${totalK}</div><div class="kpi-l">Total Kills</div></div>
+        <div class="kpi"><div class="kpi-i">⚔️</div><div class="kpi-v">${fmt(avgK)}</div><div class="kpi-l">Média Kills</div></div>
+        <div class="kpi"><div class="kpi-i">💥</div><div class="kpi-v">${Math.round(avgD)}</div><div class="kpi-l">Dano Médio</div></div>
+        <div class="kpi"><div class="kpi-i">🎯</div><div class="kpi-v">${fmt(avgHS)}%</div><div class="kpi-l">% Cabeça</div></div>
+        <div class="kpi"><div class="kpi-i">📊</div><div class="kpi-v">${fmt(kd)}</div><div class="kpi-l">K/D Ratio</div></div>
+        <div class="kpi"><div class="kpi-i">🤝</div><div class="kpi-v">${fmt(avgA)}</div><div class="kpi-l">Méd Assist</div></div>
+        <div class="kpi"><div class="kpi-i">💊</div><div class="kpi-v">${Math.round(avg(pd.map(d=>d.cura)))}</div><div class="kpi-l">Cura Média</div></div>
+        <div class="kpi"><div class="kpi-i">🔥</div><div class="kpi-v">${fmt(kda)}</div><div class="kpi-l">KDA</div></div>
+      </div>
 
-    <!-- TABELA POR PARTIDA -->
-    <div class="stitle">DADOS POR PARTIDA</div>
-    <div class="tpanel" style="overflow-x:auto;">
-      <table style="min-width:620px;">
-        <thead><tr>
-          <th>#</th><th>MAPA</th><th>TIPO</th><th>KILLS</th><th>ASS</th><th>DANO</th><th>CURA</th><th>K/D</th><th>DATA</th>
-        </tr></thead>
-        <tbody>
-          ${pd.map((d,i) => {
-            const kdP = d.morreu > 0 ? fmt(d.kills/d.morreu) : fmt(d.kills);
-            return `<tr>
-              <td class="td-n">${i+1}</td>
-              <td><span class="mapb">${esc(d.mapa||'—')}</span></td>
-              <td style="font-size:11px;color:var(--mu)">${esc(d.tipo||'—')}</td>
-              <td><span class="${clsColor(classify('kills',d.kills))}">${d.kills}</span> ${badge('kills',d.kills)}</td>
-              <td><span class="${clsColor(classify('ass',d.ass))}">${d.ass}</span></td>
-              <td><span class="${clsColor(classify('dano',d.dano))}">${d.dano}</span></td>
-              <td><span class="${clsColor(classify('cura',d.cura))}">${d.cura}</span></td>
-              <td>${kdP}</td>
-              <td style="font-size:11px;color:var(--mu)">${esc(d.data||'—')}</td>
-            </tr>`;
-          }).join('')}
-        </tbody>
-      </table>
-    </div>
+      <!-- CHARTS -->
+      <div class="stitle">EVOLUÇÃO</div>
+      <div class="charts-row">
+        <div class="cpanel"><div class="cpt">KILLS POR PARTIDA</div><div class="chart-box"><canvas id="ch_kills"></canvas></div></div>
+        <div class="cpanel"><div class="cpt">DANO & CURA</div><div class="chart-box"><canvas id="ch_dano"></canvas></div></div>
+      </div>
+      <div class="charts-row3">
+        <div class="cpanel"><div class="cpt">RADAR</div><div class="chart-box"><canvas id="ch_radar"></canvas></div></div>
+        <div class="cpanel"><div class="cpt">KILLS POR MAPA</div><div class="chart-box"><canvas id="ch_mapa"></canvas></div></div>
+        <div class="cpanel"><div class="cpt">CONTRIBUIÇÕES</div><div class="chart-box"><canvas id="ch_pizza"></canvas></div></div>
+      </div>
 
-    <!-- KILL GRID -->
-    <div class="stitle">MAPA DE KILLS — PARTIDA A PARTIDA</div>
-    <div style="background:var(--dk2);border:1px solid var(--brd);padding:20px;margin-bottom:24px;">
-      <div style="display:flex;gap:20px;align-items:center;margin-bottom:12px;flex-wrap:wrap;">
-        <div style="display:flex;align-items:center;gap:6px;font-size:10px;color:rgba(134,239,172,.7)">
-          <div style="width:14px;height:14px;background:rgba(34,197,94,.2);border:1px solid rgba(34,197,94,.5);border-radius:2px"></div>
-          ${pd.filter(d=>d.kills>0).length} COM KILL
+      <!-- TABELA POR PARTIDA -->
+      <div class="stitle">DADOS POR PARTIDA</div>
+      <div class="tpanel" style="overflow-x:auto;">
+        <table style="min-width:620px;">
+          <thead><tr>
+            <th>#</th><th>MAPA</th><th>TIPO</th><th>KILLS</th><th>ASS</th><th>DANO</th><th>CURA</th><th>K/D</th><th>DATA</th>
+          </tr></thead>
+          <tbody>
+            ${pd.map((d,i) => {
+              const kdP = d.morreu > 0 ? fmt(d.kills/d.morreu) : fmt(d.kills);
+              return `<tr>
+                <td class="td-n">${i+1}</td>
+                <td><span class="mapb">${esc(d.mapa||'—')}</span></td>
+                <td style="font-size:11px;color:var(--mu)">${esc(d.tipo||'—')}</td>
+                <td><span class="${clsColor(classify('kills',d.kills))}">${d.kills}</span> ${badge('kills',d.kills)}</td>
+                <td><span class="${clsColor(classify('ass',d.ass))}">${d.ass}</span></td>
+                <td><span class="${clsColor(classify('dano',d.dano))}">${d.dano}</span></td>
+                <td><span class="${clsColor(classify('cura',d.cura))}">${d.cura}</span></td>
+                <td>${kdP}</td>
+                <td style="font-size:11px;color:var(--mu)">${esc(d.data||'—')}</td>
+              </tr>`;
+            }).join('')}
+          </tbody>
+        </table>
+      </div>
+
+      <!-- KILL GRID -->
+      <div class="stitle">MAPA DE KILLS — PARTIDA A PARTIDA</div>
+      <div style="background:var(--dk2);border:1px solid var(--brd);padding:20px;margin-bottom:24px;">
+        <div style="display:flex;gap:20px;align-items:center;margin-bottom:12px;flex-wrap:wrap;">
+          <div style="display:flex;align-items:center;gap:6px;font-size:10px;color:rgba(134,239,172,.7)">
+            <div style="width:14px;height:14px;background:rgba(34,197,94,.2);border:1px solid rgba(34,197,94,.5);border-radius:2px"></div>
+            ${pd.filter(d=>d.kills>0).length} COM KILL
+          </div>
+          <div style="display:flex;align-items:center;gap:6px;font-size:10px;color:rgba(252,165,165,.7)">
+            <div style="width:14px;height:14px;background:rgba(239,68,68,.2);border:1px solid rgba(239,68,68,.5);border-radius:2px"></div>
+            ${pd.filter(d=>d.kills===0).length} SEM KILL
+          </div>
         </div>
-        <div style="display:flex;align-items:center;gap:6px;font-size:10px;color:rgba(252,165,165,.7)">
-          <div style="width:14px;height:14px;background:rgba(239,68,68,.2);border:1px solid rgba(239,68,68,.5);border-radius:2px"></div>
-          ${pd.filter(d=>d.kills===0).length} SEM KILL
+        <div class="kill-grid">
+          ${pd.map((d,i) => `
+            <div class="kill-cell ${d.kills>0?'has-kill':'no-kill'}" title="Partida ${i+1} · ${d.mapa||'—'} · ${d.kills} kills">
+              <span class="kill-cell-idx">${i+1}</span>
+              <span class="kill-cell-num">${d.kills}</span>
+              <span class="kill-cell-map">${(d.mapa||'').substring(0,3).toUpperCase()}</span>
+            </div>`).join('')}
         </div>
       </div>
-      <div class="kill-grid">
-        ${pd.map((d,i) => `
-          <div class="kill-cell ${d.kills>0?'has-kill':'no-kill'}" title="Partida ${i+1} · ${d.mapa||'—'} · ${d.kills} kills">
-            <span class="kill-cell-idx">${i+1}</span>
-            <span class="kill-cell-num">${d.kills}</span>
-            <span class="kill-cell-map">${(d.mapa||'').substring(0,3).toUpperCase()}</span>
-          </div>`).join('')}
+
+      <!-- ESTATÍSTICAS CLASSIFICADAS -->
+      <div class="stitle">ANÁLISE DE DESEMPENHO</div>
+      <div class="tpanel" style="margin-bottom:24px;">
+        <table>
+          <thead><tr><th>MÉTRICA</th><th>VALOR</th><th>CLASSIFICAÇÃO</th></tr></thead>
+          <tbody>
+            ${[
+              {l:'Média de Abates',   k:'kills',   v:avgK,           s:''},
+              {l:'Média de Assistência',k:'ass',   v:avgA,           s:''},
+              {l:'Média de Dano',     k:'dano',    v:avgD,           s:' HP'},
+              {l:'Média de Cura',     k:'cura',    v:avg(pd.map(d=>d.cura)), s:' HP'},
+              {l:'K/D Ratio',         k:'kd',      v:kd,             s:''},
+              {l:'% de Headshots',    k:'headshot',v:avgHS,          s:'%'},
+            ].map(s => {
+              const cls = classify(s.k, s.v);
+              return `<tr>
+                <td class="td-n">${s.l}</td>
+                <td><span class="${clsColor(cls)}" style="font-family:'Orbitron',sans-serif;font-size:13px">${(+s.v).toFixed(2).replace(/\.?0+$/,'')}${s.s}</span></td>
+                <td>${badge(s.k, s.v)}</td>
+              </tr>`;
+            }).join('')}
+          </tbody>
+        </table>
       </div>
+    </div><!-- end tab-stats -->
+
+    <!-- TAB: COMPARATIVAS -->
+    <div id="tab-cmp" class="tab-content" data-focus="${esc(name)}">
+      <div id="cmp-inner"><!-- preenchido por renderComparative() --></div>
     </div>
 
-    <!-- ESTATÍSTICAS CLASSIFICADAS -->
-    <div class="stitle">ANÁLISE DE DESEMPENHO</div>
-    <div class="tpanel" style="margin-bottom:24px;">
-      <table>
-        <thead><tr><th>MÉTRICA</th><th>VALOR</th><th>CLASSIFICAÇÃO</th></tr></thead>
-        <tbody>
-          ${[
-            {l:'Média de Abates',   k:'kills',   v:avgK,           s:''},
-            {l:'Média de Assistência',k:'ass',   v:avgA,           s:''},
-            {l:'Média de Dano',     k:'dano',    v:avgD,           s:' HP'},
-            {l:'Média de Cura',     k:'cura',    v:avg(pd.map(d=>d.cura)), s:' HP'},
-            {l:'K/D Ratio',         k:'kd',      v:kd,             s:''},
-            {l:'% de Headshots',    k:'headshot',v:avgHS,          s:'%'},
-          ].map(s => {
-            const cls = classify(s.k, s.v);
-            return `<tr>
-              <td class="td-n">${s.l}</td>
-              <td><span class="${clsColor(cls)}" style="font-family:'Orbitron',sans-serif;font-size:13px">${(+s.v).toFixed(2).replace(/\.?0+$/,'')}${s.s}</span></td>
-              <td>${badge(s.k, s.v)}</td>
-            </tr>`;
-          }).join('')}
-        </tbody>
-      </table>
-    </div>
   `;
 
   // render charts after DOM update
   setTimeout(() => buildCharts(pd, mapSt, name, totalK, avgK, avgD, avgHS, kd, avgA, totalCura), 60);
+}
+
+// ── TAB SWITCH ──
+function switchTab(tab, btn) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('tab-'+tab).classList.add('active');
+  if (tab === 'cmp') {
+    const focusName = document.getElementById('tab-cmp').dataset.focus;
+    if (!document.getElementById('cmp-inner').dataset.rendered) {
+      renderComparative(focusName, 'TODOS');
+      document.getElementById('cmp-inner').dataset.rendered = '1';
+    }
+  }
+}
+
+// ── COMPARATIVE ANALYSIS ──
+function renderComparative(focusName, tipoFilter) {
+  const inner = document.getElementById('cmp-inner');
+  if (!inner) return;
+
+  // Todos os tipos disponíveis
+  const allTipos = ['TODOS', ...new Set(allData.map(d=>d.tipo).filter(Boolean).map(t=>t.trim()).filter(t=>t!==''))].sort((a,b)=>a==='TODOS'?-1:b==='TODOS'?1:a.localeCompare(b));
+
+  // Filtra dados por tipo
+  const baseData = tipoFilter === 'TODOS' ? allData : allData.filter(d => d.tipo === tipoFilter);
+
+  // Agrupa stats por jogador
+  const players = uniqPl();
+  const pStats = players.map(pl => {
+    const rows = baseData.filter(d => d.player === pl);
+    if (!rows.length) return null;
+    const totalK   = sum(rows.map(d=>d.kills));
+    const totalD   = sum(rows.map(d=>d.dano));
+    const totalA   = sum(rows.map(d=>d.ass));
+    const totalDerr= sum(rows.map(d=>d.derrubou));
+    const totalLev = sum(rows.map(d=>d.levantados));
+    const totalRes = sum(rows.map(d=>d.ressurgidos));
+    const totalCura= sum(rows.map(d=>d.cura));
+    const deaths   = sum(rows.map(d=>d.morreu));
+    const avgK     = avg(rows.map(d=>d.kills));
+    const avgD     = avg(rows.map(d=>d.dano));
+    const avgA     = avg(rows.map(d=>d.ass));
+    const avgHS    = avg(rows.filter(d=>d.headshot>0).map(d=>d.headshot));
+    const kdPerGame= rows.map(d => d.morreu > 0 ? d.kills/d.morreu : d.kills);
+    const kd       = avg(kdPerGame);
+    const games    = rows.length;
+    const foto     = rows[0]?.foto || '';
+    const isFocus  = pl === focusName;
+    return { pl, totalK, totalD, totalA, totalDerr, totalLev, totalRes, totalCura,
+             deaths, avgK, avgD, avgA, avgHS, kd, games, foto, isFocus };
+  }).filter(Boolean);
+
+  if (!pStats.length) { inner.innerHTML = '<div style="padding:40px;color:var(--mu);text-align:center">Nenhum dado para este filtro.</div>'; return; }
+
+  const focusSt = pStats.find(p => p.isFocus) || pStats[0];
+
+  // Totais gerais do time (para % de contribuição)
+  const teamK    = sum(pStats.map(p=>p.totalK));
+  const teamD    = sum(pStats.map(p=>p.totalD));
+  const teamA    = sum(pStats.map(p=>p.totalA));
+  const teamDerr = sum(pStats.map(p=>p.totalDerr));
+  const teamLev  = sum(pStats.map(p=>p.totalLev));
+  const teamRes  = sum(pStats.map(p=>p.totalRes));
+  const teamCura = sum(pStats.map(p=>p.totalCura));
+
+  // Helper: rank em métrica (1 = melhor)
+  const rankOf = (arr, val) => arr.filter(v => v > val).length + 1;
+  const pct    = (v, total) => total > 0 ? ((v/total)*100).toFixed(1) : '0.0';
+
+  // Medalha por posição
+  const medal = pos => pos===1?'🥇':pos===2?'🥈':pos===3?'🥉':'';
+
+  // Gera ranking HTML de uma métrica
+  function rankHtml(label, getter, format, unit='') {
+    const sorted = [...pStats].sort((a,b) => getter(b) - getter(a));
+    const max = getter(sorted[0]) || 1;
+    return `
+      <div class="tpanel" style="overflow-x:auto;margin-bottom:8px;">
+        <div style="padding:8px 12px;background:rgba(26,111,255,.06);border-bottom:1px solid var(--brd);">
+          <span style="font-family:'Orbitron',sans-serif;font-size:8px;letter-spacing:3px;color:var(--bl3);">${label}</span>
+        </div>
+        <table class="rank-table">
+          <thead><tr><th>#</th><th>JOGADOR</th><th>VALOR</th><th>BARRA</th></tr></thead>
+          <tbody>
+            ${sorted.map((p,i) => {
+              const val = getter(p);
+              const barPct = max > 0 ? (val/max*100).toFixed(1) : 0;
+              const isFoc = p.isFocus;
+              const pos = i + 1;
+              return `<tr class="${isFoc?'is-focus':''}">
+                <td><span class="rank-medal">${medal(pos)}</span><span class="rank-pos">${medal(pos)?'':pos}</span></td>
+                <td><span class="rank-name" style="${isFoc?'color:#ffd700;':''}">${isFoc?'★ ':''}${esc(p.pl)}</span></td>
+                <td style="font-family:'Orbitron',sans-serif;font-size:12px;font-weight:900;${isFoc?'color:#ffd700;':''}">${format(val)}${unit}</td>
+                <td>
+                  <div class="rank-bar-wrap">
+                    <div class="rank-bar ${isFoc?'focus-bar':''}" style="width:${barPct}%"></div>
+                  </div>
+                  <span class="rank-pct ${isFoc?'focus-pct':''}">${barPct}%</span>
+                </td>
+              </tr>`;
+            }).join('')}
+          </tbody>
+        </table>
+      </div>`;
+  }
+
+  // Gera donut SVG de contribuição
+  function donutContrib(label, focusVal, total, rankPos, total_players) {
+    const pctVal = total > 0 ? (focusVal/total*100) : 0;
+    const pctStr = pctVal.toFixed(1);
+    const r = 36, circ = 2*Math.PI*r;
+    const dash = (pctVal/100)*circ;
+    const rankTxt = rankPos === 1 ? '🥇 1º' : rankPos === 2 ? '🥈 2º' : rankPos === 3 ? '🥉 3º' : `${rankPos}º`;
+    return `
+      <div class="contrib-card">
+        <div class="contrib-title">${label}</div>
+        <div class="contrib-donut">
+          <svg width="90" height="90" viewBox="0 0 90 90">
+            <circle cx="45" cy="45" r="${r}" fill="none" stroke="rgba(26,111,255,.12)" stroke-width="9"/>
+            <circle cx="45" cy="45" r="${r}" fill="none" stroke="${rankPos===1?'#ffd700':'#1A6FFF'}" stroke-width="9"
+              stroke-dasharray="${dash.toFixed(2)} ${circ.toFixed(2)}" stroke-linecap="round"
+              style="filter:drop-shadow(0 0 4px ${rankPos===1?'rgba(255,215,0,.5)':'rgba(26,111,255,.5)'})"/>
+          </svg>
+          <div class="contrib-pct-text">
+            <div class="contrib-pct-num" style="color:${rankPos===1?'#ffd700':'#fff'}">${pctStr}%</div>
+            <div class="contrib-pct-lbl">DO TIME</div>
+          </div>
+        </div>
+        <div class="contrib-rank-badge">Ranking: <em>${rankTxt}</em> de ${total_players}</div>
+      </div>`;
+  }
+
+  // Calcula ranks do jogador foco
+  const sortedByK    = [...pStats].sort((a,b)=>b.totalK-a.totalK);
+  const sortedByD    = [...pStats].sort((a,b)=>b.totalD-a.totalD);
+  const sortedByA    = [...pStats].sort((a,b)=>b.totalA-a.totalA);
+  const sortedByDerr = [...pStats].sort((a,b)=>b.totalDerr-a.totalDerr);
+  const sortedByLev  = [...pStats].sort((a,b)=>b.totalLev-a.totalLev);
+  const sortedByCura = [...pStats].sort((a,b)=>b.totalCura-a.totalCura);
+  const sortedByKd   = [...pStats].sort((a,b)=>b.kd-a.kd);
+  const sortedByAvgD = [...pStats].sort((a,b)=>b.avgD-a.avgD);
+
+  const rKill  = sortedByK.findIndex(p=>p.isFocus)+1;
+  const rDano  = sortedByD.findIndex(p=>p.isFocus)+1;
+  const rAss   = sortedByA.findIndex(p=>p.isFocus)+1;
+  const rDerr  = sortedByDerr.findIndex(p=>p.isFocus)+1;
+  const rLev   = sortedByLev.findIndex(p=>p.isFocus)+1;
+  const rCura  = sortedByCura.findIndex(p=>p.isFocus)+1;
+  const n      = pStats.length;
+
+  inner.innerHTML = `
+    <!-- FILTRO POR CAMPEONATO -->
+    <div class="cmp-filter-bar">
+      <span class="cmp-filter-label">🏆 CAMPEONATO:</span>
+      ${allTipos.map(t => `<button class="cmp-filter-btn ${t===tipoFilter?'active':''}"
+        onclick="renderComparative('${esc(focusName)}','${esc(t)}');document.getElementById('cmp-inner').dataset.rendered='1'">
+        ${esc(t)}
+      </button>`).join('')}
+    </div>
+
+    <!-- BANNER DO JOGADOR FOCO -->
+    <div class="focus-banner">
+      <div class="focus-banner-avatar">⭐</div>
+      <div class="focus-banner-info">
+        <div class="focus-banner-name">${esc(focusName)}</div>
+        <div class="focus-banner-sub">${tipoFilter === 'TODOS' ? 'TODAS AS COMPETIÇÕES' : esc(tipoFilter)} · ${focusSt.games} PARTIDAS</div>
+      </div>
+      <div class="focus-banner-kpis">
+        <div class="focus-mini-kpi"><div class="focus-mini-kpi-v">${focusSt.totalK}</div><div class="focus-mini-kpi-l">TOTAL KILLS</div></div>
+        <div class="focus-mini-kpi"><div class="focus-mini-kpi-v">${Math.round(focusSt.avgD)}</div><div class="focus-mini-kpi-l">DANO MÉD</div></div>
+        <div class="focus-mini-kpi"><div class="focus-mini-kpi-v">${fmt(focusSt.kd)}</div><div class="focus-mini-kpi-l">K/D</div></div>
+        <div class="focus-mini-kpi"><div class="focus-mini-kpi-v">${focusSt.totalA}</div><div class="focus-mini-kpi-l">ASSIST</div></div>
+        <div class="focus-mini-kpi"><div class="focus-mini-kpi-v">${focusSt.totalDerr}</div><div class="focus-mini-kpi-l">DERRUBOU</div></div>
+      </div>
+    </div>
+
+    <!-- % CONTRIBUIÇÃO DO TIME -->
+    <div class="stitle">% CONTRIBUIÇÃO NO TIME</div>
+    <div class="contrib-grid">
+      ${donutContrib('KILLS',       focusSt.totalK,    teamK,    rKill, n)}
+      ${donutContrib('DANO TOTAL',  focusSt.totalD,    teamD,    rDano, n)}
+      ${donutContrib('ASSISTÊNCIAS',focusSt.totalA,    teamA,    rAss,  n)}
+      ${donutContrib('DERRUBADAS',  focusSt.totalDerr, teamDerr, rDerr, n)}
+      ${donutContrib('LEVANTAMENTOS',focusSt.totalLev, teamLev,  rLev,  n)}
+      ${donutContrib('CURA TOTAL',  focusSt.totalCura, teamCura, rCura, n)}
+    </div>
+
+    <!-- GRAFICOS COMPARATIVOS -->
+    <div class="stitle">GRÁFICOS COMPARATIVOS</div>
+    <div class="charts-row" style="margin-bottom:12px;">
+      <div class="cpanel"><div class="cpt">KILLS TOTAIS — TODOS OS JOGADORES</div><div class="chart-box" style="height:220px;"><canvas id="cmp_kills"></canvas></div></div>
+      <div class="cpanel"><div class="cpt">DANO MÉDIO POR PARTIDA</div><div class="chart-box" style="height:220px;"><canvas id="cmp_dano"></canvas></div></div>
+    </div>
+    <div class="charts-row" style="margin-bottom:12px;">
+      <div class="cpanel"><div class="cpt">K/D RATIO COMPARATIVO</div><div class="chart-box" style="height:220px;"><canvas id="cmp_kd"></canvas></div></div>
+      <div class="cpanel"><div class="cpt">ASSISTÊNCIAS TOTAIS</div><div class="chart-box" style="height:220px;"><canvas id="cmp_ass"></canvas></div></div>
+    </div>
+    <div class="charts-row3" style="margin-bottom:20px;">
+      <div class="cpanel"><div class="cpt">DERRUBADAS</div><div class="chart-box" style="height:200px;"><canvas id="cmp_derru"></canvas></div></div>
+      <div class="cpanel"><div class="cpt">CURA TOTAL</div><div class="chart-box" style="height:200px;"><canvas id="cmp_cura"></canvas></div></div>
+      <div class="cpanel"><div class="cpt">RADAR GERAL — TIME</div><div class="chart-box" style="height:200px;"><canvas id="cmp_radar"></canvas></div></div>
+    </div>
+
+    <!-- TABELAS RANKING -->
+    <div class="stitle">RANKING — COMPARATIVO GERAL</div>
+    ${rankHtml('💀 TOTAL DE KILLS',      p=>p.totalK,    v=>v,         '')}
+    ${rankHtml('💥 DANO TOTAL',          p=>p.totalD,    v=>v,         '')}
+    ${rankHtml('📊 K/D RATIO (MÉDIA)',   p=>p.kd,        v=>fmt(v),    '')}
+    ${rankHtml('🤝 ASSISTÊNCIAS TOTAIS', p=>p.totalA,    v=>v,         '')}
+    ${rankHtml('👊 TOTAL DERRUBADAS',    p=>p.totalDerr, v=>v,         '')}
+    ${rankHtml('🛡️ LEVANTAMENTOS',       p=>p.totalLev,  v=>v,         '')}
+    ${rankHtml('💊 CURA TOTAL',          p=>p.totalCura, v=>v,         '')}
+    ${rankHtml('🎯 % HEADSHOT (MÉD)',    p=>p.avgHS,     v=>fmt(v),    '%')}
+    ${rankHtml('⚔️ MÉDIA KILLS/JOGO',    p=>p.avgK,      v=>fmt(v),    '')}
+    ${rankHtml('💡 DANO MÉDIO/JOGO',     p=>p.avgD,      v=>Math.round(v), '')}
+  `;
+
+  // Build charts comparativos
+  setTimeout(() => buildCmpCharts(pStats, focusName), 60);
+}
+
+function buildCmpCharts(pStats, focusName) {
+  const ax = {
+    ticks:{color:'#5A6880',font:{size:9,family:"'Barlow Condensed'"}},
+    grid:{color:'rgba(26,111,255,.07)'},border:{color:'transparent'}
+  };
+  const tt = {backgroundColor:'rgba(8,12,20,.97)',borderColor:'rgba(26,111,255,.3)',borderWidth:1,
+    titleColor:'#4D9FFF',bodyColor:'#C8D4E8',padding:10};
+
+  // Helper: cores dos jogadores (foco = dourado)
+  const barColors = (sorted) => sorted.map(p =>
+    p.isFocus ? 'rgba(255,215,0,.9)'   : 'rgba(26,111,255,.6)');
+  const borderColors = (sorted) => sorted.map(p =>
+    p.isFocus ? '#ffd700' : '#1A6FFF');
+
+  // Cria chart bar horizontal
+  function makeBar(id, sorted, getter, labelFmt) {
+    const ctx = document.getElementById(id)?.getContext('2d');
+    if (!ctx) return;
+    const labels = sorted.map(p => p.pl);
+    const data   = sorted.map(p => getter(p));
+    charts['cmp_'+id] = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels,
+        datasets:[{
+          data, label:'',
+          backgroundColor: barColors(sorted),
+          borderColor: borderColors(sorted),
+          borderWidth: 1, borderRadius: 3
+        }]
+      },
+      options:{
+        indexAxis:'y', responsive:true, maintainAspectRatio:false,
+        plugins:{legend:{display:false}, tooltip:{...tt, callbacks:{label: ctx=>` ${labelFmt(ctx.parsed.x)}`}}},
+        scales:{x:{...ax, beginAtZero:true}, y:{...ax, ticks:{...ax.ticks, font:{size:10,family:"'Barlow Condensed'",weight:'700'}}}},
+        animation:{duration:900}
+      }
+    });
+  }
+
+  const byK    = [...pStats].sort((a,b)=>b.totalK-a.totalK);
+  const byD    = [...pStats].sort((a,b)=>b.avgD-a.avgD);
+  const byKd   = [...pStats].sort((a,b)=>b.kd-a.kd);
+  const byA    = [...pStats].sort((a,b)=>b.totalA-a.totalA);
+  const byDerr = [...pStats].sort((a,b)=>b.totalDerr-a.totalDerr);
+  const byCura = [...pStats].sort((a,b)=>b.totalCura-a.totalCura);
+
+  makeBar('cmp_kills', byK,    p=>p.totalK,    v=>v);
+  makeBar('cmp_dano',  byD,    p=>p.avgD,      v=>Math.round(v));
+  makeBar('cmp_kd',    byKd,   p=>p.kd,        v=>parseFloat(v).toFixed(2));
+  makeBar('cmp_ass',   byA,    p=>p.totalA,    v=>v);
+  makeBar('cmp_derru', byDerr, p=>p.totalDerr, v=>v);
+  makeBar('cmp_cura',  byCura, p=>p.totalCura, v=>v);
+
+  // Radar multi-player
+  const rCtx = document.getElementById('cmp_radar')?.getContext('2d');
+  if (rCtx) {
+    const maxK  = Math.max(...pStats.map(p=>p.avgK))  || 1;
+    const maxD  = Math.max(...pStats.map(p=>p.avgD))  || 1;
+    const maxA  = Math.max(...pStats.map(p=>p.avgA))  || 1;
+    const maxKd = Math.max(...pStats.map(p=>p.kd))    || 1;
+    const maxHS = Math.max(...pStats.map(p=>p.avgHS)) || 1;
+
+    const palette = ['#1A6FFF','#ffd700','#ff5078','#4dff88','#cc66ff','#ff9f40','#4D9FFF','#ff6666'];
+    charts.cmp_radar = new Chart(rCtx, {
+      type: 'radar',
+      data: {
+        labels: ['KILLS','DANO','ASSIST','K/D','CABEÇA%'],
+        datasets: pStats.map((p, i) => ({
+          label: p.pl,
+          data: [
+            (p.avgK/maxK*100), (p.avgD/maxD*100),
+            (p.avgA/maxA*100), (p.kd/maxKd*100), (p.avgHS/maxHS*100)
+          ],
+          fill: true,
+          backgroundColor: p.isFocus ? 'rgba(255,215,0,.12)' : `${palette[i%palette.length]}18`,
+          borderColor:     p.isFocus ? '#ffd700'              : palette[i%palette.length],
+          pointBackgroundColor: p.isFocus ? '#ffd700' : palette[i%palette.length],
+          borderWidth: p.isFocus ? 2.5 : 1.2,
+          pointRadius: p.isFocus ? 4 : 2,
+        }))
+      },
+      options:{
+        responsive:true, maintainAspectRatio:false,
+        plugins:{legend:{labels:{color:'#5A6880',font:{size:8,family:"'Barlow Condensed'"},boxWidth:8}}},
+        scales:{r:{ticks:{display:false},grid:{color:'rgba(26,111,255,.1)'},
+          pointLabels:{color:'#5A6880',font:{size:8,family:"'Barlow Condensed'",weight:'700'}},
+          angleLines:{color:'rgba(26,111,255,.07)'}}}
+      }
+    });
+  }
 }
 
 function buildCharts(pd, mapSt, name, totalK, avgK, avgD, avgHS, kd, avgA, totalCura){
