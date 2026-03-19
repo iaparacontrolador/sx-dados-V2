@@ -253,6 +253,55 @@ body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
 .focus-mini-kpi-v{font-family:'Orbitron',sans-serif;font-size:14px;font-weight:900;color:#ffd700;}
 .focus-mini-kpi-l{font-size:7px;letter-spacing:2px;color:var(--mu);}
 
+/* HEATMAP */
+.heatmap-wrap{display:grid;gap:3px;margin-bottom:16px;}
+.heatmap-cell{border-radius:2px;transition:.2s;cursor:default;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;color:rgba(255,255,255,.7);}
+.heatmap-row{display:flex;gap:3px;align-items:center;}
+.heatmap-lbl{font-size:9px;color:var(--mu);width:60px;flex-shrink:0;letter-spacing:1px;}
+/* QUADRANT */
+.quadrant-wrap{position:relative;width:100%;height:260px;}
+/* BULLET CHART */
+.bullet-wrap{display:flex;flex-direction:column;gap:10px;padding:8px 0;}
+.bullet-row{display:flex;align-items:center;gap:10px;}
+.bullet-lbl{width:110px;font-size:10px;font-weight:700;color:var(--owh);letter-spacing:1px;flex-shrink:0;text-align:right;}
+.bullet-track{flex:1;height:16px;background:rgba(255,255,255,.04);border:1px solid rgba(26,111,255,.12);position:relative;border-radius:2px;overflow:hidden;}
+.bullet-range-bom{position:absolute;top:0;bottom:0;left:0;background:rgba(77,255,136,.08);}
+.bullet-range-exc{position:absolute;top:0;bottom:0;left:0;background:rgba(204,102,255,.08);}
+.bullet-bar{position:absolute;top:2px;bottom:2px;left:0;border-radius:1px;transition:width .8s;}
+.bullet-marker{position:absolute;top:-2px;bottom:-2px;width:2px;background:#ffd700;border-radius:1px;}
+.bullet-val{width:55px;font-family:'Orbitron',sans-serif;font-size:11px;font-weight:900;text-align:left;flex-shrink:0;}
+/* BOX PLOT */
+.boxplot-wrap{width:100%;height:200px;position:relative;}
+/* FUNNEL */
+.funnel-wrap{display:flex;flex-direction:column;gap:6px;padding:8px 0;align-items:center;}
+.funnel-stage{display:flex;flex-direction:column;align-items:center;gap:3px;width:100%;}
+.funnel-bar-outer{height:32px;background:rgba(26,111,255,.08);border:1px solid rgba(26,111,255,.15);border-radius:2px;overflow:hidden;width:100%;}
+.funnel-bar-inner{height:100%;border-radius:2px;transition:width .8s;display:flex;align-items:center;padding-left:10px;font-family:'Orbitron',sans-serif;font-size:10px;font-weight:700;color:#fff;}
+.funnel-lbl{font-size:10px;color:var(--mu);letter-spacing:1px;}
+.funnel-arrow{color:var(--bl3);font-size:12px;}
+/* SCATTER */
+.scatter-wrap{width:100%;height:240px;position:relative;}
+/* SECTION CARD */
+.section-card{background:var(--dk2);border:1px solid var(--brd);padding:18px;margin-bottom:12px;position:relative;overflow:hidden;}
+.section-card::after{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--bl),transparent);}
+/* INSIGHT TAG */
+.insight-tag{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;font-size:9px;font-weight:700;letter-spacing:2px;border-radius:1px;margin:2px;}
+.insight-tag.gold{background:rgba(255,215,0,.1);border:1px solid rgba(255,215,0,.3);color:#ffd700;}
+.insight-tag.blue{background:rgba(26,111,255,.1);border:1px solid rgba(26,111,255,.3);color:#4D9FFF;}
+.insight-tag.green{background:rgba(77,255,136,.1);border:1px solid rgba(77,255,136,.3);color:#4dff88;}
+.insight-tag.red{background:rgba(255,80,120,.1);border:1px solid rgba(255,80,120,.3);color:#ff5078;}
+.insight-tag.purple{background:rgba(204,102,255,.1);border:1px solid rgba(204,102,255,.3);color:#cc66ff;}
+/* STREAMGRAPH-like area */
+.area-chart-wrap{width:100%;height:200px;position:relative;}
+/* CALENDAR HEATMAP */
+.cal-heatmap{display:flex;gap:3px;flex-wrap:wrap;padding:8px 0;}
+.cal-cell{width:22px;height:22px;border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:7px;font-weight:700;cursor:default;transition:.2s;}
+/* INDEX CARDS */
+.idx-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:16px;}
+.idx-card{background:var(--dk3);border:1px solid var(--brd);padding:14px;text-align:center;position:relative;}
+.idx-card-v{font-family:'Orbitron',sans-serif;font-size:20px;font-weight:900;background:linear-gradient(135deg,var(--bl3),#fff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.idx-card-l{font-size:8px;letter-spacing:2px;color:var(--mu);margin-top:3px;}
+.idx-card-sub{font-size:10px;color:var(--bl3);margin-top:4px;font-weight:700;}
 /* RESPONSIVE */
 @media(max-width:600px){
   .charts-row{grid-template-columns:1fr;}
@@ -598,6 +647,8 @@ function renderPlayer(name) {
     <div class="tab-bar">
       <button class="tab-btn active" onclick="switchTab('stats',this)">📊 Meus Stats</button>
       <button class="tab-btn cmp-btn" onclick="switchTab('cmp',this)">⚔️ Análises Comparativas</button>
+      <button class="tab-btn cmp-btn" onclick="switchTab('ind',this)">👤 Análises Individuais</button>
+      <button class="tab-btn cmp-btn" onclick="switchTab('col',this)">🏆 Análises Coletivas</button>
     </div>
 
     <!-- TAB: STATS -->
@@ -707,6 +758,16 @@ function renderPlayer(name) {
       <div id="cmp-inner"><!-- preenchido por renderComparative() --></div>
     </div>
 
+    <!-- TAB: ANÁLISES INDIVIDUAIS -->
+    <div id="tab-ind" class="tab-content" data-focus="${esc(name)}">
+      <div id="ind-inner"><!-- preenchido por renderIndividual() --></div>
+    </div>
+
+    <!-- TAB: ANÁLISES COLETIVAS -->
+    <div id="tab-col" class="tab-content">
+      <div id="col-inner"><!-- preenchido por renderColetivas() --></div>
+    </div>
+
   `;
 
   // render charts after DOM update
@@ -724,6 +785,19 @@ function switchTab(tab, btn) {
     if (!document.getElementById('cmp-inner').dataset.rendered) {
       renderComparative(focusName, 'TODOS');
       document.getElementById('cmp-inner').dataset.rendered = '1';
+    }
+  }
+  if (tab === 'ind') {
+    const focusName = document.getElementById('tab-ind').dataset.focus;
+    if (!document.getElementById('ind-inner').dataset.rendered) {
+      renderIndividual(focusName);
+      document.getElementById('ind-inner').dataset.rendered = '1';
+    }
+  }
+  if (tab === 'col') {
+    if (!document.getElementById('col-inner').dataset.rendered) {
+      renderColetivas();
+      document.getElementById('col-inner').dataset.rendered = '1';
     }
   }
 }
@@ -1101,6 +1175,1433 @@ function buildCharts(pd, mapSt, name, totalK, avgK, avgD, avgHS, kd, avgA, total
         borderColor:['#1A6FFF','#4D9FFF','#C8D4E8','#0D4FCC','#8CBEFF'],borderWidth:2}]},
     options:{responsive:true,maintainAspectRatio:false,cutout:'60%',
       plugins:{legend:{labels:{color:'#5A6880',font:{size:9,family:"'Barlow Condensed'"},boxWidth:8}}},animation:{animateRotate:true,duration:1500}}});
+  }
+}
+
+// ══════════════════════════════════════════════════════
+// ── ANÁLISES INDIVIDUAIS (IDs 51–100) ──
+// ══════════════════════════════════════════════════════
+function renderIndividual(focusName) {
+  const inner = document.getElementById('ind-inner');
+  if (!inner) return;
+
+  const players = uniqPl();
+  const pStats = players.map(pl => {
+    const rows = allData.filter(d => d.player === pl);
+    if (!rows.length) return null;
+    const totalK    = sum(rows.map(d=>d.kills));
+    const totalD    = sum(rows.map(d=>d.dano));
+    const totalA    = sum(rows.map(d=>d.ass));
+    const totalDerr = sum(rows.map(d=>d.derrubou));
+    const totalLev  = sum(rows.map(d=>d.levantados));
+    const totalRes  = sum(rows.map(d=>d.ressurgidos));
+    const totalCura = sum(rows.map(d=>d.cura));
+    const deaths    = sum(rows.map(d=>d.morreu));
+    const avgKv     = avg(rows.map(d=>d.kills));
+    const avgDv     = avg(rows.map(d=>d.dano));
+    const avgAv     = avg(rows.map(d=>d.ass));
+    const avgHSv    = avg(rows.filter(d=>d.headshot>0).map(d=>d.headshot));
+    const avgMortes = avg(rows.map(d=>d.morreu));
+    const kdPerGame = rows.map(d=>d.morreu>0?d.kills/d.morreu:d.kills);
+    const kd        = avg(kdPerGame);
+    const games     = rows.length;
+    const isFocus   = pl === focusName;
+    // índice suporte
+    const supIdx    = totalCura + totalLev + totalA;
+    // índice ataque
+    const atkIdx    = totalK + totalDerr;
+    // DpK - dano por kill
+    const dpk       = totalK > 0 ? totalD/totalK : 0;
+    // taxa assist/kill
+    const assKRatio = totalK > 0 ? totalA/totalK : 0;
+    // kill confirm: kills/derrbou
+    const killConf  = totalDerr > 0 ? totalK/totalDerr : 0;
+    // record dano individual
+    const recordD   = Math.max(...rows.map(d=>d.dano), 0);
+    // best sala
+    const bestSala  = rows.reduce((best, r) => r.kills > (best?.kills||0) ? r : best, null);
+    // funcao
+    const funcao    = rows[0]?.funcao || '';
+    return { pl, totalK, totalD, totalA, totalDerr, totalLev, totalRes, totalCura,
+             deaths, avgKv, avgDv, avgAv, avgHSv, avgMortes, kd, games, isFocus,
+             supIdx, atkIdx, dpk, assKRatio, killConf, recordD, bestSala, funcao };
+  }).filter(Boolean);
+
+  if (!pStats.length) { inner.innerHTML='<div style="padding:40px;color:var(--mu)">Sem dados.</div>'; return; }
+
+  const focusSt = pStats.find(p=>p.isFocus) || pStats[0];
+  const teamK   = sum(pStats.map(p=>p.totalK));
+  const teamD   = sum(pStats.map(p=>p.totalD));
+  const teamC   = sum(pStats.map(p=>p.totalCura));
+
+  // Helper ranking horizontal
+  function rankHtml(id, label, sorted, getter, fmtFn, unit='') {
+    const max = Math.max(...sorted.map(p=>getter(p)), 1);
+    return `<div class="tpanel" style="overflow-x:auto;margin-bottom:8px;">
+      <div style="padding:8px 12px;background:rgba(26,111,255,.06);border-bottom:1px solid var(--brd);">
+        <span style="font-family:'Orbitron',sans-serif;font-size:8px;letter-spacing:3px;color:var(--bl3);">${label}</span>
+      </div>
+      <table class="rank-table"><thead><tr><th>#</th><th>JOGADOR</th><th>VALOR</th><th>BARRA</th></tr></thead><tbody>
+        ${sorted.map((p,i)=>{
+          const val=getter(p); const bp=(val/max*100).toFixed(1);
+          const f=p.isFocus;
+          return `<tr class="${f?'is-focus':''}">
+            <td><span class="rank-medal">${i===0?'🥇':i===1?'🥈':i===2?'🥉':''}</span><span class="rank-pos">${i>2?i+1:''}</span></td>
+            <td><span class="rank-name" style="${f?'color:#ffd700;':''}">${f?'★ ':''}${esc(p.pl)}</span></td>
+            <td style="font-family:'Orbitron',sans-serif;font-size:12px;font-weight:900;${f?'color:#ffd700;':''}">${fmtFn(val)}${unit}</td>
+            <td><div class="rank-bar-wrap"><div class="rank-bar ${f?'focus-bar':''}" style="width:${bp}%"></div></div>
+            <span class="rank-pct ${f?'focus-pct':''}">${bp}%</span></td>
+          </tr>`;
+        }).join('')}
+      </tbody></table></div>`;
+  }
+
+  // Bullet chart simples
+  function bulletHtml(label, val, teamAvg, max, color, unit='') {
+    const pVal = Math.min((val/max)*100, 100);
+    const pAvg = Math.min((teamAvg/max)*100, 100);
+    const cls  = val >= teamAvg ? 'green' : 'red';
+    return `<div class="bullet-row">
+      <div class="bullet-lbl">${label}</div>
+      <div class="bullet-track">
+        <div class="bullet-range-bom" style="width:${Math.min(pAvg*1.5,100)}%"></div>
+        <div class="bullet-bar" style="width:${pVal}%;background:${color};opacity:.8;"></div>
+        <div class="bullet-marker" style="left:${pAvg}%"></div>
+      </div>
+      <div class="bullet-val" style="color:${val>=teamAvg?'#4dff88':'#ff5078'}">${typeof val==='number'?val.toFixed(1):val}${unit}</div>
+    </div>`;
+  }
+
+  // Funnel
+  function funnelHtml(stages) {
+    const maxV = stages[0]?.val || 1;
+    return `<div class="funnel-wrap">
+      ${stages.map((s,i)=>`
+        <div class="funnel-stage">
+          <div class="funnel-bar-outer" style="width:${Math.max((s.val/maxV)*100,8)}%">
+            <div class="funnel-bar-inner" style="width:100%;background:${s.color||'rgba(26,111,255,.6)'}">
+              ${s.val}
+            </div>
+          </div>
+          <div class="funnel-lbl">${s.label}</div>
+        </div>
+        ${i<stages.length-1?'<div class="funnel-arrow">▼</div>':''}
+      `).join('')}
+    </div>`;
+  }
+
+  // Donut SVG contrib
+  function donutMini(pct, color='#1A6FFF') {
+    const r=28, c=2*Math.PI*r, d=(pct/100)*c;
+    return `<svg width="70" height="70" viewBox="0 0 70 70" style="transform:rotate(-90deg)">
+      <circle cx="35" cy="35" r="${r}" fill="none" stroke="rgba(26,111,255,.12)" stroke-width="7"/>
+      <circle cx="35" cy="35" r="${r}" fill="none" stroke="${color}" stroke-width="7"
+        stroke-dasharray="${d.toFixed(2)} ${c.toFixed(2)}" stroke-linecap="round"/>
+    </svg>`;
+  }
+
+  // Insights automáticos do jogador foco
+  const topFragger = [...pStats].sort((a,b)=>b.totalK-a.totalK)[0];
+  const topDamage  = [...pStats].sort((a,b)=>b.totalD-a.totalD)[0];
+  const topSupport = [...pStats].sort((a,b)=>b.supIdx-a.supIdx)[0];
+  const topKD      = [...pStats].sort((a,b)=>b.kd-a.kd)[0];
+  const topHealer  = [...pStats].sort((a,b)=>b.totalCura-a.totalCura)[0];
+  const topMedic   = [...pStats].sort((a,b)=>b.totalLev-a.totalLev)[0];
+  const topPlaymk  = [...pStats].sort((a,b)=>b.totalA-a.totalA)[0];
+  const topResilient= [...pStats].sort((a,b)=>a.avgMortes-b.avgMortes)[0];
+  const topKnock   = [...pStats].sort((a,b)=>b.totalDerr-a.totalDerr)[0];
+  const topRes     = [...pStats].sort((a,b)=>b.totalRes-a.totalRes)[0];
+
+  // Mapa stats do foco
+  const focusRows = allData.filter(d=>d.player===focusSt.pl);
+  const mapas     = [...new Set(focusRows.map(d=>d.mapa).filter(Boolean))];
+  const mapStats  = mapas.map(m=>{
+    const mp = focusRows.filter(d=>d.mapa===m);
+    return {map:m, kills:sum(mp.map(d=>d.kills)), dano:Math.round(avg(mp.map(d=>d.dano))), games:mp.length,
+            kd: avg(mp.map(d=>d.morreu>0?d.kills/d.morreu:d.kills)),
+            hs: avg(mp.filter(d=>d.headshot>0).map(d=>d.headshot))};
+  }).sort((a,b)=>b.kills-a.kills);
+
+  const bestMap   = mapStats[0];
+  const worstMap  = [...mapStats].sort((a,b)=>a.kills-b.kills)[0];
+
+  // Headshot trend (últimas 10 partidas)
+  const hsTrend = focusRows.slice(-10).map((d,i)=>({x:i+1,y:d.headshot||0}));
+
+  // evolução kills (início vs fim)
+  const firstHalf  = focusRows.slice(0, Math.ceil(focusRows.length/2));
+  const secondHalf = focusRows.slice(Math.ceil(focusRows.length/2));
+  const evoKills   = avg(secondHalf.map(d=>d.kills)) - avg(firstHalf.map(d=>d.kills));
+  const evoDano    = avg(secondHalf.map(d=>d.dano))  - avg(firstHalf.map(d=>d.dano));
+
+  // Comparativo por tipo (FINAL GWL vs UBFF)
+  const tipos = [...new Set(allData.map(d=>d.tipo).filter(Boolean).map(t=>t.trim()).filter(t=>t!==''))];
+
+  inner.innerHTML = `
+
+    <!-- INSIGHTS RÁPIDOS -->
+    <div class="stitle">DESTAQUES DO JOGADOR</div>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:20px;">
+      ${topFragger?.isFocus ? '<span class="insight-tag gold">💀 TOP FRAGGER</span>' : ''}
+      ${topDamage?.isFocus  ? '<span class="insight-tag purple">💥 DAMAGE KING</span>' : ''}
+      ${topKD?.isFocus      ? '<span class="insight-tag blue">📊 MELHOR K/D</span>' : ''}
+      ${topSupport?.isFocus ? '<span class="insight-tag green">🛡️ SUPPORT KING</span>' : ''}
+      ${topHealer?.isFocus  ? '<span class="insight-tag green">💊 HEALER</span>' : ''}
+      ${topMedic?.isFocus   ? '<span class="insight-tag blue">🏥 MEDIC</span>' : ''}
+      ${topPlaymk?.isFocus  ? '<span class="insight-tag blue">🤝 PLAYMAKER</span>' : ''}
+      ${topResilient?.isFocus?'<span class="insight-tag gold">🏆 MAIS RESILIENTE</span>':''}
+      ${topKnock?.isFocus   ? '<span class="insight-tag red">👊 KNOCKOUT KING</span>' : ''}
+      ${topRes?.isFocus     ? '<span class="insight-tag purple">♻️ RESSURGIMENTO</span>' : ''}
+      ${evoKills > 0        ? '<span class="insight-tag green">📈 EVOLUINDO (KILLS)</span>' : '<span class="insight-tag red">📉 QUEDA (KILLS)</span>'}
+      ${evoDano  > 0        ? '<span class="insight-tag green">📈 EVOLUINDO (DANO)</span>' : ''}
+    </div>
+
+    <!-- IDs 51–60: RANKINGS INDIVIDUAIS -->
+    <div class="stitle">RANKINGS INDIVIDUAIS — IDs 51 a 60</div>
+    ${rankHtml('r51','💀 ID-51 · TOP FRAGGER — TOTAL DE ABATES', [...pStats].sort((a,b)=>b.totalK-a.totalK), p=>p.totalK, v=>v)}
+    ${rankHtml('r52','💥 ID-52 · DAMAGE KING — DANO TOTAL', [...pStats].sort((a,b)=>b.totalD-a.totalD), p=>p.totalD, v=>v)}
+    ${rankHtml('r54','🤝 ID-54 · PLAYMAKER — ASSISTÊNCIAS', [...pStats].sort((a,b)=>b.totalA-a.totalA), p=>p.totalA, v=>v)}
+    ${rankHtml('r55','💊 ID-55 · HEALER — CURA TOTAL', [...pStats].sort((a,b)=>b.totalCura-a.totalCura), p=>p.totalCura, v=>v)}
+    ${rankHtml('r56','🏥 ID-56 · MEDIC — LEVANTAMENTOS', [...pStats].sort((a,b)=>b.totalLev-a.totalLev), p=>p.totalLev, v=>v)}
+    ${rankHtml('r58','♻️ ID-58 · RESSURGIMENTOS', [...pStats].sort((a,b)=>b.totalRes-a.totalRes), p=>p.totalRes, v=>v)}
+    ${rankHtml('r59','👊 ID-59 · KNOCKDOWNS', [...pStats].sort((a,b)=>b.totalDerr-a.totalDerr), p=>p.totalDerr, v=>v)}
+    ${rankHtml('r81','🔥 ID-81 · CLUTCH — RESSURGIMENTOS CRÍTICOS', [...pStats].sort((a,b)=>b.totalRes-a.totalRes), p=>p.totalRes, v=>v)}
+    ${rankHtml('r91','🏆 ID-91 · MVP — PARTIDAS COM MELHORES STATS', [...pStats].sort((a,b)=>b.bestSala?.kills-a.bestSala?.kills), p=>p.bestSala?.kills||0, v=>v, ' kills')}
+    ${rankHtml('r99','🛡️ ID-99 · SUPPORT KING — CURA+LEVANT+ASSIST', [...pStats].sort((a,b)=>b.supIdx-a.supIdx), p=>p.supIdx, v=>v)}
+    ${rankHtml('r100','🎯 ID-100 · RECORDE DE DANO (PARTIDA)', [...pStats].sort((a,b)=>b.recordD-a.recordD), p=>p.recordD, v=>v)}
+
+    <!-- ID 53: BULLET PRECISÃO -->
+    <div class="stitle">ID-53 · PRECISÃO — % HEADSHOT vs MÉDIA DO TIME</div>
+    <div class="section-card">
+      <div style="font-size:9px;color:var(--mu);margin-bottom:12px;letter-spacing:1px;">Barra dourada = média do time</div>
+      <div class="bullet-wrap" id="bullet-hs"></div>
+    </div>
+
+    <!-- ID 57: BULLET SOBREVIVÊNCIA -->
+    <div class="stitle">ID-57 · SOBREVIVÊNCIA — MENOR MÉDIA DE MORTES</div>
+    <div class="section-card">
+      <div style="font-size:9px;color:var(--mu);margin-bottom:12px;letter-spacing:1px;">Menor = melhor (valores mais baixos em verde)</div>
+      <div class="bullet-wrap" id="bullet-mort"></div>
+    </div>
+
+    <!-- ID 60: K/D BULLET -->
+    <div class="stitle">ID-60 · K/D RATIO — COMPARATIVO COM MÉDIA</div>
+    <div class="section-card">
+      <div class="bullet-wrap" id="bullet-kd"></div>
+    </div>
+
+    <!-- ID 72/73: MÉDIA KILLS E DANO BULLET -->
+    <div class="stitle">IDs 72–73 · PRODUTIVIDADE — MÉDIA DE ABATES E DANO POR PARTIDA</div>
+    <div class="section-card">
+      <div class="bullet-wrap" id="bullet-prod"></div>
+    </div>
+
+    <!-- IDs 62–71: MAPA DO JOGADOR FOCO -->
+    <div class="stitle">IDs 62–71 · ESPECIALISTA DE MAPA — ${esc(focusSt.pl)}</div>
+    <div class="charts-row" style="margin-bottom:12px;">
+      <div class="cpanel">
+        <div class="cpt">KILLS POR MAPA (ID-67–71) — DESTAQUE = MELHOR</div>
+        <div class="chart-box" style="height:200px;"><canvas id="ind_mapa_kills"></canvas></div>
+      </div>
+      <div class="cpanel">
+        <div class="cpt">DANO MÉDIO POR MAPA — PERFIL OFENSIVO</div>
+        <div class="chart-box" style="height:200px;"><canvas id="ind_mapa_dano"></canvas></div>
+      </div>
+    </div>
+    <div class="cpanel" style="margin-bottom:12px;">
+      <div class="cpt">RADAR POR MAPA — KILLS · DANO · K/D · HS% (IDs 62–66)</div>
+      <div class="chart-box" style="height:220px;"><canvas id="ind_radar_mapa"></canvas></div>
+    </div>
+
+    <!-- IDs 78–80: CONTRIBUIÇÃO AO TIME -->
+    <div class="stitle">IDs 78–80 · CONTRIBUIÇÃO AO TIME — KILLS · DANO · CURA</div>
+    <div class="contrib-grid">
+      ${(()=>{
+        const pctK = teamK>0?((focusSt.totalK/teamK)*100):0;
+        const pctD = teamD>0?((focusSt.totalD/teamD)*100):0;
+        const pctC = teamC>0?((focusSt.totalCura/teamC)*100):0;
+        const rankK = [...pStats].sort((a,b)=>b.totalK-a.totalK).findIndex(p=>p.isFocus)+1;
+        const rankD = [...pStats].sort((a,b)=>b.totalD-a.totalD).findIndex(p=>p.isFocus)+1;
+        const rankC = [...pStats].sort((a,b)=>b.totalCura-a.totalCura).findIndex(p=>p.isFocus)+1;
+        const n = pStats.length;
+        const dc = (label, pctVal, rank, color) => {
+          const r=36,circ=2*Math.PI*r,dash=(pctVal/100)*circ;
+          return `<div class="contrib-card">
+            <div class="contrib-title">${label}</div>
+            <div class="contrib-donut">
+              <svg width="90" height="90" viewBox="0 0 90 90">
+                <circle cx="45" cy="45" r="${r}" fill="none" stroke="rgba(26,111,255,.12)" stroke-width="9"/>
+                <circle cx="45" cy="45" r="${r}" fill="none" stroke="${color}" stroke-width="9"
+                  stroke-dasharray="${dash.toFixed(2)} ${circ.toFixed(2)}" stroke-linecap="round"/>
+              </svg>
+              <div class="contrib-pct-text">
+                <div class="contrib-pct-num" style="color:#fff">${pctVal.toFixed(1)}%</div>
+                <div class="contrib-pct-lbl">DO TIME</div>
+              </div>
+            </div>
+            <div class="contrib-rank-badge">Ranking: <em>${rank===1?'🥇 1º':rank===2?'🥈 2º':rank===3?'🥉 3º':rank+'º'}</em> de ${n}</div>
+          </div>`;
+        };
+        return dc('💀 KILLS', pctK, rankK, '#1A6FFF') + dc('💥 DANO', pctD, rankD, '#cc66ff') + dc('💊 CURA', pctC, rankC, '#4dff88');
+      })()}
+    </div>
+
+    <!-- IDs 83–84: FINALIZADOR E GARÇOM -->
+    <div class="stitle">ID-83 · FINALIZADOR — TAXA DE CONFIRMAÇÃO DE KILLS (Kills/Derrubados)</div>
+    <div class="section-card">
+      <div class="charts-row" style="margin-bottom:0;">
+        <div>
+          <div class="cpt" style="margin-bottom:10px;">FUNIL — DERRUBADOS → KILLS (ID-83)</div>
+          <div id="funnel-kill-confirm"></div>
+        </div>
+        <div>
+          <div class="cpt" style="margin-bottom:10px;">TOP FINALIZADORES — KILLS/DERRUBADOS</div>
+          <div id="top-finalizadores"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ID 84: GARÇOM -->
+    <div class="stitle">ID-84 · GARÇOM — TAXA ASSISTÊNCIAS / KILLS</div>
+    <div class="section-card">
+      <div class="bullet-wrap" id="bullet-garcom"></div>
+    </div>
+
+    <!-- IDs 61/93/94/95: DISPERSÃO/CORRELAÇÃO -->
+    <div class="stitle">IDs 61 · 93 · 94 · 95 — CORRELAÇÃO E EFICIÊNCIA</div>
+    <div class="charts-row" style="margin-bottom:12px;">
+      <div class="cpanel">
+        <div class="cpt">ID-61 · DpK — DANO POR KILL (Finalizadores vs Suportes)</div>
+        <div class="chart-box" style="height:220px;"><canvas id="ind_scatter_dpk"></canvas></div>
+      </div>
+      <div class="cpanel">
+        <div class="cpt">ID-93 · HEADSHOT% vs KILLS</div>
+        <div class="chart-box" style="height:220px;"><canvas id="ind_scatter_hs"></canvas></div>
+      </div>
+    </div>
+    <div class="charts-row" style="margin-bottom:12px;">
+      <div class="cpanel">
+        <div class="cpt">ID-94 · DANO vs KILLS</div>
+        <div class="chart-box" style="height:220px;"><canvas id="ind_scatter_dk"></canvas></div>
+      </div>
+      <div class="cpanel">
+        <div class="cpt">ID-95 · CURA vs SOBREVIVÊNCIA</div>
+        <div class="chart-box" style="height:220px;"><canvas id="ind_scatter_cure"></canvas></div>
+      </div>
+    </div>
+
+    <!-- IDs 74/75/90: EVOLUÇÃO / TENDÊNCIA -->
+    <div class="stitle">IDs 74 · 75 · 90 — EVOLUÇÃO E TENDÊNCIAS</div>
+    <div class="charts-row" style="margin-bottom:12px;">
+      <div class="cpanel">
+        <div class="cpt">TENDÊNCIA HEADSHOT% — ${esc(focusSt.pl)} (ID-74/75/26)</div>
+        <div class="chart-box" style="height:200px;"><canvas id="ind_hs_trend"></canvas></div>
+      </div>
+      <div class="cpanel">
+        <div class="cpt">EVOLUÇÃO KILLS — INÍCIO vs FIM (ID-90)</div>
+        <div class="chart-box" style="height:200px;"><canvas id="ind_evo_kills"></canvas></div>
+      </div>
+    </div>
+
+    <!-- IDs 85/86/87: COMPARATIVO POR CAMPEONATO -->
+    ${tipos.length >= 2 ? `
+    <div class="stitle">IDs 85–87 · PERFORMANCE POR CAMPEONATO — ${esc(focusSt.pl)}</div>
+    <div class="charts-row" style="margin-bottom:12px;">
+      <div class="cpanel">
+        <div class="cpt">RADAR — COMPARATIVO POR TIPO DE COMPETIÇÃO</div>
+        <div class="chart-box" style="height:220px;"><canvas id="ind_radar_tipo"></canvas></div>
+      </div>
+      <div class="cpanel">
+        <div class="cpt">KILLS · DANO · K/D POR COMPETIÇÃO</div>
+        <div class="chart-box" style="height:220px;"><canvas id="ind_bar_tipo"></canvas></div>
+      </div>
+    </div>` : ''}
+
+    <!-- IDs 88/89: BOX PLOT CONSISTÊNCIA -->
+    <div class="stitle">IDs 88–89 · CONSISTÊNCIA — VARIÂNCIA DE KILLS E DANO</div>
+    <div class="section-card">
+      <div style="font-size:9px;color:var(--mu);margin-bottom:12px;letter-spacing:1px;">Distribuição por jogador — caixa = 25% a 75%, linha = mediana</div>
+      <div style="overflow-x:auto;"><canvas id="ind_boxplot" style="min-width:400px;height:220px;"></canvas></div>
+    </div>
+
+    <!-- IDs 76/77/98: FUNÇÕES -->
+    <div class="stitle">IDs 76–77 · 98 — COMPARATIVO POR FUNÇÃO</div>
+    <div class="cpanel" style="margin-bottom:12px;">
+      <div class="cpt">RADAR — RUSH vs SUPORTE vs BOMBA</div>
+      <div class="chart-box" style="height:220px;"><canvas id="ind_radar_func"></canvas></div>
+    </div>
+
+    <!-- IDs 96/97: MELHOR DIA DA SEMANA -->
+    <div class="stitle">IDs 96–97 · MELHOR DIA DA SEMANA — ${esc(focusSt.pl)}</div>
+    <div class="section-card">
+      <div class="chart-box" style="height:200px;"><canvas id="ind_dia_semana"></canvas></div>
+    </div>
+
+  `;
+
+  setTimeout(() => buildIndCharts(pStats, focusSt, focusRows, mapStats, tipos), 80);
+}
+
+function buildIndCharts(pStats, focusSt, focusRows, mapStats, tipos) {
+  const ax = {ticks:{color:'#5A6880',font:{size:9,family:"'Barlow Condensed'"}},grid:{color:'rgba(26,111,255,.07)'},border:{color:'transparent'}};
+  const tt = {backgroundColor:'rgba(8,12,20,.97)',borderColor:'rgba(26,111,255,.3)',borderWidth:1,titleColor:'#4D9FFF',bodyColor:'#C8D4E8',padding:10};
+  const palette = ['#1A6FFF','#ffd700','#ff5078','#4dff88','#cc66ff','#ff9f40','#4D9FFF','#ff6666'];
+
+  // ── Bullet HS
+  const bulletHsEl = document.getElementById('bullet-hs');
+  if (bulletHsEl) {
+    const teamAvgHS = avg(pStats.map(p=>p.avgHSv));
+    const maxHS     = Math.max(...pStats.map(p=>p.avgHSv), 1);
+    bulletHsEl.innerHTML = pStats.map(p => {
+      const pVal = Math.min((p.avgHSv/maxHS)*100,100);
+      const pAvg = Math.min((teamAvgHS/maxHS)*100,100);
+      return `<div class="bullet-row">
+        <div class="bullet-lbl" style="${p.isFocus?'color:#ffd700;':''}">${p.isFocus?'★ ':''}${esc(p.pl)}</div>
+        <div class="bullet-track">
+          <div class="bullet-range-bom" style="width:${Math.min(pAvg*1.2,100)}%"></div>
+          <div class="bullet-bar" style="width:${pVal}%;background:${p.avgHSv>=teamAvgHS?'rgba(77,255,136,.7)':'rgba(255,80,120,.6)'};"></div>
+          <div class="bullet-marker" style="left:${pAvg}%"></div>
+        </div>
+        <div class="bullet-val" style="color:${p.avgHSv>=teamAvgHS?'#4dff88':'#ff5078'}">${p.avgHSv.toFixed(1)}%</div>
+      </div>`;
+    }).join('');
+  }
+
+  // ── Bullet Mortes (sobrevivência — menor = melhor)
+  const bulletMortEl = document.getElementById('bullet-mort');
+  if (bulletMortEl) {
+    const teamAvgM = avg(pStats.map(p=>p.avgMortes));
+    const maxM     = Math.max(...pStats.map(p=>p.avgMortes), 1);
+    const sorted   = [...pStats].sort((a,b)=>a.avgMortes-b.avgMortes);
+    bulletMortEl.innerHTML = sorted.map(p => {
+      const pVal = Math.min((p.avgMortes/maxM)*100,100);
+      const pAvg = Math.min((teamAvgM/maxM)*100,100);
+      return `<div class="bullet-row">
+        <div class="bullet-lbl" style="${p.isFocus?'color:#ffd700;':''}">${p.isFocus?'★ ':''}${esc(p.pl)}</div>
+        <div class="bullet-track">
+          <div class="bullet-bar" style="width:${pVal}%;background:${p.avgMortes<=teamAvgM?'rgba(77,255,136,.7)':'rgba(255,80,120,.6)'};"></div>
+          <div class="bullet-marker" style="left:${pAvg}%"></div>
+        </div>
+        <div class="bullet-val" style="color:${p.avgMortes<=teamAvgM?'#4dff88':'#ff5078'}">${p.avgMortes.toFixed(2)}</div>
+      </div>`;
+    }).join('');
+  }
+
+  // ── Bullet K/D
+  const bulletKdEl = document.getElementById('bullet-kd');
+  if (bulletKdEl) {
+    const teamAvgKd = avg(pStats.map(p=>p.kd));
+    const maxKd     = Math.max(...pStats.map(p=>p.kd), 1);
+    bulletKdEl.innerHTML = [...pStats].sort((a,b)=>b.kd-a.kd).map(p => {
+      const pVal = Math.min((p.kd/maxKd)*100,100);
+      const pAvg = Math.min((teamAvgKd/maxKd)*100,100);
+      return `<div class="bullet-row">
+        <div class="bullet-lbl" style="${p.isFocus?'color:#ffd700;':''}">${p.isFocus?'★ ':''}${esc(p.pl)}</div>
+        <div class="bullet-track">
+          <div class="bullet-bar" style="width:${pVal}%;background:${p.kd>=teamAvgKd?'rgba(77,159,255,.8)':'rgba(255,80,120,.6)'};"></div>
+          <div class="bullet-marker" style="left:${pAvg}%"></div>
+        </div>
+        <div class="bullet-val" style="color:${p.kd>=teamAvgKd?'#4D9FFF':'#ff5078'}">${p.kd.toFixed(2)}</div>
+      </div>`;
+    }).join('');
+  }
+
+  // ── Bullet Produtividade
+  const bulletProdEl = document.getElementById('bullet-prod');
+  if (bulletProdEl) {
+    const teamAvgKv = avg(pStats.map(p=>p.avgKv));
+    const maxKv     = Math.max(...pStats.map(p=>p.avgKv), 1);
+    bulletProdEl.innerHTML = [...pStats].sort((a,b)=>b.avgKv-a.avgKv).map(p => {
+      const pVal = Math.min((p.avgKv/maxKv)*100,100);
+      const pAvg = Math.min((teamAvgKv/maxKv)*100,100);
+      return `<div class="bullet-row">
+        <div class="bullet-lbl" style="${p.isFocus?'color:#ffd700;':''}">${p.isFocus?'★ ':''}${esc(p.pl)}</div>
+        <div class="bullet-track">
+          <div class="bullet-bar" style="width:${pVal}%;background:${p.avgKv>=teamAvgKv?'rgba(204,102,255,.7)':'rgba(255,80,120,.6)'};"></div>
+          <div class="bullet-marker" style="left:${pAvg}%"></div>
+        </div>
+        <div class="bullet-val" style="color:${p.avgKv>=teamAvgKv?'#cc66ff':'#ff5078'}">${p.avgKv.toFixed(1)}</div>
+      </div>`;
+    }).join('');
+  }
+
+  // ── Bullet Garçom
+  const bulletGarcEl = document.getElementById('bullet-garcom');
+  if (bulletGarcEl) {
+    const teamAvgAK = avg(pStats.map(p=>p.assKRatio));
+    const maxAK     = Math.max(...pStats.map(p=>p.assKRatio), 1);
+    bulletGarcEl.innerHTML = [...pStats].sort((a,b)=>b.assKRatio-a.assKRatio).map(p => {
+      const pVal = Math.min((p.assKRatio/maxAK)*100,100);
+      const pAvg = Math.min((teamAvgAK/maxAK)*100,100);
+      return `<div class="bullet-row">
+        <div class="bullet-lbl" style="${p.isFocus?'color:#ffd700;':''}">${p.isFocus?'★ ':''}${esc(p.pl)}</div>
+        <div class="bullet-track">
+          <div class="bullet-bar" style="width:${pVal}%;background:${p.assKRatio>=teamAvgAK?'rgba(77,255,136,.7)':'rgba(255,80,120,.6)'};"></div>
+          <div class="bullet-marker" style="left:${pAvg}%"></div>
+        </div>
+        <div class="bullet-val" style="color:${p.assKRatio>=teamAvgAK?'#4dff88':'#ff5078'}">${p.assKRatio.toFixed(2)}</div>
+      </div>`;
+    }).join('');
+  }
+
+  // ── Funil kill confirm
+  const funnelEl = document.getElementById('funnel-kill-confirm');
+  if (funnelEl) {
+    const tDerr = focusSt.totalDerr;
+    const tKill = focusSt.totalK;
+    funnelEl.innerHTML = `<div class="funnel-wrap">
+      <div class="funnel-stage">
+        <div class="funnel-bar-outer" style="width:100%">
+          <div class="funnel-bar-inner" style="width:100%;background:rgba(26,111,255,.6)">${tDerr} DERRUBADOS</div>
+        </div>
+      </div>
+      <div class="funnel-arrow">▼</div>
+      <div class="funnel-stage">
+        <div class="funnel-bar-outer" style="width:${tDerr>0?Math.max((tKill/tDerr)*100,10).toFixed(0):50}%">
+          <div class="funnel-bar-inner" style="width:100%;background:rgba(77,255,136,.6)">${tKill} KILLS CONFIRMADOS</div>
+        </div>
+      </div>
+      <div style="font-size:10px;color:var(--bl3);margin-top:8px;letter-spacing:1px;">Taxa: ${tDerr>0?((tKill/tDerr)*100).toFixed(1):0}% de confirmação</div>
+    </div>`;
+  }
+
+  const topFinEl = document.getElementById('top-finalizadores');
+  if (topFinEl) {
+    const sorted = [...pStats].sort((a,b)=>b.killConf-a.killConf);
+    topFinEl.innerHTML = `<div class="bullet-wrap">${sorted.map(p=>{
+      const maxKC = Math.max(...pStats.map(x=>x.killConf),1);
+      return `<div class="bullet-row">
+        <div class="bullet-lbl" style="${p.isFocus?'color:#ffd700;':''}">${p.isFocus?'★ ':''}${esc(p.pl)}</div>
+        <div class="bullet-track">
+          <div class="bullet-bar" style="width:${Math.min((p.killConf/maxKC)*100,100)}%;background:rgba(77,255,136,.6);"></div>
+        </div>
+        <div class="bullet-val" style="color:#4dff88">${p.killConf.toFixed(2)}</div>
+      </div>`;}).join('')}</div>`;
+  }
+
+  // ── Mapa kills bar
+  const mKCtx = document.getElementById('ind_mapa_kills')?.getContext('2d');
+  if (mKCtx && mapStats.length) {
+    const best = mapStats[0]?.map;
+    new Chart(mKCtx, {type:'bar', data:{
+      labels: mapStats.map(m=>m.map),
+      datasets:[{label:'Kills', data:mapStats.map(m=>m.kills),
+        backgroundColor: mapStats.map(m=>m.map===best?'rgba(255,215,0,.85)':'rgba(26,111,255,.6)'),
+        borderColor: mapStats.map(m=>m.map===best?'#ffd700':'#1A6FFF'),
+        borderWidth:1, borderRadius:3}]
+    }, options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:tt},scales:{x:ax,y:ax}}});
+  }
+
+  // ── Mapa dano bar
+  const mDCtx = document.getElementById('ind_mapa_dano')?.getContext('2d');
+  if (mDCtx && mapStats.length) {
+    new Chart(mDCtx, {type:'bar', data:{
+      labels: mapStats.map(m=>m.map),
+      datasets:[{label:'Dano Médio', data:mapStats.map(m=>m.dano),
+        backgroundColor:'rgba(204,102,255,.6)', borderColor:'#cc66ff', borderWidth:1, borderRadius:3}]
+    }, options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:tt},scales:{x:ax,y:ax}}});
+  }
+
+  // ── Radar por mapa
+  const rmCtx = document.getElementById('ind_radar_mapa')?.getContext('2d');
+  if (rmCtx && mapStats.length) {
+    const maxK2 = Math.max(...mapStats.map(m=>m.kills),1);
+    const maxD2 = Math.max(...mapStats.map(m=>m.dano),1);
+    const maxKD = Math.max(...mapStats.map(m=>m.kd),1);
+    const maxHS = Math.max(...mapStats.map(m=>m.hs),1);
+    new Chart(rmCtx, {type:'radar', data:{
+      labels:['KILLS','DANO','K/D','HEADSHOT%'],
+      datasets: mapStats.slice(0,6).map((m,i)=>({
+        label:m.map,
+        data:[(m.kills/maxK2)*100,(m.dano/maxD2)*100,(m.kd/maxKD)*100,(m.hs/maxHS)*100],
+        fill:true,
+        backgroundColor:palette[i%palette.length]+'18',
+        borderColor:palette[i%palette.length],
+        pointBackgroundColor:palette[i%palette.length],
+        borderWidth:1.5, pointRadius:2,
+      }))
+    }, options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{labels:{color:'#5A6880',font:{size:8,family:"'Barlow Condensed'"},boxWidth:8}}},
+      scales:{r:{ticks:{display:false},grid:{color:'rgba(26,111,255,.1)'},
+        pointLabels:{color:'#5A6880',font:{size:8,family:"'Barlow Condensed'",weight:'700'}},
+        angleLines:{color:'rgba(26,111,255,.07)'}}}}});
+  }
+
+  // ── Scatter DpK (ID-61)
+  const sctDpk = document.getElementById('ind_scatter_dpk')?.getContext('2d');
+  if (sctDpk) {
+    new Chart(sctDpk, {type:'scatter', data:{datasets:[{
+      label:'Jogadores',
+      data: pStats.map(p=>({x:p.totalD, y:p.totalK,
+        backgroundColor: p.isFocus?'rgba(255,215,0,.9)':'rgba(26,111,255,.7)',
+        pointRadius: p.isFocus?7:5, label:p.pl})),
+      backgroundColor: pStats.map(p=>p.isFocus?'rgba(255,215,0,.9)':'rgba(26,111,255,.7)'),
+      pointRadius: pStats.map(p=>p.isFocus?8:5),
+    }]}, options:{responsive:true,maintainAspectRatio:false,
+      plugins:{tooltip:{...tt,callbacks:{label:ctx=>{
+        const p=pStats[ctx.dataIndex]; return `${p?.pl}: ${p?.totalK} kills / ${p?.totalD} dano`;
+      }}},legend:{display:false}},
+      scales:{x:{...ax,title:{display:true,text:'DANO TOTAL',color:'#5A6880',font:{size:9}}},
+               y:{...ax,title:{display:true,text:'KILLS',color:'#5A6880',font:{size:9}}}}}});
+  }
+
+  // ── Scatter HS vs Kills (ID-93)
+  const sctHS = document.getElementById('ind_scatter_hs')?.getContext('2d');
+  if (sctHS) {
+    new Chart(sctHS, {type:'scatter', data:{datasets:[{
+      data: pStats.map(p=>({x:p.avgHSv, y:p.totalK})),
+      backgroundColor: pStats.map(p=>p.isFocus?'rgba(255,215,0,.9)':'rgba(77,159,255,.7)'),
+      pointRadius: pStats.map(p=>p.isFocus?8:5),
+    }]}, options:{responsive:true,maintainAspectRatio:false,
+      plugins:{tooltip:{...tt,callbacks:{label:ctx=>{const p=pStats[ctx.dataIndex]; return `${p?.pl}: ${p?.avgHSv.toFixed(1)}% HS / ${p?.totalK} kills`;}}},legend:{display:false}},
+      scales:{x:{...ax,title:{display:true,text:'HEADSHOT%',color:'#5A6880',font:{size:9}}},
+               y:{...ax,title:{display:true,text:'KILLS',color:'#5A6880',font:{size:9}}}}}});
+  }
+
+  // ── Scatter Dano vs Kills (ID-94)
+  const sctDK = document.getElementById('ind_scatter_dk')?.getContext('2d');
+  if (sctDK) {
+    new Chart(sctDK, {type:'scatter', data:{datasets:[{
+      data: pStats.map(p=>({x:p.totalD, y:p.totalK})),
+      backgroundColor: pStats.map(p=>p.isFocus?'rgba(255,215,0,.9)':'rgba(204,102,255,.7)'),
+      pointRadius: pStats.map(p=>p.isFocus?8:5),
+    }]}, options:{responsive:true,maintainAspectRatio:false,
+      plugins:{tooltip:{...tt,callbacks:{label:ctx=>{const p=pStats[ctx.dataIndex]; return `${p?.pl}: ${p?.totalD} dano / ${p?.totalK} kills`;}}},legend:{display:false}},
+      scales:{x:{...ax,title:{display:true,text:'DANO',color:'#5A6880',font:{size:9}}},
+               y:{...ax,title:{display:true,text:'KILLS',color:'#5A6880',font:{size:9}}}}}});
+  }
+
+  // ── Scatter Cura vs Sobrevivência (ID-95)
+  const sctCure = document.getElementById('ind_scatter_cure')?.getContext('2d');
+  if (sctCure) {
+    new Chart(sctCure, {type:'scatter', data:{datasets:[{
+      data: pStats.map(p=>({x:p.totalCura, y: p.games>0 ? (1 - p.deaths/Math.max(p.games,1))*100 : 0})),
+      backgroundColor: pStats.map(p=>p.isFocus?'rgba(255,215,0,.9)':'rgba(77,255,136,.7)'),
+      pointRadius: pStats.map(p=>p.isFocus?8:5),
+    }]}, options:{responsive:true,maintainAspectRatio:false,
+      plugins:{tooltip:{...tt,callbacks:{label:ctx=>{const p=pStats[ctx.dataIndex]; return `${p?.pl}: ${p?.totalCura} cura`;}}},legend:{display:false}},
+      scales:{x:{...ax,title:{display:true,text:'CURA TOTAL',color:'#5A6880',font:{size:9}}},
+               y:{...ax,title:{display:true,text:'SOBREVIVÊNCIA%',color:'#5A6880',font:{size:9}}}}}});
+  }
+
+  // ── Tendência HS (ID-74/75)
+  const hsTrendCtx = document.getElementById('ind_hs_trend')?.getContext('2d');
+  if (hsTrendCtx) {
+    const hsd = focusRows.map((d,i)=>({x:`P${i+1}`,y:d.headshot||0}));
+    // média móvel
+    const ma = hsd.map((_,i)=>{
+      const slice = hsd.slice(Math.max(0,i-2), i+3);
+      return {x:hsd[i].x, y: avg(slice.map(s=>s.y))};
+    });
+    new Chart(hsTrendCtx, {type:'line', data:{
+      labels: hsd.map(d=>d.x),
+      datasets:[
+        {label:'HS%', data:hsd.map(d=>d.y), fill:false, borderColor:'rgba(77,159,255,.5)', pointRadius:2, tension:.3, borderWidth:1.5, borderDash:[3,3]},
+        {label:'Média Móvel', data:ma.map(d=>d.y), fill:true, backgroundColor:'rgba(26,111,255,.1)', borderColor:'#1A6FFF', pointRadius:0, tension:.4, borderWidth:2},
+      ]
+    }, options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#5A6880',font:{size:9}}},tooltip:tt},scales:{x:ax,y:{...ax,beginAtZero:true}}}});
+  }
+
+  // ── Evolução kills (ID-90)
+  const evoCtx = document.getElementById('ind_evo_kills')?.getContext('2d');
+  if (evoCtx) {
+    const half = Math.ceil(focusRows.length/2);
+    const labels = focusRows.map((_,i)=>`P${i+1}`);
+    new Chart(evoCtx, {type:'bar', data:{
+      labels,
+      datasets:[{label:'Kills', data:focusRows.map(d=>d.kills),
+        backgroundColor: focusRows.map((_,i)=>i<half?'rgba(26,111,255,.5)':'rgba(77,255,136,.6)'),
+        borderColor: focusRows.map((_,i)=>i<half?'#1A6FFF':'#4dff88'),
+        borderWidth:1, borderRadius:2}]
+    }, options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:tt},scales:{x:ax,y:{...ax,beginAtZero:true}}}});
+  }
+
+  // ── Radar por tipo (ID-85/86/87)
+  if (tipos.length >= 2) {
+    const rdTipoCtx = document.getElementById('ind_radar_tipo')?.getContext('2d');
+    if (rdTipoCtx) {
+      const fRows = allData.filter(d=>d.player===focusSt.pl);
+      const ds = tipos.slice(0,4).map((t,i)=>{
+        const rows = fRows.filter(d=>d.tipo===t);
+        if (!rows.length) return null;
+        const mK=avg(rows.map(d=>d.kills)), mD=avg(rows.map(d=>d.dano));
+        const mA=avg(rows.map(d=>d.ass)), mkd=avg(rows.map(d=>d.morreu>0?d.kills/d.morreu:d.kills));
+        const mHS=avg(rows.filter(d=>d.headshot>0).map(d=>d.headshot));
+        return {t, mK, mD, mA, mkd, mHS};
+      }).filter(Boolean);
+      const maxK=Math.max(...ds.map(d=>d.mK),1),maxD=Math.max(...ds.map(d=>d.mD),1),
+            maxA=Math.max(...ds.map(d=>d.mA),1),maxKD=Math.max(...ds.map(d=>d.mkd),1),maxHS=Math.max(...ds.map(d=>d.mHS),1);
+      new Chart(rdTipoCtx, {type:'radar', data:{
+        labels:['KILLS','DANO','ASSIST','K/D','HS%'],
+        datasets: ds.map((d,i)=>({label:d.t,
+          data:[(d.mK/maxK)*100,(d.mD/maxD)*100,(d.mA/maxA)*100,(d.mkd/maxKD)*100,(d.mHS/maxHS)*100],
+          fill:true, backgroundColor:palette[i]+'22', borderColor:palette[i], pointBackgroundColor:palette[i], borderWidth:1.8, pointRadius:3}))
+      }, options:{responsive:true,maintainAspectRatio:false,
+        plugins:{legend:{labels:{color:'#5A6880',font:{size:8,family:"'Barlow Condensed'"},boxWidth:8}}},
+        scales:{r:{ticks:{display:false},grid:{color:'rgba(26,111,255,.1)'},
+          pointLabels:{color:'#5A6880',font:{size:8}},angleLines:{color:'rgba(26,111,255,.07)'}}}}});
+    }
+
+    const barTipoCtx = document.getElementById('ind_bar_tipo')?.getContext('2d');
+    if (barTipoCtx) {
+      const fRows = allData.filter(d=>d.player===focusSt.pl);
+      const tiposData = tipos.slice(0,6).map(t=>{
+        const rows = fRows.filter(d=>d.tipo===t);
+        return {t, kills:sum(rows.map(d=>d.kills)), dano:Math.round(avg(rows.map(d=>d.dano))), kd:parseFloat(avg(rows.map(d=>d.morreu>0?d.kills/d.morreu:d.kills)).toFixed(2))};
+      });
+      new Chart(barTipoCtx, {type:'bar', data:{
+        labels: tiposData.map(d=>d.t),
+        datasets:[
+          {label:'Kills', data:tiposData.map(d=>d.kills), backgroundColor:'rgba(26,111,255,.7)', borderColor:'#1A6FFF', borderWidth:1, borderRadius:3},
+          {label:'Dano/100', data:tiposData.map(d=>Math.round(d.dano/100)), backgroundColor:'rgba(204,102,255,.5)', borderColor:'#cc66ff', borderWidth:1, borderRadius:3},
+          {label:'K/D×10', data:tiposData.map(d=>parseFloat((d.kd*10).toFixed(1))), backgroundColor:'rgba(255,215,0,.5)', borderColor:'#ffd700', borderWidth:1, borderRadius:3},
+        ]
+      }, options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#5A6880',font:{size:9}}},tooltip:tt},scales:{x:ax,y:{...ax,beginAtZero:true}}}});
+    }
+  }
+
+  // ── Box plot kills (ID-88/89) — aproximação com barra de quartis
+  const bpCtx = document.getElementById('ind_boxplot')?.getContext('2d');
+  if (bpCtx) {
+    const bpData = pStats.map(p=>{
+      const rows = allData.filter(d=>d.player===p.pl).map(d=>d.kills).sort((a,b)=>a-b);
+      const q1 = rows[Math.floor(rows.length*0.25)]||0;
+      const q3 = rows[Math.floor(rows.length*0.75)]||0;
+      const med= rows[Math.floor(rows.length*0.5)]||0;
+      const mn = rows[0]||0;
+      const mx = rows[rows.length-1]||0;
+      return {pl:p.pl, q1, q3, med, mn, mx, isFocus:p.isFocus};
+    });
+    new Chart(bpCtx, {type:'bar', data:{
+      labels: bpData.map(d=>d.pl),
+      datasets:[
+        {label:'Mínimo→Q1', data:bpData.map(d=>d.q1-d.mn), backgroundColor:'rgba(0,0,0,0)', borderColor:'rgba(0,0,0,0)', borderWidth:0, stack:'s'},
+        {label:'Q1→Mediana', data:bpData.map(d=>d.med-d.q1), backgroundColor:bpData.map(d=>d.isFocus?'rgba(255,215,0,.5)':'rgba(26,111,255,.45)'), borderColor:bpData.map(d=>d.isFocus?'#ffd700':'#1A6FFF'), borderWidth:1, stack:'s'},
+        {label:'Mediana→Q3', data:bpData.map(d=>d.q3-d.med), backgroundColor:bpData.map(d=>d.isFocus?'rgba(255,215,0,.3)':'rgba(77,159,255,.35)'), borderColor:bpData.map(d=>d.isFocus?'#ffd700':'#4D9FFF'), borderWidth:1, stack:'s'},
+        {label:'Q3→Máx', data:bpData.map(d=>d.mx-d.q3), backgroundColor:'rgba(0,0,0,0)', borderColor:'rgba(0,0,0,0)', borderWidth:0, stack:'s'},
+      ]
+    }, options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{labels:{color:'#5A6880',font:{size:9}}},tooltip:{...tt,callbacks:{label:ctx=>{const d=bpData[ctx.dataIndex]; return `${d?.pl}: Min ${d?.mn} | Q1 ${d?.q1} | Med ${d?.med} | Q3 ${d?.q3} | Max ${d?.mx}`;}}},},
+      scales:{x:ax,y:{...ax,beginAtZero:true,stacked:true}}}});
+  }
+
+  // ── Radar por função (ID-76/77)
+  const rfCtx = document.getElementById('ind_radar_func')?.getContext('2d');
+  if (rfCtx) {
+    const funcoes = [...new Set(allData.map(d=>d.funcao).filter(Boolean).map(f=>f.trim()).filter(f=>f&&!f.startsWith('http')))];
+    if (funcoes.length) {
+      const ds = funcoes.slice(0,5).map((f,i)=>{
+        const rows = allData.filter(d=>d.funcao===f);
+        const mK=avg(rows.map(d=>d.kills)), mD=avg(rows.map(d=>d.dano));
+        const mA=avg(rows.map(d=>d.ass)), mCura=avg(rows.map(d=>d.cura));
+        const mkd=avg(rows.map(d=>d.morreu>0?d.kills/d.morreu:d.kills));
+        return {f, mK, mD, mA, mCura, mkd};
+      });
+      const maxK=Math.max(...ds.map(d=>d.mK),1),maxD=Math.max(...ds.map(d=>d.mD),1),
+            maxA=Math.max(...ds.map(d=>d.mA),1),maxC=Math.max(...ds.map(d=>d.mCura),1),maxKD=Math.max(...ds.map(d=>d.mkd),1);
+      new Chart(rfCtx, {type:'radar', data:{
+        labels:['KILLS','DANO','ASSIST','CURA','K/D'],
+        datasets: ds.map((d,i)=>({label:d.f,
+          data:[(d.mK/maxK)*100,(d.mD/maxD)*100,(d.mA/maxA)*100,(d.mCura/maxC)*100,(d.mkd/maxKD)*100],
+          fill:true, backgroundColor:palette[i]+'22', borderColor:palette[i], pointBackgroundColor:palette[i], borderWidth:2, pointRadius:3}))
+      }, options:{responsive:true,maintainAspectRatio:false,
+        plugins:{legend:{labels:{color:'#5A6880',font:{size:8,family:"'Barlow Condensed'"},boxWidth:8}}},
+        scales:{r:{ticks:{display:false},grid:{color:'rgba(26,111,255,.1)'},
+          pointLabels:{color:'#5A6880',font:{size:8}},angleLines:{color:'rgba(26,111,255,.07)'}}}}});
+    } else {
+      if(rfCtx.canvas.parentNode) rfCtx.canvas.parentNode.innerHTML = '<div style="padding:20px;color:var(--mu);font-size:11px;text-align:center">Sem dados de função disponíveis.</div>';
+    }
+  }
+
+  // ── Dia da semana (ID-96/97)
+  const dsCtx = document.getElementById('ind_dia_semana')?.getContext('2d');
+  if (dsCtx) {
+    const dias = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+    const diaSt = dias.map(d=>({dia:d, kills:[], dano:[]}));
+    focusRows.forEach(r=>{
+      if (!r.diaSemana) return;
+      const idx = dias.findIndex(d=>r.diaSemana.toLowerCase().includes(d.toLowerCase()));
+      if (idx>=0) { diaSt[idx].kills.push(r.kills); diaSt[idx].dano.push(r.dano); }
+    });
+    const avgK2  = diaSt.map(d=>d.kills.length?avg(d.kills):null);
+    const avgD2  = diaSt.map(d=>d.dano.length?avg(d.dano):null);
+    new Chart(dsCtx, {type:'bar', data:{
+      labels: dias,
+      datasets:[
+        {label:'Avg Kills', data:avgK2, backgroundColor:'rgba(26,111,255,.6)', borderColor:'#1A6FFF', borderWidth:1, borderRadius:3},
+        {label:'Avg Dano/100', data:avgD2.map(v=>v!==null?Math.round(v/100):null), backgroundColor:'rgba(204,102,255,.45)', borderColor:'#cc66ff', borderWidth:1, borderRadius:3},
+      ]
+    }, options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#5A6880',font:{size:9}}},tooltip:tt},scales:{x:ax,y:{...ax,beginAtZero:true}}}});
+  }
+}
+
+// ══════════════════════════════════════════════════════
+// ── ANÁLISES COLETIVAS (IDs 01–50) ──
+// ══════════════════════════════════════════════════════
+function renderColetivas() {
+  const inner = document.getElementById('col-inner');
+  if (!inner) return;
+
+  // Stats por mapa (coletivo)
+  const mapas = [...new Set(allData.map(d=>d.mapa).filter(Boolean))];
+  const mapSt = mapas.map(m=>{
+    const rows = allData.filter(d=>d.mapa===m);
+    return {
+      map:m, kills:sum(rows.map(d=>d.kills)), dano:Math.round(avg(rows.map(d=>d.dano))),
+      cura:sum(rows.map(d=>d.cura)), ass:sum(rows.map(d=>d.ass)),
+      lev:sum(rows.map(d=>d.levantados)), res:sum(rows.map(d=>d.ressurgidos)),
+      derr:sum(rows.map(d=>d.derrubou)), mortes:sum(rows.map(d=>d.morreu)),
+      hs:avg(rows.filter(d=>d.headshot>0).map(d=>d.headshot)),
+      games:rows.length
+    };
+  }).sort((a,b)=>b.kills-a.kills);
+
+  // Stats por tipo
+  const tipos = [...new Set(allData.map(d=>d.tipo).filter(Boolean).map(t=>t.trim()).filter(t=>t!==''))];
+  const tipoSt = tipos.map(t=>{
+    const rows = allData.filter(d=>d.tipo===t);
+    return {tipo:t, kills:sum(rows.map(d=>d.kills)), dano:Math.round(avg(rows.map(d=>d.dano))),
+      cura:sum(rows.map(d=>d.cura)), ass:sum(rows.map(d=>d.ass)), res:sum(rows.map(d=>d.ressurgidos)),
+      mortes:avg(rows.map(d=>d.morreu)), games:rows.length};
+  });
+
+  // Stats por função
+  const funcoes = [...new Set(allData.map(d=>d.funcao).filter(Boolean).map(f=>f.trim()).filter(f=>f&&!f.startsWith('http')))];
+  const funcSt = funcoes.map(f=>{
+    const rows = allData.filter(d=>d.funcao===f);
+    return {func:f, kills:sum(rows.map(d=>d.kills)), dano:sum(rows.map(d=>d.dano)),
+      cura:sum(rows.map(d=>d.cura)), ass:sum(rows.map(d=>d.ass)), games:rows.length};
+  });
+
+  // Stats por data
+  const datas = [...new Set(allData.map(d=>d.data).filter(Boolean))].sort();
+  const dateSt = datas.map(dt=>{
+    const rows = allData.filter(d=>d.data===dt);
+    return {data:dt, kills:sum(rows.map(d=>d.kills)), dano:Math.round(avg(rows.map(d=>d.dano))),
+      hs:avg(rows.filter(d=>d.headshot>0).map(d=>d.headshot))};
+  });
+
+  // Stats por dia semana
+  const dias = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+  const diaSt = dias.map(d=>{
+    const rows = allData.filter(r=>r.diaSemana&&r.diaSemana.toLowerCase().includes(d.toLowerCase()));
+    return {dia:d, kills:sum(rows.map(d=>d.kills)), hs:avg(rows.filter(d=>d.headshot>0).map(d=>d.headshot)), games:rows.length};
+  });
+
+  // Stats por sala
+  const salas = [...new Set(allData.map(d=>d.sala).filter(Boolean))];
+  const salaSt = salas.map(s=>{
+    const rows = allData.filter(d=>d.sala===s);
+    const score = sum(rows.map(d=>d.kills+d.ass)) + avg(rows.map(d=>d.dano))/100;
+    return {sala:s, kills:sum(rows.map(d=>d.kills)), dano:Math.round(avg(rows.map(d=>d.dano))),
+      ass:sum(rows.map(d=>d.ass)), score, games:rows.length};
+  }).sort((a,b)=>b.score-a.score);
+
+  // Totais gerais
+  const totalKills = sum(allData.map(d=>d.kills));
+  const totalDano  = sum(allData.map(d=>d.dano));
+  const totalCura  = sum(allData.map(d=>d.cura));
+  const totalDerr  = sum(allData.map(d=>d.derrubou));
+  const avgKills   = avg(allData.map(d=>d.kills));
+  const avgDano    = avg(allData.map(d=>d.dano));
+  const avgMortes  = avg(allData.map(d=>d.morreu));
+
+  // Desvio padrão
+  const stdDev = arr => {
+    const m = avg(arr); return Math.sqrt(avg(arr.map(v=>Math.pow(v-m,2))));
+  };
+  const stdK = stdDev(allData.map(d=>d.kills));
+  const stdD = stdDev(allData.map(d=>d.dano));
+
+  // Índices coletivos
+  const idxAtaque  = allData.length > 0 ? (totalKills + totalDerr) / allData.length : 0;
+  const idxDefesa  = allData.length > 0 ? (totalCura + sum(allData.map(d=>d.levantados))) / allData.length : 0;
+  const idxAgress  = avgMortes > 0 ? (avgKills + avgDano/100) / avgMortes : 0;
+  const idxSuport  = avgMortes > 0 ? (avg(allData.map(d=>d.cura)) + avg(allData.map(d=>d.levantados))) / avgMortes : 0;
+  const idxColab   = totalKills > 0 ? sum(allData.map(d=>d.ass)) / totalKills : 0;
+
+  // Mapa mais letal e mais perigoso
+  const mapaLetal    = [...mapSt].sort((a,b)=>b.kills-a.kills)[0];
+  const mapaPerigo   = [...mapSt].sort((a,b)=>b.mortes-a.mortes)[0];
+  const mapaSuporte  = [...mapSt].sort((a,b)=>b.lev-a.lev)[0];
+  const mapaAssist   = [...mapSt].sort((a,b)=>b.ass-a.ass)[0];
+  const mapaMenosSuc = [...mapSt].sort((a,b)=>(a.kills-a.mortes)-(b.kills-b.mortes))[0];
+
+  // Partida perfeita (sala)
+  const partidaPerfeita = salaSt[0];
+
+  // Pico dia semana
+  const picodia = [...diaSt].sort((a,b)=>b.kills-a.kills)[0];
+
+  inner.innerHTML = `
+
+    <!-- KPIs COLETIVOS -->
+    <div class="stitle">PANORAMA GERAL DO TIME</div>
+    <div class="idx-cards">
+      <div class="idx-card"><div class="idx-card-v">${totalKills}</div><div class="idx-card-l">KILLS TOTAIS</div></div>
+      <div class="idx-card"><div class="idx-card-v">${Math.round(avgDano)}</div><div class="idx-card-l">DANO MÉDIO</div></div>
+      <div class="idx-card"><div class="idx-card-v">${totalCura}</div><div class="idx-card-l">CURA TOTAL</div></div>
+      <div class="idx-card"><div class="idx-card-v">${sum(allData.map(d=>d.ass))}</div><div class="idx-card-l">ASSISTÊNCIAS</div></div>
+      <div class="idx-card"><div class="idx-card-v">${totalDerr}</div><div class="idx-card-l">DERRUBADAS</div></div>
+      <div class="idx-card"><div class="idx-card-v">${sum(allData.map(d=>d.levantados))}</div><div class="idx-card-l">LEVANTAMENTOS</div></div>
+      <div class="idx-card"><div class="idx-card-v">${sum(allData.map(d=>d.ressurgidos))}</div><div class="idx-card-l">RESSURGIMENTOS</div></div>
+      <div class="idx-card"><div class="idx-card-v">${allData.length}</div><div class="idx-card-l">REGISTROS</div></div>
+    </div>
+
+    <!-- DESTAQUES AUTOMÁTICOS -->
+    <div class="stitle">DESTAQUES TÁTICOS</div>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px;">
+      ${mapaLetal    ? `<span class="insight-tag gold">💀 MAPA MAIS LETAL: ${esc(mapaLetal.map)}</span>` : ''}
+      ${mapaPerigo   ? `<span class="insight-tag red">⚠️ MAPA MAIS PERIGOSO: ${esc(mapaPerigo.map)}</span>` : ''}
+      ${mapaSuporte  ? `<span class="insight-tag green">🏥 MAIS LEVANTAMENTOS: ${esc(mapaSuporte.map)}</span>` : ''}
+      ${mapaAssist   ? `<span class="insight-tag blue">🤝 MAIS ASSISTÊNCIAS: ${esc(mapaAssist.map)}</span>` : ''}
+      ${mapaMenosSuc ? `<span class="insight-tag red">📉 MENOR SUCESSO: ${esc(mapaMenosSuc.map)}</span>` : ''}
+      ${picodia?.games>0 ? `<span class="insight-tag gold">📅 PICO: ${esc(picodia.dia)}</span>` : ''}
+      ${partidaPerfeita ? `<span class="insight-tag purple">🏆 PARTIDA PERFEITA: SALA ${esc(String(partidaPerfeita.sala))}</span>` : ''}
+    </div>
+
+    <!-- IDs 01/23/24: KILLS POR MAPA (barras + destaque) -->
+    <div class="stitle">ID-01 · 23 · 24 — KILLS E MORTES POR MAPA</div>
+    <div class="charts-row" style="margin-bottom:12px;">
+      <div class="cpanel">
+        <div class="cpt">ID-01 · ABATES ACUMULADOS POR MAPA (destaque = mais letal)</div>
+        <div class="chart-box" style="height:200px;"><canvas id="col_kills_mapa"></canvas></div>
+      </div>
+      <div class="cpanel">
+        <div class="cpt">ID-24 · MORTES POR MAPA (destaque = mais perigoso)</div>
+        <div class="chart-box" style="height:200px;"><canvas id="col_mortes_mapa"></canvas></div>
+      </div>
+    </div>
+
+    <!-- IDs 02/08: RADAR E HEADSHOT POR MAPA -->
+    <div class="stitle">ID-02 · 08 — PERFIL DE DANO E PRECISÃO POR MAPA</div>
+    <div class="charts-row" style="margin-bottom:12px;">
+      <div class="cpanel">
+        <div class="cpt">ID-02 · RADAR — PERFIL COLETIVO POR MAPA</div>
+        <div class="chart-box" style="height:220px;"><canvas id="col_radar_mapa"></canvas></div>
+      </div>
+      <div class="cpanel">
+        <div class="cpt">ID-08 · HEADSHOT% POR MAPA + TENDÊNCIA</div>
+        <div class="chart-box" style="height:220px;"><canvas id="col_hs_mapa"></canvas></div>
+      </div>
+    </div>
+
+    <!-- IDs 05/34: HEATMAP CURA E DERRUBADAS -->
+    <div class="stitle">ID-05 · 34 — HEATMAP DE CURA E DERRUBADAS POR MAPA</div>
+    <div class="charts-row" style="margin-bottom:12px;">
+      <div class="cpanel">
+        <div class="cpt">ID-05 · CURA POR MAPA — ZONAS DE CONFLITO</div>
+        <div id="heatmap-cura" style="padding:8px 0;"></div>
+      </div>
+      <div class="cpanel">
+        <div class="cpt">ID-34 · DERRUBADAS POR MAPA</div>
+        <div id="heatmap-derru" style="padding:8px 0;"></div>
+      </div>
+    </div>
+
+    <!-- ID-06: LEVANTAMENTOS VS POTENCIAL -->
+    <div class="stitle">ID-06 · EFICIÊNCIA DE LEVANTAMENTOS POR MAPA</div>
+    <div class="section-card" style="margin-bottom:12px;">
+      <div class="chart-box" style="height:180px;"><canvas id="col_lev_mapa"></canvas></div>
+    </div>
+
+    <!-- IDs 09/37: TEMPORAL — DIA DA SEMANA -->
+    <div class="stitle">IDs 09 · 37 — DESEMPENHO POR DIA DA SEMANA</div>
+    <div class="charts-row" style="margin-bottom:12px;">
+      <div class="cpanel">
+        <div class="cpt">ID-09 · KILLS POR DIA DA SEMANA (pico em destaque)</div>
+        <div class="chart-box" style="height:180px;"><canvas id="col_dia_kills"></canvas></div>
+      </div>
+      <div class="cpanel">
+        <div class="cpt">ID-43 · PRECISÃO (HS%) POR DIA DA SEMANA</div>
+        <div class="chart-box" style="height:180px;"><canvas id="col_dia_hs"></canvas></div>
+      </div>
+    </div>
+
+    <!-- IDs 10/27/26: TEMPORAL — EVOLUÇÃO -->
+    <div class="stitle">IDs 10 · 26 · 27 — EVOLUÇÃO TEMPORAL DO TIME</div>
+    <div class="charts-row" style="margin-bottom:12px;">
+      <div class="cpanel">
+        <div class="cpt">ID-10 · DANO MÉDIO COLETIVO POR DATA</div>
+        <div class="chart-box" style="height:200px;"><canvas id="col_dano_data"></canvas></div>
+      </div>
+      <div class="cpanel">
+        <div class="cpt">ID-26 · TENDÊNCIA HS% COM MÉDIA MÓVEL</div>
+        <div class="chart-box" style="height:200px;"><canvas id="col_hs_trend"></canvas></div>
+      </div>
+    </div>
+
+    <!-- IDs 11/12/44/45: COMPARATIVO POR COMPETIÇÃO -->
+    ${tipoSt.length >= 2 ? `
+    <div class="stitle">IDs 11 · 12 · 44 · 45 — COMPARATIVO DE COMPETIÇÕES</div>
+    <div class="charts-row" style="margin-bottom:12px;">
+      <div class="cpanel">
+        <div class="cpt">ID-11 · KILLS TOTAIS POR COMPETIÇÃO</div>
+        <div class="chart-box" style="height:200px;"><canvas id="col_comp_kills"></canvas></div>
+      </div>
+      <div class="cpanel">
+        <div class="cpt">ID-12 · DANO MÉDIO POR COMPETIÇÃO</div>
+        <div class="chart-box" style="height:200px;"><canvas id="col_comp_dano"></canvas></div>
+      </div>
+    </div>
+    <div class="charts-row" style="margin-bottom:12px;">
+      <div class="cpanel">
+        <div class="cpt">ID-44 · RESSURGIMENTOS POR COMPETIÇÃO</div>
+        <div class="chart-box" style="height:180px;"><canvas id="col_comp_res"></canvas></div>
+      </div>
+      <div class="cpanel">
+        <div class="cpt">ID-45 · CURA POR COMPETIÇÃO</div>
+        <div class="chart-box" style="height:180px;"><canvas id="col_comp_cura"></canvas></div>
+      </div>
+    </div>` : ''}
+
+    <!-- IDs 13/14: EFICIÊNCIA — FUNIL E DISPERSÃO -->
+    <div class="stitle">IDs 13 · 14 — EFICIÊNCIA DE COMBATE DO TIME</div>
+    <div class="charts-row" style="margin-bottom:12px;">
+      <div class="cpanel">
+        <div class="cpt">ID-13 · DISPERSÃO — DANO vs KILLS (LETALIDADE)</div>
+        <div class="chart-box" style="height:220px;"><canvas id="col_scatter_let"></canvas></div>
+      </div>
+      <div class="cpanel">
+        <div class="cpt">ID-14 · FUNIL — DERRUBADOS → KILLS CONFIRMADOS</div>
+        <div id="col_funil_kills" style="padding:8px;"></div>
+      </div>
+    </div>
+
+    <!-- IDs 20/21/29/30/31: FUNÇÕES -->
+    ${funcSt.length > 0 ? `
+    <div class="stitle">IDs 20 · 21 · 29 · 30 · 31 — ANÁLISE POR FUNÇÃO</div>
+    <div class="charts-row3" style="margin-bottom:12px;">
+      <div class="cpanel">
+        <div class="cpt">ID-20 · KILLS POR FUNÇÃO</div>
+        <div class="chart-box" style="height:200px;"><canvas id="col_func_kills"></canvas></div>
+      </div>
+      <div class="cpanel">
+        <div class="cpt">ID-21 · DANO POR FUNÇÃO</div>
+        <div class="chart-box" style="height:200px;"><canvas id="col_func_dano"></canvas></div>
+      </div>
+      <div class="cpanel">
+        <div class="cpt">ID-15 · CURA POR FUNÇÃO</div>
+        <div class="chart-box" style="height:200px;"><canvas id="col_func_cura"></canvas></div>
+      </div>
+    </div>
+    <div class="cpanel" style="margin-bottom:12px;">
+      <div class="cpt">ID-19 · RADAR — EFICÁCIA POR COMPOSIÇÃO DE FUNÇÕES</div>
+      <div class="chart-box" style="height:220px;"><canvas id="col_radar_func"></canvas></div>
+    </div>` : ''}
+
+    <!-- IDs 22/35/36: CONSISTÊNCIA -->
+    <div class="stitle">IDs 22 · 35 · 36 — CONSISTÊNCIA E ESTABILIDADE</div>
+    <div class="charts-row" style="margin-bottom:12px;">
+      <div class="cpanel">
+        <div class="cpt">ID-22 · MORTES POR PARTIDA (LINHA COM ALERTAS)</div>
+        <div class="chart-box" style="height:200px;"><canvas id="col_mortes_part"></canvas></div>
+      </div>
+      <div class="cpanel">
+        <div class="cpt">ID-35/36 · BOX PLOT — DISTRIBUIÇÃO KILLS E DANO</div>
+        <div class="chart-box" style="height:200px;"><canvas id="col_boxplot"></canvas></div>
+      </div>
+    </div>
+
+    <!-- IDs 33/39: SINERGIA -->
+    <div class="stitle">IDs 33 · 39 — SINERGIA E COLABORAÇÃO</div>
+    <div class="charts-row" style="margin-bottom:12px;">
+      <div class="cpanel">
+        <div class="cpt">ID-33 · ASSISTÊNCIAS vs KILLS (FUNIL)</div>
+        <div id="col_funil_sinergia" style="padding:8px;"></div>
+      </div>
+      <div class="cpanel">
+        <div class="cpt">ID-39 · ÍNDICE DE COLABORAÇÃO (ASSIST/KILL) POR MAPA</div>
+        <div class="chart-box" style="height:180px;"><canvas id="col_colab_mapa"></canvas></div>
+      </div>
+    </div>
+
+    <!-- IDs 40/41/46/47: ÍNDICES -->
+    <div class="stitle">IDs 40 · 41 · 46 · 47 — ÍNDICES TÁTICOS DO TIME</div>
+    <div class="idx-cards">
+      <div class="idx-card"><div class="idx-card-v">${idxAtaque.toFixed(2)}</div><div class="idx-card-l">ID-41 · ÍNDICE ATAQUE</div><div class="idx-card-sub">(Kills+Derr)/Partida</div></div>
+      <div class="idx-card"><div class="idx-card-v">${idxDefesa.toFixed(2)}</div><div class="idx-card-l">ID-40 · ÍNDICE DEFESA</div><div class="idx-card-sub">(Cura+Lev)/Partida</div></div>
+      <div class="idx-card"><div class="idx-card-v">${idxAgress.toFixed(2)}</div><div class="idx-card-l">ID-46 · AGRESSIVIDADE</div><div class="idx-card-sub">(Kills+Dano/100)/Mortes</div></div>
+      <div class="idx-card"><div class="idx-card-v">${idxSuport.toFixed(2)}</div><div class="idx-card-l">ID-47 · SUPORTE COLETIVO</div><div class="idx-card-sub">(Cura+Lev)/Mortes</div></div>
+      <div class="idx-card"><div class="idx-card-v">${idxColab.toFixed(2)}</div><div class="idx-card-l">ID-39 · COLABORAÇÃO</div><div class="idx-card-sub">Assist/Kill</div></div>
+      <div class="idx-card"><div class="idx-card-v">${stdK.toFixed(2)}</div><div class="idx-card-l">ID-35 · DESVIO KILLS</div><div class="idx-card-sub">Consistência</div></div>
+      <div class="idx-card"><div class="idx-card-v">${Math.round(stdD)}</div><div class="idx-card-l">ID-36 · DESVIO DANO</div><div class="idx-card-sub">Consistência</div></div>
+    </div>
+
+    <!-- IDs 18/50: TOP SALAS -->
+    <div class="stitle">IDs 18 · 50 — RANKING DE SALAS / PARTIDA PERFEITA</div>
+    <div class="section-card" style="margin-bottom:12px;">
+      <div class="cpt" style="margin-bottom:10px;">TOP SALAS — SCORE GERAL (KILLS + ASS + DANO/100)</div>
+      <div style="overflow-x:auto;">
+        <table class="rank-table">
+          <thead><tr><th>#</th><th>SALA</th><th>KILLS</th><th>ASS</th><th>DANO MÉD</th><th>SCORE</th><th>BARRA</th></tr></thead>
+          <tbody>
+            ${salaSt.slice(0,10).map((s,i)=>{
+              const maxS = salaSt[0]?.score||1;
+              const bp = ((s.score/maxS)*100).toFixed(0);
+              return `<tr ${i===0?'class="is-focus"':''}>
+                <td><span class="rank-medal">${i===0?'🥇':i===1?'🥈':i===2?'🥉':''}</span><span class="rank-pos">${i>2?i+1:''}</span></td>
+                <td style="font-family:'Orbitron',sans-serif;font-size:10px;font-weight:700;${i===0?'color:#ffd700;':''}">${esc(String(s.sala))}</td>
+                <td>${s.kills}</td><td>${s.ass}</td><td>${s.dano}</td>
+                <td style="font-family:'Orbitron',sans-serif;font-size:11px;font-weight:900;${i===0?'color:#ffd700;':''}">${s.score.toFixed(0)}</td>
+                <td><div class="rank-bar-wrap"><div class="rank-bar ${i===0?'focus-bar':''}" style="width:${bp}%"></div></div></td>
+              </tr>`;
+            }).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- IDs 42/48: RADAR POR SALA E MAPA EQUILIBRADO -->
+    ${salas.length >= 2 ? `
+    <div class="stitle">ID-42 · COMPARATIVO ENTRE SALAS — RADAR</div>
+    <div class="cpanel" style="margin-bottom:12px;">
+      <div class="cpt">RADAR — TOP 5 SALAS COM MELHORES MÉTRICAS</div>
+      <div class="chart-box" style="height:220px;"><canvas id="col_radar_salas"></canvas></div>
+    </div>` : ''}
+
+  `;
+
+  setTimeout(() => buildColCharts(mapSt, tipoSt, funcSt, dateSt, diaSt, salaSt), 80);
+}
+
+function buildColCharts(mapSt, tipoSt, funcSt, dateSt, diaSt, salaSt) {
+  const ax = {ticks:{color:'#5A6880',font:{size:9,family:"'Barlow Condensed'"}},grid:{color:'rgba(26,111,255,.07)'},border:{color:'transparent'}};
+  const tt = {backgroundColor:'rgba(8,12,20,.97)',borderColor:'rgba(26,111,255,.3)',borderWidth:1,titleColor:'#4D9FFF',bodyColor:'#C8D4E8',padding:10};
+  const palette = ['#1A6FFF','#ffd700','#ff5078','#4dff88','#cc66ff','#ff9f40','#4D9FFF','#ff6666'];
+
+  // ID-01: Kills por mapa
+  const c1 = document.getElementById('col_kills_mapa')?.getContext('2d');
+  if (c1 && mapSt.length) {
+    const best = mapSt[0]?.map;
+    new Chart(c1, {type:'bar', data:{labels:mapSt.map(m=>m.map),
+      datasets:[{label:'Kills', data:mapSt.map(m=>m.kills),
+        backgroundColor:mapSt.map(m=>m.map===best?'rgba(255,215,0,.85)':'rgba(26,111,255,.6)'),
+        borderColor:mapSt.map(m=>m.map===best?'#ffd700':'#1A6FFF'), borderWidth:1, borderRadius:3}]
+    }, options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:tt},scales:{x:ax,y:{...ax,beginAtZero:true}}}});
+  }
+
+  // ID-24: Mortes por mapa
+  const c2 = document.getElementById('col_mortes_mapa')?.getContext('2d');
+  if (c2 && mapSt.length) {
+    const worst = [...mapSt].sort((a,b)=>b.mortes-a.mortes)[0]?.map;
+    new Chart(c2, {type:'bar', data:{labels:mapSt.map(m=>m.map),
+      datasets:[{label:'Mortes', data:mapSt.map(m=>m.mortes),
+        backgroundColor:mapSt.map(m=>m.map===worst?'rgba(255,80,120,.85)':'rgba(255,80,120,.4)'),
+        borderColor:mapSt.map(m=>m.map===worst?'#ff5078':'rgba(255,80,120,.6)'), borderWidth:1, borderRadius:3}]
+    }, options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:tt},scales:{x:ax,y:{...ax,beginAtZero:true}}}});
+  }
+
+  // ID-02: Radar mapa
+  const c3 = document.getElementById('col_radar_mapa')?.getContext('2d');
+  if (c3 && mapSt.length) {
+    const maxK=Math.max(...mapSt.map(m=>m.kills),1), maxD=Math.max(...mapSt.map(m=>m.dano),1);
+    const maxA=Math.max(...mapSt.map(m=>m.ass),1), maxC=Math.max(...mapSt.map(m=>m.cura),1), maxHS=Math.max(...mapSt.map(m=>m.hs),1);
+    new Chart(c3, {type:'radar', data:{labels:['KILLS','DANO','ASSIST','CURA','HS%'],
+      datasets: mapSt.slice(0,6).map((m,i)=>({label:m.map,
+        data:[(m.kills/maxK)*100,(m.dano/maxD)*100,(m.ass/maxA)*100,(m.cura/maxC)*100,(m.hs/maxHS)*100],
+        fill:true,backgroundColor:palette[i%palette.length]+'18',borderColor:palette[i%palette.length],
+        pointBackgroundColor:palette[i%palette.length],borderWidth:1.5,pointRadius:2}))
+    }, options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{labels:{color:'#5A6880',font:{size:8,family:"'Barlow Condensed'"},boxWidth:8}}},
+      scales:{r:{ticks:{display:false},grid:{color:'rgba(26,111,255,.1)'},
+        pointLabels:{color:'#5A6880',font:{size:8}},angleLines:{color:'rgba(26,111,255,.07)'}}}}});
+  }
+
+  // ID-08: HS por mapa
+  const c4 = document.getElementById('col_hs_mapa')?.getContext('2d');
+  if (c4 && mapSt.length) {
+    const avgHSTeam = avg(mapSt.map(m=>m.hs));
+    new Chart(c4, {type:'bar', data:{labels:mapSt.map(m=>m.map),
+      datasets:[
+        {label:'HS% Médio', data:mapSt.map(m=>m.hs.toFixed(1)),
+          backgroundColor:mapSt.map(m=>m.hs>=avgHSTeam?'rgba(77,255,136,.6)':'rgba(255,80,120,.5)'),
+          borderColor:mapSt.map(m=>m.hs>=avgHSTeam?'#4dff88':'#ff5078'), borderWidth:1, borderRadius:3},
+        {type:'line', label:'Média Geral', data:mapSt.map(()=>avgHSTeam.toFixed(1)),
+          borderColor:'rgba(255,215,0,.7)', borderWidth:1.5, borderDash:[4,3], pointRadius:0, fill:false}
+      ]
+    }, options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#5A6880',font:{size:9}}},tooltip:tt},scales:{x:ax,y:{...ax,beginAtZero:true}}}});
+  }
+
+  // ID-05: Heatmap cura
+  const heatCuraEl = document.getElementById('heatmap-cura');
+  if (heatCuraEl && mapSt.length) {
+    const maxC = Math.max(...mapSt.map(m=>m.cura), 1);
+    heatCuraEl.innerHTML = `<div style="display:flex;flex-direction:column;gap:4px;">${mapSt.map(m=>{
+      const pct = m.cura/maxC; const r=Math.round(pct*26), g=Math.round(pct*111), b=Math.round(pct*255);
+      const w = Math.max(Math.round(pct*100),8);
+      return `<div style="display:flex;align-items:center;gap:8px;">
+        <div style="width:60px;font-size:9px;color:var(--mu);letter-spacing:1px;text-align:right">${esc(m.map)}</div>
+        <div style="width:${w}%;max-width:80%;height:18px;background:rgba(${r},${g},${b},.7);border-radius:2px;transition:.5s;min-width:20px;display:flex;align-items:center;padding-left:6px;">
+          <span style="font-size:8px;font-weight:700;color:#fff">${m.cura}</span>
+        </div>
+      </div>`;
+    }).join('')}</div>`;
+  }
+
+  // ID-34: Heatmap derrubadas
+  const heatDerrEl = document.getElementById('heatmap-derru');
+  if (heatDerrEl && mapSt.length) {
+    const maxD = Math.max(...mapSt.map(m=>m.derr), 1);
+    heatDerrEl.innerHTML = `<div style="display:flex;flex-direction:column;gap:4px;">${mapSt.map(m=>{
+      const pct = m.derr/maxD; const w = Math.max(Math.round(pct*100),8);
+      return `<div style="display:flex;align-items:center;gap:8px;">
+        <div style="width:60px;font-size:9px;color:var(--mu);letter-spacing:1px;text-align:right">${esc(m.map)}</div>
+        <div style="width:${w}%;max-width:80%;height:18px;background:rgba(255,${Math.round(80+pct*100)},${Math.round(120-pct*80)},.7);border-radius:2px;transition:.5s;min-width:20px;display:flex;align-items:center;padding-left:6px;">
+          <span style="font-size:8px;font-weight:700;color:#fff">${m.derr}</span>
+        </div>
+      </div>`;
+    }).join('')}</div>`;
+  }
+
+  // ID-06: Levantamentos por mapa
+  const c6 = document.getElementById('col_lev_mapa')?.getContext('2d');
+  if (c6 && mapSt.length) {
+    new Chart(c6, {type:'bar', data:{labels:mapSt.map(m=>m.map),
+      datasets:[
+        {label:'Levantamentos', data:mapSt.map(m=>m.lev), backgroundColor:'rgba(77,255,136,.6)', borderColor:'#4dff88', borderWidth:1, borderRadius:3},
+        {label:'Ressurgimentos', data:mapSt.map(m=>m.res), backgroundColor:'rgba(204,102,255,.5)', borderColor:'#cc66ff', borderWidth:1, borderRadius:3},
+      ]
+    }, options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#5A6880',font:{size:9}}},tooltip:tt},scales:{x:ax,y:{...ax,beginAtZero:true}}}});
+  }
+
+  // ID-09: Kills por dia da semana
+  const c7 = document.getElementById('col_dia_kills')?.getContext('2d');
+  if (c7) {
+    const picoIdx = diaSt.indexOf([...diaSt].sort((a,b)=>b.kills-a.kills)[0]);
+    const pico = [...diaSt].sort((a,b)=>b.kills-a.kills)[0];
+    new Chart(c7, {type:'bar', data:{labels:diaSt.map(d=>d.dia),
+      datasets:[{label:'Kills', data:diaSt.map(d=>d.games>0?d.kills:null),
+        backgroundColor:diaSt.map(d=>d.dia===pico.dia?'rgba(255,215,0,.85)':'rgba(26,111,255,.55)'),
+        borderColor:diaSt.map(d=>d.dia===pico.dia?'#ffd700':'#1A6FFF'), borderWidth:1, borderRadius:3}]
+    }, options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:tt},scales:{x:ax,y:{...ax,beginAtZero:true}}}});
+  }
+
+  // ID-43: HS por dia
+  const c8 = document.getElementById('col_dia_hs')?.getContext('2d');
+  if (c8) {
+    new Chart(c8, {type:'bar', data:{labels:diaSt.map(d=>d.dia),
+      datasets:[{label:'HS% Médio', data:diaSt.map(d=>d.games>0?d.hs.toFixed(1):null),
+        backgroundColor:'rgba(204,102,255,.55)', borderColor:'#cc66ff', borderWidth:1, borderRadius:3}]
+    }, options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:tt},scales:{x:ax,y:{...ax,beginAtZero:true}}}});
+  }
+
+  // ID-10: Dano médio por data
+  const c9 = document.getElementById('col_dano_data')?.getContext('2d');
+  if (c9 && dateSt.length) {
+    const g = c9.createLinearGradient(0,0,0,180);
+    g.addColorStop(0,'rgba(26,111,255,.35)'); g.addColorStop(1,'rgba(26,111,255,0)');
+    const teamAvgD = avg(dateSt.map(d=>d.dano));
+    new Chart(c9, {type:'line', data:{labels:dateSt.map(d=>d.data),
+      datasets:[
+        {label:'Dano Médio', data:dateSt.map(d=>d.dano), fill:true, backgroundColor:g, borderColor:'#1A6FFF', pointRadius:3, tension:.4, borderWidth:2},
+        {label:'Média Geral', data:dateSt.map(()=>Math.round(teamAvgD)), borderColor:'rgba(255,215,0,.5)', borderWidth:1.5, borderDash:[4,3], pointRadius:0, fill:false}
+      ]
+    }, options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#5A6880',font:{size:9}}},tooltip:tt},scales:{x:ax,y:{...ax,beginAtZero:true}}}});
+  }
+
+  // ID-26: Tendência HS com média móvel
+  const c10 = document.getElementById('col_hs_trend')?.getContext('2d');
+  if (c10 && dateSt.length) {
+    const ma = dateSt.map((_,i)=>{
+      const sl = dateSt.slice(Math.max(0,i-1),i+2);
+      return avg(sl.map(d=>d.hs));
+    });
+    new Chart(c10, {type:'line', data:{labels:dateSt.map(d=>d.data),
+      datasets:[
+        {label:'HS%', data:dateSt.map(d=>d.hs.toFixed(1)), fill:false, borderColor:'rgba(77,159,255,.5)', pointRadius:2, tension:.3, borderWidth:1.5, borderDash:[3,3]},
+        {label:'Média Móvel', data:ma.map(v=>v.toFixed(1)), fill:true, backgroundColor:'rgba(204,102,255,.1)', borderColor:'#cc66ff', pointRadius:0, tension:.4, borderWidth:2}
+      ]
+    }, options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#5A6880',font:{size:9}}},tooltip:tt},scales:{x:ax,y:{...ax,beginAtZero:true}}}});
+  }
+
+  // IDs 11/12/44/45: Comparativo competições
+  if (tipoSt.length >= 2) {
+    const c11 = document.getElementById('col_comp_kills')?.getContext('2d');
+    if (c11) new Chart(c11, {type:'bar', data:{labels:tipoSt.map(t=>t.tipo),
+      datasets:[{label:'Kills Totais', data:tipoSt.map(t=>t.kills),
+        backgroundColor:tipoSt.map((_,i)=>['rgba(26,111,255,.7)','rgba(255,215,0,.7)','rgba(255,80,120,.6)','rgba(77,255,136,.6)'][i%4]),
+        borderColor:tipoSt.map((_,i)=>['#1A6FFF','#ffd700','#ff5078','#4dff88'][i%4]), borderWidth:1, borderRadius:3}]
+    }, options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:tt},scales:{x:ax,y:{...ax,beginAtZero:true}}}});
+
+    const c12 = document.getElementById('col_comp_dano')?.getContext('2d');
+    if (c12) new Chart(c12, {type:'bar', data:{labels:tipoSt.map(t=>t.tipo),
+      datasets:[{label:'Dano Médio', data:tipoSt.map(t=>t.dano),
+        backgroundColor:tipoSt.map((_,i)=>['rgba(204,102,255,.7)','rgba(77,255,136,.6)','rgba(255,159,64,.6)','rgba(77,159,255,.6)'][i%4]),
+        borderColor:tipoSt.map((_,i)=>['#cc66ff','#4dff88','#ff9f40','#4D9FFF'][i%4]), borderWidth:1, borderRadius:3}]
+    }, options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:tt},scales:{x:ax,y:{...ax,beginAtZero:true}}}});
+
+    const c44 = document.getElementById('col_comp_res')?.getContext('2d');
+    if (c44) new Chart(c44, {type:'bar', data:{labels:tipoSt.map(t=>t.tipo),
+      datasets:[{label:'Ressurgimentos', data:tipoSt.map(t=>t.res), backgroundColor:'rgba(77,255,136,.6)', borderColor:'#4dff88', borderWidth:1, borderRadius:3}]
+    }, options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:tt},scales:{x:ax,y:{...ax,beginAtZero:true}}}});
+
+    const c45 = document.getElementById('col_comp_cura')?.getContext('2d');
+    if (c45) new Chart(c45, {type:'bar', data:{labels:tipoSt.map(t=>t.tipo),
+      datasets:[{label:'Cura Total', data:tipoSt.map(t=>t.cura), backgroundColor:'rgba(26,111,255,.6)', borderColor:'#1A6FFF', borderWidth:1, borderRadius:3}]
+    }, options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:tt},scales:{x:ax,y:{...ax,beginAtZero:true}}}});
+  }
+
+  // ID-13: Scatter Dano vs Kills
+  const sc1 = document.getElementById('col_scatter_let')?.getContext('2d');
+  if (sc1) {
+    const players = [...new Set(allData.map(d=>d.player).filter(Boolean))];
+    const ps = players.map(pl=>{
+      const rows=allData.filter(d=>d.player===pl);
+      return {pl, x:sum(rows.map(d=>d.dano)), y:sum(rows.map(d=>d.kills))};
+    });
+    const avgX=avg(ps.map(p=>p.x)), avgY=avg(ps.map(p=>p.y));
+    new Chart(sc1, {type:'scatter', data:{datasets:[
+      {label:'Jogadores', data:ps.map(p=>({x:p.x,y:p.y})),
+        backgroundColor: ps.map(p=>(p.x>=avgX&&p.y>=avgY)?'rgba(77,255,136,.7)':(p.x<avgX&&p.y<avgY)?'rgba(255,80,120,.6)':'rgba(255,215,0,.7)'),
+        pointRadius:7}
+    ]}, options:{responsive:true,maintainAspectRatio:false,
+      plugins:{tooltip:{...tt,callbacks:{label:ctx=>{const p=ps[ctx.dataIndex]; return `${p?.pl}: ${p?.x} dano / ${p?.y} kills`;}}},legend:{display:false}},
+      scales:{x:{...ax,title:{display:true,text:'DANO TOTAL',color:'#5A6880',font:{size:9}}},y:{...ax,title:{display:true,text:'KILLS',color:'#5A6880',font:{size:9}}}}}});
+  }
+
+  // ID-14: Funil derrubados→kills
+  const funilKillEl = document.getElementById('col_funil_kills');
+  if (funilKillEl) {
+    const tDerr = sum(allData.map(d=>d.derrubou));
+    const tKill = sum(allData.map(d=>d.kills));
+    funilKillEl.innerHTML = `<div class="funnel-wrap">
+      <div class="funnel-stage">
+        <div class="funnel-bar-outer" style="width:100%">
+          <div class="funnel-bar-inner" style="width:100%;background:rgba(26,111,255,.6)">${tDerr} DERRUBADOS</div>
+        </div>
+      </div>
+      <div class="funnel-arrow">▼</div>
+      <div class="funnel-stage">
+        <div class="funnel-bar-outer" style="width:${tDerr>0?Math.max((tKill/tDerr)*100,10).toFixed(0):50}%">
+          <div class="funnel-bar-inner" style="width:100%;background:rgba(77,255,136,.6)">${tKill} KILLS CONFIRMADOS</div>
+        </div>
+      </div>
+      <div style="font-size:10px;color:var(--bl3);margin-top:8px;letter-spacing:1px;">Taxa: ${tDerr>0?((tKill/tDerr)*100).toFixed(1):0}%</div>
+    </div>`;
+  }
+
+  // ID-20/21/15: Funções charts
+  if (funcSt.length) {
+    const fc1 = document.getElementById('col_func_kills')?.getContext('2d');
+    if (fc1) new Chart(fc1, {type:'doughnut', data:{
+      labels:funcSt.map(f=>f.func),
+      datasets:[{data:funcSt.map(f=>f.kills), backgroundColor:funcSt.map((_,i)=>palette[i%palette.length]+'CC'), borderColor:funcSt.map((_,i)=>palette[i%palette.length]), borderWidth:2}]
+    }, options:{responsive:true,maintainAspectRatio:false,cutout:'55%', plugins:{legend:{labels:{color:'#5A6880',font:{size:9,family:"'Barlow Condensed'"},boxWidth:8}},tooltip:tt},animation:{duration:1200}}});
+
+    const fc2 = document.getElementById('col_func_dano')?.getContext('2d');
+    if (fc2) new Chart(fc2, {type:'doughnut', data:{
+      labels:funcSt.map(f=>f.func),
+      datasets:[{data:funcSt.map(f=>f.dano), backgroundColor:funcSt.map((_,i)=>palette[i%palette.length]+'CC'), borderColor:funcSt.map((_,i)=>palette[i%palette.length]), borderWidth:2}]
+    }, options:{responsive:true,maintainAspectRatio:false,cutout:'55%', plugins:{legend:{labels:{color:'#5A6880',font:{size:9,family:"'Barlow Condensed'"},boxWidth:8}},tooltip:tt},animation:{duration:1200}}});
+
+    const fc3 = document.getElementById('col_func_cura')?.getContext('2d');
+    if (fc3) new Chart(fc3, {type:'doughnut', data:{
+      labels:funcSt.map(f=>f.func),
+      datasets:[{data:funcSt.map(f=>f.cura), backgroundColor:funcSt.map((_,i)=>palette[i%palette.length]+'CC'), borderColor:funcSt.map((_,i)=>palette[i%palette.length]), borderWidth:2}]
+    }, options:{responsive:true,maintainAspectRatio:false,cutout:'55%', plugins:{legend:{labels:{color:'#5A6880',font:{size:9,family:"'Barlow Condensed'"},boxWidth:8}},tooltip:tt},animation:{duration:1200}}});
+
+    const rfcCtx = document.getElementById('col_radar_func')?.getContext('2d');
+    if (rfcCtx) {
+      const maxK=Math.max(...funcSt.map(f=>f.kills/Math.max(f.games,1)),1);
+      const maxD=Math.max(...funcSt.map(f=>f.dano/Math.max(f.games,1)),1);
+      const maxA=Math.max(...funcSt.map(f=>f.ass/Math.max(f.games,1)),1);
+      const maxC=Math.max(...funcSt.map(f=>f.cura/Math.max(f.games,1)),1);
+      new Chart(rfcCtx, {type:'radar', data:{labels:['KILLS','DANO','ASSIST','CURA'],
+        datasets: funcSt.map((f,i)=>({label:f.func,
+          data:[(f.kills/f.games/maxK)*100,(f.dano/f.games/maxD)*100,(f.ass/f.games/maxA)*100,(f.cura/f.games/maxC)*100],
+          fill:true,backgroundColor:palette[i]+'22',borderColor:palette[i],pointBackgroundColor:palette[i],borderWidth:2,pointRadius:3}))
+      }, options:{responsive:true,maintainAspectRatio:false,
+        plugins:{legend:{labels:{color:'#5A6880',font:{size:8,family:"'Barlow Condensed'"},boxWidth:8}}},
+        scales:{r:{ticks:{display:false},grid:{color:'rgba(26,111,255,.1)'},
+          pointLabels:{color:'#5A6880',font:{size:8}},angleLines:{color:'rgba(26,111,255,.07)'}}}}});
+    }
+  }
+
+  // ID-22: Mortes por partida
+  const c22 = document.getElementById('col_mortes_part')?.getContext('2d');
+  if (c22) {
+    const mortesArr = allData.map(d=>d.morreu);
+    const avgM = avg(mortesArr);
+    new Chart(c22, {type:'line', data:{
+      labels: allData.map((_,i)=>`#${i+1}`),
+      datasets:[
+        {label:'Mortes', data:mortesArr, fill:false, borderColor:'rgba(255,80,120,.6)', pointBackgroundColor:mortesArr.map(v=>v>avgM*1.5?'#ff5078':'rgba(255,80,120,.5)'), pointRadius:mortesArr.map(v=>v>avgM*1.5?5:2), tension:.3, borderWidth:1.5},
+        {label:'Média', data:allData.map(()=>avgM.toFixed(2)), borderColor:'rgba(255,215,0,.5)', borderWidth:1.5, borderDash:[4,3], pointRadius:0, fill:false}
+      ]
+    }, options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#5A6880',font:{size:9}}},tooltip:tt},scales:{x:{...ax,ticks:{display:false}},y:{...ax,beginAtZero:true}}}});
+  }
+
+  // ID-35/36: Box plot coletivo
+  const c35 = document.getElementById('col_boxplot')?.getContext('2d');
+  if (c35) {
+    const players2 = [...new Set(allData.map(d=>d.player).filter(Boolean))];
+    const bpData = players2.map(pl=>{
+      const rows = allData.filter(d=>d.player===pl).map(d=>d.kills).sort((a,b)=>a-b);
+      const q1=rows[Math.floor(rows.length*.25)]||0, q3=rows[Math.floor(rows.length*.75)]||0;
+      const med=rows[Math.floor(rows.length*.5)]||0, mn=rows[0]||0, mx=rows[rows.length-1]||0;
+      return {pl,q1,q3,med,mn,mx};
+    });
+    new Chart(c35, {type:'bar', data:{labels:bpData.map(d=>d.pl),
+      datasets:[
+        {label:'Min→Q1', data:bpData.map(d=>d.q1-d.mn), backgroundColor:'rgba(0,0,0,0)', borderColor:'rgba(0,0,0,0)', borderWidth:0, stack:'s'},
+        {label:'Q1→Med', data:bpData.map(d=>d.med-d.q1), backgroundColor:'rgba(26,111,255,.45)', borderColor:'#1A6FFF', borderWidth:1, stack:'s'},
+        {label:'Med→Q3', data:bpData.map(d=>d.q3-d.med), backgroundColor:'rgba(77,159,255,.35)', borderColor:'#4D9FFF', borderWidth:1, stack:'s'},
+        {label:'Q3→Max', data:bpData.map(d=>d.mx-d.q3), backgroundColor:'rgba(0,0,0,0)', borderColor:'rgba(0,0,0,0)', borderWidth:0, stack:'s'},
+      ]
+    }, options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{labels:{color:'#5A6880',font:{size:9}}},tooltip:{...tt,callbacks:{label:ctx=>{const d=bpData[ctx.dataIndex]; return d?`${d.pl} | Q1:${d.q1} Med:${d.med} Q3:${d.q3} Max:${d.mx}`:'';}}},},
+      scales:{x:ax,y:{...ax,beginAtZero:true,stacked:true}}}});
+  }
+
+  // ID-33: Funil sinergia
+  const funilSinEl = document.getElementById('col_funil_sinergia');
+  if (funilSinEl) {
+    const tK=sum(allData.map(d=>d.kills)), tA=sum(allData.map(d=>d.ass));
+    funilSinEl.innerHTML = `<div class="funnel-wrap">
+      <div class="funnel-stage">
+        <div class="funnel-bar-outer" style="width:100%">
+          <div class="funnel-bar-inner" style="width:100%;background:rgba(26,111,255,.6)">${tK+tA} COMBATES TOTAIS</div>
+        </div>
+      </div>
+      <div class="funnel-arrow">▼</div>
+      <div class="funnel-stage">
+        <div class="funnel-bar-outer" style="width:${tK+tA>0?Math.max((tA/(tK+tA))*100,8).toFixed(0):30}%">
+          <div class="funnel-bar-inner" style="width:100%;background:rgba(77,159,255,.6)">${tA} ASSISTÊNCIAS</div>
+        </div>
+      </div>
+      <div class="funnel-arrow">▼</div>
+      <div class="funnel-stage">
+        <div class="funnel-bar-outer" style="width:${tK+tA>0?Math.max((tK/(tK+tA))*100,8).toFixed(0):30}%">
+          <div class="funnel-bar-inner" style="width:100%;background:rgba(77,255,136,.6)">${tK} KILLS</div>
+        </div>
+      </div>
+      <div style="font-size:10px;color:var(--bl3);margin-top:8px;">Índice Sinergia: ${tK>0?(tA/tK).toFixed(2):0} assists/kill</div>
+    </div>`;
+  }
+
+  // ID-39: Colaboração por mapa
+  const c39 = document.getElementById('col_colab_mapa')?.getContext('2d');
+  if (c39 && mapSt.length) {
+    new Chart(c39, {type:'bar', data:{labels:mapSt.map(m=>m.map),
+      datasets:[{label:'Colab (Assist/Kill)', data:mapSt.map(m=>m.kills>0?(m.ass/m.kills).toFixed(2):0),
+        backgroundColor:'rgba(204,102,255,.6)', borderColor:'#cc66ff', borderWidth:1, borderRadius:3}]
+    }, options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:tt},scales:{x:ax,y:{...ax,beginAtZero:true}}}});
+  }
+
+  // ID-42: Radar salas
+  const rs = document.getElementById('col_radar_salas')?.getContext('2d');
+  if (rs && salaSt.length >= 2) {
+    const top5 = salaSt.slice(0,5);
+    const maxK=Math.max(...top5.map(s=>s.kills),1), maxD=Math.max(...top5.map(s=>s.dano),1), maxA=Math.max(...top5.map(s=>s.ass),1);
+    new Chart(rs, {type:'radar', data:{labels:['KILLS','DANO','ASSIST'],
+      datasets: top5.map((s,i)=>({label:`Sala ${s.sala}`,
+        data:[(s.kills/maxK)*100,(s.dano/maxD)*100,(s.ass/maxA)*100],
+        fill:true,backgroundColor:palette[i]+'22',borderColor:palette[i],pointBackgroundColor:palette[i],borderWidth:1.8,pointRadius:3}))
+    }, options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{labels:{color:'#5A6880',font:{size:8,family:"'Barlow Condensed'"},boxWidth:8}}},
+      scales:{r:{ticks:{display:false},grid:{color:'rgba(26,111,255,.1)'},
+        pointLabels:{color:'#5A6880',font:{size:8}},angleLines:{color:'rgba(26,111,255,.07)'}}}}});
   }
 }
 
