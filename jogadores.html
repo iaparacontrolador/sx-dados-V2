@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>@COACH.STIVE10 — MEUS STATS</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Barlow+Condensed:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bl:#1A6FFF;--bl2:#0D4FCC;--bl3:#4D9FFF;
+  --bglow:rgba(26,111,255,.45);--bdim:rgba(26,111,255,.1);--bline:rgba(26,111,255,.25);
+  --wh:#FFFFFF;--owh:#C8D4E8;--mu:#5A6880;
+  --dk:#080C14;--dk2:#0C1220;--dk3:#111928;
+  --panel:rgba(12,18,32,.94);--brd:rgba(26,111,255,.22);
+  --glow:0 0 24px rgba(26,111,255,.4);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--dk);font-family:'Barlow Condensed',sans-serif;color:var(--owh);overflow-x:hidden;min-height:100vh;}
+body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
+  background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,.025) 3px,rgba(0,0,0,.025) 4px);}
+
+/* HEADER */
+.hdr{display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:66px;
+  background:rgba(8,12,20,.97);border-bottom:1px solid var(--brd);
+  backdrop-filter:blur(16px);position:sticky;top:0;z-index:200;}
+.hdr::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--bl),var(--bl3),transparent);}
+.logo{display:flex;flex-direction:column;gap:1px;}
+.logo-top{font-family:'Orbitron',sans-serif;font-size:8px;font-weight:700;color:var(--bl3);letter-spacing:5px;}
+.logo-main{font-family:'Orbitron',sans-serif;font-size:18px;font-weight:900;color:var(--wh);letter-spacing:1px;
+  text-shadow:0 0 20px rgba(26,111,255,.5);line-height:1;}
+.logo-main em{color:var(--bl);font-style:normal;}
+.logo-bot{font-size:9px;letter-spacing:4px;color:var(--mu);font-weight:600;margin-top:1px;}
+.hdr-r{display:flex;align-items:center;gap:10px;}
+
+/* SEARCH */
+.search-wrap{position:relative;}
+.search-input{background:rgba(26,111,255,.08);border:1px solid var(--brd);color:var(--owh);
+  padding:10px 16px;font-family:'Barlow Condensed',sans-serif;font-size:14px;letter-spacing:1px;
+  outline:none;transition:all .3s;width:240px;}
+.search-input:focus{border-color:var(--bl);background:rgba(26,111,255,.14);box-shadow:var(--glow);}
+.search-input::placeholder{color:var(--mu);}
+.search-dropdown{position:absolute;top:calc(100% + 4px);left:0;right:0;
+  background:rgba(8,12,20,.98);border:1px solid var(--brd);z-index:300;
+  max-height:240px;overflow-y:auto;display:none;}
+.search-dropdown.open{display:block;}
+.search-opt{padding:10px 16px;cursor:pointer;font-size:13px;border-bottom:1px solid rgba(26,111,255,.08);
+  display:flex;align-items:center;gap:10px;transition:.2s;}
+.search-opt:hover{background:rgba(26,111,255,.12);color:#fff;}
+.search-opt img{width:30px;height:36px;object-fit:cover;object-position:top;border:1px solid var(--brd);}
+.search-opt-ph{width:30px;height:36px;background:var(--dk3);border:1px solid var(--brd);
+  display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
+.search-opt-info{display:flex;flex-direction:column;}
+.search-opt-name{font-family:'Orbitron',sans-serif;font-size:10px;font-weight:700;color:#fff;}
+.search-opt-role{font-size:10px;color:var(--bl3);letter-spacing:1px;}
+
+/* STATUS */
+.status-bar{padding:10px 24px;background:rgba(26,111,255,.06);border-bottom:1px solid var(--brd);
+  display:flex;align-items:center;gap:12px;font-size:11px;letter-spacing:1px;}
+.status-dot{width:7px;height:7px;border-radius:50%;background:var(--bl3);
+  box-shadow:0 0 8px var(--bl);animation:lp 2s infinite;flex-shrink:0;}
+@keyframes lp{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(1.5)}}
+.status-txt{color:var(--mu);}
+.status-txt em{color:var(--bl3);font-style:normal;font-weight:700;}
+.status-time{margin-left:auto;color:var(--mu);font-size:10px;}
+
+/* LOADING */
+#loadingScreen{position:fixed;inset:0;z-index:500;background:var(--dk);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;}
+.loader-ring{width:60px;height:60px;border:3px solid rgba(26,111,255,.15);
+  border-top-color:var(--bl3);border-radius:50%;animation:spin 1s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loader-txt{font-family:'Orbitron',sans-serif;font-size:11px;letter-spacing:3px;color:var(--bl3);}
+.loader-sub{font-size:11px;color:var(--mu);letter-spacing:1px;}
+
+/* ERROR */
+#errorScreen{position:fixed;inset:0;z-index:500;background:var(--dk);
+  display:none;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:40px;}
+.error-icon{font-size:48px;}
+.error-title{font-family:'Orbitron',sans-serif;font-size:16px;color:#ff5078;}
+.error-msg{font-size:13px;color:var(--mu);text-align:center;max-width:480px;line-height:1.6;}
+.error-retry{display:flex;align-items:center;gap:7px;background:transparent;border:1px solid rgba(255,80,120,.4);
+  color:#ff5078;padding:9px 22px;font-family:'Orbitron',sans-serif;font-size:10px;font-weight:700;
+  letter-spacing:2px;cursor:pointer;transition:all .3s;margin-top:8px;}
+.error-retry:hover{background:rgba(255,80,120,.1);box-shadow:0 0 20px rgba(255,80,120,.2);}
+
+/* MAIN */
+#app{padding:28px 24px;}
+
+/* WELCOME */
+.welcome{display:flex;flex-direction:column;align-items:center;justify-content:center;
+  min-height:60vh;text-align:center;gap:16px;}
+.welcome-icon{font-size:56px;opacity:.6;}
+.welcome-title{font-family:'Orbitron',sans-serif;font-size:22px;font-weight:900;color:var(--wh);}
+.welcome-sub{font-size:14px;color:var(--mu);letter-spacing:1px;max-width:380px;line-height:1.6;}
+.welcome-arrow{font-size:12px;color:var(--bl3);letter-spacing:2px;margin-top:8px;animation:bounce .8s infinite alternate;}
+@keyframes bounce{from{transform:translateY(0)}to{transform:translateY(-6px)}}
+
+/* STITLE */
+.stitle{font-family:'Orbitron',sans-serif;font-size:10px;font-weight:700;letter-spacing:4px;color:var(--bl3);
+  text-transform:uppercase;margin-bottom:16px;display:flex;align-items:center;gap:10px;}
+.stitle::before{content:'';width:3px;height:14px;background:var(--bl);flex-shrink:0;}
+.stitle::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--brd),transparent);}
+
+/* PLAYER HERO */
+.ph-wrap{position:relative;height:220px;overflow:hidden;border:1px solid var(--brd);margin-bottom:20px;}
+.ph-bg{position:absolute;inset:0;background-size:cover;background-position:center top;filter:blur(18px) saturate(.5);transform:scale(1.1);opacity:.35;}
+.ph-ov{position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,12,20,.4) 0%,rgba(8,12,20,.95) 100%);}
+.ph-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(26,111,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(26,111,255,.04) 1px,transparent 1px);background-size:40px 40px;opacity:.6;}
+.ph-content{position:relative;z-index:1;display:flex;align-items:flex-end;gap:24px;height:100%;padding:24px;}
+.ph-photo{width:120px;height:160px;object-fit:cover;object-position:top;border:2px solid var(--brd);flex-shrink:0;
+  box-shadow:0 0 30px rgba(26,111,255,.3);}
+.ph-photo-ph{width:120px;height:160px;background:var(--dk3);border:2px solid var(--brd);
+  display:flex;align-items:center;justify-content:center;font-size:44px;flex-shrink:0;}
+.ph-info{display:flex;flex-direction:column;gap:6px;}
+.ph-name{font-family:'Orbitron',sans-serif;font-size:28px;font-weight:900;color:#fff;
+  text-shadow:0 0 30px rgba(26,111,255,.5);}
+.ph-role{font-size:11px;letter-spacing:4px;color:var(--bl3);font-weight:700;}
+.ph-stats-row{display:flex;gap:16px;margin-top:6px;}
+.ph-stat{display:flex;flex-direction:column;gap:2px;}
+.ph-stat-v{font-family:'Orbitron',sans-serif;font-size:18px;font-weight:900;
+  background:linear-gradient(135deg,var(--bl3),#fff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.ph-stat-l{font-size:8px;letter-spacing:2px;color:var(--mu);}
+
+/* KPI GRID */
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:24px;}
+.kpi{background:var(--dk2);border:1px solid var(--brd);padding:16px 14px;text-align:center;
+  clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));
+  transition:all .3s;animation:fu .5s both;}
+.kpi:hover{border-color:var(--bl);box-shadow:var(--glow);transform:translateY(-3px);}
+@keyframes fu{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+.kpi-i{font-size:16px;margin-bottom:4px;}
+.kpi-v{font-family:'Orbitron',sans-serif;font-size:22px;font-weight:900;
+  background:linear-gradient(135deg,var(--bl3),var(--wh));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.kpi-l{font-size:8px;letter-spacing:3px;color:var(--mu);text-transform:uppercase;margin-top:2px;}
+
+/* CHARTS */
+.charts-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
+.charts-row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:14px;}
+.cpanel{background:linear-gradient(160deg,rgba(12,18,32,.98),rgba(8,12,20,.99));
+  border:1px solid rgba(26,111,255,.18);padding:18px;position:relative;}
+.cpanel::after{content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--bl),var(--bl3),transparent);}
+.cpt{font-family:'Orbitron',sans-serif;font-size:9px;font-weight:700;color:var(--bl3);
+  letter-spacing:3px;margin-bottom:14px;display:flex;align-items:center;gap:7px;}
+.cpt::before{content:'';width:3px;height:10px;background:var(--bl);flex-shrink:0;}
+
+/* TABLE */
+.tpanel{background:var(--dk2);border:1px solid var(--brd);overflow:hidden;margin-bottom:24px;}
+.tpanel table{width:100%;border-collapse:collapse;}
+.tpanel thead tr{background:rgba(26,111,255,.08);}
+.tpanel th{padding:9px 12px;text-align:left;font-family:'Orbitron',sans-serif;font-size:8px;
+  font-weight:700;color:var(--bl3);letter-spacing:2px;border-bottom:1px solid var(--brd);}
+.tpanel td{padding:8px 12px;font-size:12px;font-weight:500;border-bottom:1px solid rgba(255,255,255,.03);}
+.tpanel tr:hover td{background:rgba(26,111,255,.04);}
+.td-n{font-weight:700;color:var(--wh);}
+.mapb{display:inline-block;padding:2px 7px;font-size:8px;font-weight:700;letter-spacing:2px;
+  border:1px solid var(--brd);color:var(--bl3);background:rgba(26,111,255,.06);
+  clip-path:polygon(4px 0,100% 0,calc(100% - 4px) 100%,0 100%);}
+
+/* CLASSIFICAÇÃO */
+.c-ruim{color:#ff5078;font-weight:700;}
+.c-medio{color:#ffc44d;font-weight:700;}
+.c-bom{color:#4dff88;font-weight:700;}
+.c-excelente{color:#cc66ff;font-weight:700;}
+.badge{display:inline-block;padding:2px 8px;font-size:8px;font-weight:700;letter-spacing:1px;border-radius:1px;}
+.badge.ruim{background:rgba(255,80,120,.12);border:1px solid rgba(255,80,120,.3);color:#ff5078;}
+.badge.medio{background:rgba(255,196,77,.12);border:1px solid rgba(255,196,77,.3);color:#ffc44d;}
+.badge.bom{background:rgba(77,255,136,.12);border:1px solid rgba(77,255,136,.3);color:#4dff88;}
+.badge.excelente{background:rgba(204,102,255,.12);border:1px solid rgba(204,102,255,.3);color:#cc66ff;}
+
+/* KILL GRID */
+.kill-grid{display:flex;flex-wrap:wrap;gap:6px;padding:16px 0;}
+.kill-cell{width:52px;height:62px;border:1px solid;border-radius:2px;display:flex;
+  flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:default;}
+.kill-cell.has-kill{background:rgba(34,197,94,.1);border-color:rgba(34,197,94,.4);}
+.kill-cell.no-kill{background:rgba(239,68,68,.1);border-color:rgba(239,68,68,.35);}
+.kill-cell-idx{font-size:8px;color:var(--mu);letter-spacing:1px;}
+.kill-cell-num{font-family:'Orbitron',sans-serif;font-size:14px;font-weight:900;}
+.kill-cell.has-kill .kill-cell-num{color:#4ade80;}
+.kill-cell.no-kill .kill-cell-num{color:#f87171;}
+.kill-cell-map{font-size:7px;letter-spacing:1px;color:var(--mu);}
+
+/* RESPONSIVE */
+@media(max-width:700px){
+  .charts-row,.charts-row3{grid-template-columns:1fr;}
+  .ph-name{font-size:20px;}
+  .search-input{width:180px;}
+}
+</style>
+</head>
+<body>
+
+<!-- LOADING -->
+<div id="loadingScreen">
+  <div class="loader-ring"></div>
+  <div class="loader-txt">CARREGANDO DADOS</div>
+  <div class="loader-sub">Conectando ao Google Sheets...</div>
+</div>
+
+<!-- ERROR -->
+<div id="errorScreen">
+  <div class="error-icon">⚠️</div>
+  <div class="error-title">ERRO AO CARREGAR DADOS</div>
+  <div class="error-msg" id="errorMsg">Não foi possível carregar os dados da planilha. Verifique se o ID do Google Sheets está correto e se a planilha está compartilhada publicamente.</div>
+  <button class="error-retry" onclick="loadSheetData()">↺ TENTAR NOVAMENTE</button>
+</div>
+
+<div id="mainWrap" style="display:none;">
+  <!-- HEADER -->
+  <header class="hdr">
+    <div class="logo">
+      <div class="logo-top">SISTEMA DE ANÁLISES · FREE FIRE</div>
+      <div class="logo-main">@COACH<em>.</em>STIVE10</div>
+      <div class="logo-bot">ANÁLISES PROFISSIONAIS</div>
+    </div>
+    <div class="hdr-r">
+      <div class="search-wrap">
+        <input class="search-input" id="searchInput" type="text" placeholder="🔍  Digite seu nick..." oninput="filterSearch(this.value)" onfocus="openSearch()" onblur="setTimeout(closeSearch,200)">
+        <div class="search-dropdown" id="searchDropdown"></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- STATUS -->
+  <div class="status-bar">
+    <div class="status-dot"></div>
+    <div class="status-txt">Dados ao vivo · <em id="statusInfo">carregando...</em></div>
+    <div class="status-time" id="statusTime"></div>
+  </div>
+
+  <!-- APP -->
+  <div id="app">
+    <!-- WELCOME -->
+    <div class="welcome" id="welcomeScreen">
+      <div class="welcome-icon">🎮</div>
+      <div class="welcome-title">SEUS STATS AQUI</div>
+      <div class="welcome-sub">Pesquise seu nick no campo acima para ver suas análises, estatísticas e desempenho completo.</div>
+      <div class="welcome-arrow">↑ PESQUISE SEU NICK ↑</div>
+    </div>
+
+    <!-- PLAYER CONTENT -->
+    <div id="playerContent" style="display:none;"></div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════
+// ⚙️ CONFIGURAÇÃO — JÁ CONFIGURADO PELO COACH
+// ══════════════════════════════════════════════
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxaILK-TS7hiug-8878yAe4kWBa6vtkxGjYa5kO8iEjub8-Si4ffzVTxvz3d5uwpSR0/exec';
+// ══════════════════════════════════════════════
+
+let allData = [];
+let charts  = {};
+
+// ── LOAD DATA VIA JSONP (sem CORS) ──
+function loadSheetData() {
+  document.getElementById('loadingScreen').style.display = 'flex';
+  document.getElementById('errorScreen').style.display   = 'none';
+  document.getElementById('mainWrap').style.display      = 'none';
+
+  if (window._gsCallback) {
+    try { document.head.removeChild(window._gsCallback); } catch(e){}
+  }
+
+  const timer = setTimeout(() => {
+    document.getElementById('loadingScreen').style.display = 'none';
+    document.getElementById('errorScreen').style.display   = 'flex';
+    document.getElementById('errorMsg').textContent =
+      'Timeout: o servidor demorou demais. Verifique se o Apps Script está implantado e tente novamente.';
+  }, 12000);
+
+  window._jsonpCallback = function(json) {
+    clearTimeout(timer);
+    try {
+      if (!json.success) throw new Error(json.error || 'Erro no servidor');
+      if (!json.rows || !json.rows.length) throw new Error('Nenhum dado encontrado. Publique os dados pelo coach.html primeiro.');
+
+      allData = json.rows.map(normRow).filter(r => r.player);
+
+      document.getElementById('loadingScreen').style.display = 'none';
+      document.getElementById('mainWrap').style.display       = 'block';
+
+      const players = uniqPl();
+      document.getElementById('statusInfo').textContent =
+        allData.length + ' registros · ' + players.length + ' jogadores';
+      document.getElementById('statusTime').textContent =
+        'Atualizado: ' + new Date().toLocaleTimeString('pt-BR');
+
+      renderSearchDropdown();
+    } catch(err) {
+      document.getElementById('loadingScreen').style.display = 'none';
+      document.getElementById('errorScreen').style.display   = 'flex';
+      document.getElementById('errorMsg').textContent = 'Erro: ' + err.message;
+    }
+  };
+
+  const script = document.createElement('script');
+  script.src = SCRIPT_URL + '?callback=_jsonpCallback&t=' + Date.now();
+  script.onerror = function() {
+    clearTimeout(timer);
+    document.getElementById('loadingScreen').style.display = 'none';
+    document.getElementById('errorScreen').style.display   = 'flex';
+    document.getElementById('errorMsg').textContent =
+      'Erro ao conectar. Verifique se o Apps Script está implantado como Web App público (acesso: qualquer pessoa).';
+  };
+  document.head.appendChild(script);
+  window._gsCallback = script;
+}
+
+// ── NORMROW — mesmo mapeamento do sistema do coach ──
+function normKey(s){ return String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[\s_\-\/\(\)%]/g,''); }
+function normRow(r){
+  const keys = Object.keys(r);
+  const g = (...ns) => {
+    for (const n of ns) {
+      const nk = normKey(n);
+      let k = keys.find(k => normKey(k) === nk);
+      if (k !== undefined && String(r[k]).trim() !== '' && r[k] !== null && r[k] !== undefined) return r[k];
+    }
+    for (const n of ns) {
+      const nk = normKey(n);
+      let k = keys.find(k => normKey(k).includes(nk) || nk.includes(normKey(k)));
+      if (k !== undefined && String(r[k]).trim() !== '' && r[k] !== null && r[k] !== undefined) return r[k];
+    }
+    return '';
+  };
+  const foto  = String(g('FOTO','foto','photo','imagem','image')||'').trim();
+  const video = String(g('VIDEO','video','vid')||'').trim();
+  return {
+    player:      String(g('PLAYER','player','jogador')||'').trim(),
+    mapa:        String(g('MAPA','mapa','map')||'').trim(),
+    kills:       parseFloat(g('ABATES','KILLS','kills','kill')||0),
+    morreu:      parseFloat(g('CAIU/MORREU','MORREU','morreu','caiu','mortes')||0),
+    ass:         parseFloat(g('ASS','ass','assistencias')||0),
+    dano:        parseFloat(g('DANO','dano','damage','dmg')||0),
+    derrubou:    parseFloat(g('DERRUBOU','derrubou','knock')||0),
+    cura:        parseFloat(g('CURA','cura','heal')||0),
+    levantados:  parseFloat(g('LEVANTADOS','levantados','revived')||0),
+    ressurgidos: parseFloat(g('RESSURGIDOS','ressurgidos','respawn')||0),
+    headshot:    parseFloat(g('ACERTO NA CABECA','ACERTO NA CABEÇA','HEADSHOT','headshot','hs','cabeca')||0),
+    data:        String(g('DATA','data','date')||'').trim(),
+    sala:        String(g('SALA','sala','room')||'').trim(),
+    funcao:      String(g('FUNCAO','FUNÇÃO','funcao','função','role','cargo')||'').trim(),
+    tipo:        String(g('TIPO','tipo','liga','campeonato','torneio','evento','event')||'').trim(),
+    diaSemana:   String(g('DIA DA SEMANA','diasemana','weekday')||'').trim(),
+    foto, video,
+  };
+}
+
+// ── HELPERS ──
+const sum  = arr => arr.reduce((a,b)=>a+(+b||0), 0);
+const avg  = arr => arr.length ? sum(arr)/arr.length : 0;
+const fmt  = v   => isNaN(v) ? '0' : (+v).toFixed(2).replace(/\.?0+$/,'');
+const esc  = s   => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const uniqPl = () => [...new Set(allData.map(r=>r.player).filter(Boolean))].sort();
+const plData = n  => allData.filter(r => r.player === n);
+
+// ── SEARCH ──
+function renderSearchDropdown(filter='') {
+  const dd = document.getElementById('searchDropdown');
+  const players = uniqPl().filter(p => !filter || p.toLowerCase().includes(filter.toLowerCase()));
+  dd.innerHTML = players.map(name => {
+    const pd   = plData(name);
+    const foto = pd[0]?.foto || '';
+    const role = pd[0]?.funcao || 'PLAYER';
+    const img  = foto
+      ? `<img src="${esc(foto)}" onerror="this.outerHTML='<div class=search-opt-ph>👤</div>'">`
+      : `<div class="search-opt-ph">👤</div>`;
+    return `<div class="search-opt" onmousedown="selectPlayer('${esc(name)}')">
+      ${img}
+      <div class="search-opt-info">
+        <div class="search-opt-name">${esc(name)}</div>
+        <div class="search-opt-role">${esc(role)}</div>
+      </div>
+    </div>`;
+  }).join('') || '<div style="padding:12px 16px;font-size:12px;color:var(--mu);">Nenhum jogador encontrado</div>';
+}
+function filterSearch(v) { renderSearchDropdown(v); openSearch(); }
+function openSearch()  { document.getElementById('searchDropdown').classList.add('open'); }
+function closeSearch() { document.getElementById('searchDropdown').classList.remove('open'); }
+
+function selectPlayer(name) {
+  document.getElementById('searchInput').value = name;
+  closeSearch();
+  document.getElementById('welcomeScreen').style.display  = 'none';
+  document.getElementById('playerContent').style.display  = 'block';
+  renderPlayer(name);
+}
+
+// ── THRESHOLDS ──
+const THR = {
+  kills:{ruim:0,medio:1,bom:2,excelente:4},
+  ass:{ruim:0,medio:1,bom:2,excelente:4},
+  dano:{ruim:300,medio:700,bom:1200,excelente:2000},
+  cura:{ruim:100,medio:400,bom:800,excelente:1500},
+  derrubou:{ruim:0,medio:1,bom:2,excelente:3},
+  headshot:{ruim:0,medio:5,bom:15,excelente:30},
+  kd:{ruim:0,medio:0.5,bom:1,excelente:2},
+};
+function classify(key, val) {
+  const t = THR[key]; if(!t) return 'bom';
+  if(val >= t.excelente) return 'excelente';
+  if(val >= t.bom)       return 'bom';
+  if(val >= t.medio)     return 'medio';
+  return 'ruim';
+}
+function clsColor(cls){ return {ruim:'c-ruim',medio:'c-medio',bom:'c-bom',excelente:'c-excelente'}[cls]||''; }
+function badge(key,val){
+  const cls = classify(key,val);
+  const icons = {ruim:'▼',medio:'◆',bom:'▲',excelente:'★'};
+  const lbl   = {ruim:'RUIM',medio:'MÉDIO',bom:'BOM',excelente:'EXCELENTE'};
+  return `<span class="badge ${cls}">${icons[cls]} ${lbl[cls]}</span>`;
+}
+
+// ── RENDER PLAYER ──
+function renderPlayer(name) {
+  // destroy old charts
+  Object.keys(charts).forEach(k => { try{ charts[k].destroy(); }catch(e){} });
+  charts = {};
+
+  const pd     = plData(name);
+  if (!pd.length) { document.getElementById('playerContent').innerHTML = '<div style="color:var(--mu);padding:40px;text-align:center">Nenhum dado encontrado para este jogador.</div>'; return; }
+
+  const foto     = pd[0]?.foto || '';
+  const funcao   = pd[0]?.funcao || 'PLAYER';
+  const totalK   = sum(pd.map(d=>d.kills));
+  const deaths   = sum(pd.map(d=>d.morreu));
+  const avgK     = avg(pd.map(d=>d.kills));
+  const avgD     = avg(pd.map(d=>d.dano));
+  const avgA     = avg(pd.map(d=>d.ass));
+  const avgHS    = avg(pd.filter(d=>d.headshot>0).map(d=>d.headshot));
+  const totalCura= sum(pd.map(d=>d.cura));
+  const kd       = deaths > 0 ? totalK/deaths : totalK;
+  const kda      = deaths > 0 ? (totalK + sum(pd.map(d=>d.ass)))/deaths : totalK;
+  const mapas    = [...new Set(pd.map(d=>d.mapa).filter(Boolean))];
+  const mapSt    = mapas.map(m => { const mp=pd.filter(d=>d.mapa===m); return{map:m,kills:sum(mp.map(d=>d.kills)),dano:Math.round(avg(mp.map(d=>d.dano))),games:mp.length}; });
+
+  const imgEl = foto
+    ? `<img class="ph-photo" src="${esc(foto)}" alt="${esc(name)}" onerror="this.outerHTML='<div class=ph-photo-ph>👤</div>'">`
+    : `<div class="ph-photo-ph">👤</div>`;
+
+  document.getElementById('playerContent').innerHTML = `
+    <!-- HERO -->
+    <div class="ph-wrap">
+      <div class="ph-bg" style="background-image:url('${esc(foto)}')"></div>
+      <div class="ph-ov"></div>
+      <div class="ph-grid"></div>
+      <div class="ph-content">
+        ${imgEl}
+        <div class="ph-info">
+          <div class="ph-name">${esc(name)}</div>
+          <div class="ph-role">${esc(funcao)}</div>
+          <div class="ph-stats-row">
+            <div class="ph-stat"><div class="ph-stat-v">${pd.length}</div><div class="ph-stat-l">PARTIDAS</div></div>
+            <div class="ph-stat"><div class="ph-stat-v">${totalK}</div><div class="ph-stat-l">KILLS</div></div>
+            <div class="ph-stat"><div class="ph-stat-v">${fmt(kd)}</div><div class="ph-stat-l">K/D</div></div>
+            <div class="ph-stat"><div class="ph-stat-v">${Math.round(avgD)}</div><div class="ph-stat-l">DANO MÉD</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- KPIs -->
+    <div class="stitle">VISÃO GERAL</div>
+    <div class="kpi-grid">
+      <div class="kpi"><div class="kpi-i">💀</div><div class="kpi-v">${totalK}</div><div class="kpi-l">Total Kills</div></div>
+      <div class="kpi"><div class="kpi-i">⚔️</div><div class="kpi-v">${fmt(avgK)}</div><div class="kpi-l">Média Kills</div></div>
+      <div class="kpi"><div class="kpi-i">💥</div><div class="kpi-v">${Math.round(avgD)}</div><div class="kpi-l">Dano Médio</div></div>
+      <div class="kpi"><div class="kpi-i">🎯</div><div class="kpi-v">${fmt(avgHS)}%</div><div class="kpi-l">% Cabeça</div></div>
+      <div class="kpi"><div class="kpi-i">📊</div><div class="kpi-v">${fmt(kd)}</div><div class="kpi-l">K/D Ratio</div></div>
+      <div class="kpi"><div class="kpi-i">🤝</div><div class="kpi-v">${fmt(avgA)}</div><div class="kpi-l">Méd Assist</div></div>
+      <div class="kpi"><div class="kpi-i">💊</div><div class="kpi-v">${Math.round(avg(pd.map(d=>d.cura)))}</div><div class="kpi-l">Cura Média</div></div>
+      <div class="kpi"><div class="kpi-i">🔥</div><div class="kpi-v">${fmt(kda)}</div><div class="kpi-l">KDA</div></div>
+    </div>
+
+    <!-- CHARTS -->
+    <div class="stitle">EVOLUÇÃO</div>
+    <div class="charts-row">
+      <div class="cpanel"><div class="cpt">KILLS POR PARTIDA</div><canvas id="ch_kills" height="160"></canvas></div>
+      <div class="cpanel"><div class="cpt">DANO & CURA POR PARTIDA</div><canvas id="ch_dano" height="160"></canvas></div>
+    </div>
+
+    <div class="charts-row3">
+      <div class="cpanel"><div class="cpt">RADAR DE PERFORMANCE</div><canvas id="ch_radar" height="200"></canvas></div>
+      <div class="cpanel"><div class="cpt">KILLS POR MAPA</div><canvas id="ch_mapa" height="200"></canvas></div>
+      <div class="cpanel"><div class="cpt">CONTRIBUIÇÕES</div><canvas id="ch_pizza" height="200"></canvas></div>
+    </div>
+
+    <!-- TABELA POR PARTIDA -->
+    <div class="stitle">DADOS POR PARTIDA</div>
+    <div class="tpanel" style="overflow-x:auto;">
+      <table style="min-width:620px;">
+        <thead><tr>
+          <th>#</th><th>MAPA</th><th>TIPO</th><th>KILLS</th><th>ASS</th><th>DANO</th><th>CURA</th><th>K/D</th><th>DATA</th>
+        </tr></thead>
+        <tbody>
+          ${pd.map((d,i) => {
+            const kdP = d.morreu > 0 ? (d.kills/d.morreu).toFixed(2) : d.kills;
+            return `<tr>
+              <td class="td-n">${i+1}</td>
+              <td><span class="mapb">${esc(d.mapa||'—')}</span></td>
+              <td style="font-size:11px;color:var(--mu)">${esc(d.tipo||'—')}</td>
+              <td><span class="${clsColor(classify('kills',d.kills))}">${d.kills}</span> ${badge('kills',d.kills)}</td>
+              <td><span class="${clsColor(classify('ass',d.ass))}">${d.ass}</span></td>
+              <td><span class="${clsColor(classify('dano',d.dano))}">${d.dano}</span></td>
+              <td><span class="${clsColor(classify('cura',d.cura))}">${d.cura}</span></td>
+              <td>${kdP}</td>
+              <td style="font-size:11px;color:var(--mu)">${esc(d.data||'—')}</td>
+            </tr>`;
+          }).join('')}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- KILL GRID -->
+    <div class="stitle">MAPA DE KILLS — PARTIDA A PARTIDA</div>
+    <div style="background:var(--dk2);border:1px solid var(--brd);padding:20px;margin-bottom:24px;">
+      <div style="display:flex;gap:20px;align-items:center;margin-bottom:12px;flex-wrap:wrap;">
+        <div style="display:flex;align-items:center;gap:6px;font-size:10px;color:rgba(134,239,172,.7)">
+          <div style="width:14px;height:14px;background:rgba(34,197,94,.2);border:1px solid rgba(34,197,94,.5);border-radius:2px"></div>
+          ${pd.filter(d=>d.kills>0).length} COM KILL
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;font-size:10px;color:rgba(252,165,165,.7)">
+          <div style="width:14px;height:14px;background:rgba(239,68,68,.2);border:1px solid rgba(239,68,68,.5);border-radius:2px"></div>
+          ${pd.filter(d=>d.kills===0).length} SEM KILL
+        </div>
+      </div>
+      <div class="kill-grid">
+        ${pd.map((d,i) => `
+          <div class="kill-cell ${d.kills>0?'has-kill':'no-kill'}" title="Partida ${i+1} · ${d.mapa||'—'} · ${d.kills} kills">
+            <span class="kill-cell-idx">${i+1}</span>
+            <span class="kill-cell-num">${d.kills}</span>
+            <span class="kill-cell-map">${(d.mapa||'').substring(0,3).toUpperCase()}</span>
+          </div>`).join('')}
+      </div>
+    </div>
+
+    <!-- ESTATÍSTICAS CLASSIFICADAS -->
+    <div class="stitle">ANÁLISE DE DESEMPENHO</div>
+    <div class="tpanel" style="margin-bottom:24px;">
+      <table>
+        <thead><tr><th>MÉTRICA</th><th>VALOR</th><th>CLASSIFICAÇÃO</th></tr></thead>
+        <tbody>
+          ${[
+            {l:'Média de Abates',   k:'kills',   v:avgK,           s:''},
+            {l:'Média de Assistência',k:'ass',   v:avgA,           s:''},
+            {l:'Média de Dano',     k:'dano',    v:avgD,           s:' HP'},
+            {l:'Média de Cura',     k:'cura',    v:avg(pd.map(d=>d.cura)), s:' HP'},
+            {l:'K/D Ratio',         k:'kd',      v:kd,             s:''},
+            {l:'% de Headshots',    k:'headshot',v:avgHS,          s:'%'},
+          ].map(s => {
+            const cls = classify(s.k, s.v);
+            return `<tr>
+              <td class="td-n">${s.l}</td>
+              <td><span class="${clsColor(cls)}" style="font-family:'Orbitron',sans-serif;font-size:13px">${(+s.v).toFixed(2).replace(/\.?0+$/,'')}${s.s}</span></td>
+              <td>${badge(s.k, s.v)}</td>
+            </tr>`;
+          }).join('')}
+        </tbody>
+      </table>
+    </div>
+  `;
+
+  // render charts after DOM update
+  setTimeout(() => buildCharts(pd, mapSt, name, totalK, avgK, avgD, avgHS, kd, avgA, totalCura), 60);
+}
+
+function buildCharts(pd, mapSt, name, totalK, avgK, avgD, avgHS, kd, avgA, totalCura){
+  const ax = {
+    ticks:{color:'#5A6880',font:{size:9,family:"'Barlow Condensed'"}},
+    grid:{color:'rgba(26,111,255,.07)'},border:{color:'transparent'}
+  };
+  const tt = {backgroundColor:'rgba(8,12,20,.97)',borderColor:'rgba(26,111,255,.3)',borderWidth:1,
+    titleColor:'#4D9FFF',bodyColor:'#C8D4E8',padding:10};
+
+  // Kills line
+  const kCtx = document.getElementById('ch_kills')?.getContext('2d');
+  if(kCtx){
+    const g = kCtx.createLinearGradient(0,0,0,180);
+    g.addColorStop(0,'rgba(77,159,255,.4)');g.addColorStop(1,'rgba(77,159,255,0)');
+    charts.kills = new Chart(kCtx,{type:'line',data:{
+      labels:pd.map((_,i)=>`P${i+1}`),
+      datasets:[
+        {label:'Kills',data:pd.map(d=>d.kills),fill:true,backgroundColor:g,borderColor:'#4D9FFF',pointBackgroundColor:'#4D9FFF',pointRadius:3,tension:.4,borderWidth:2.5},
+        {label:'Assist',data:pd.map(d=>d.ass),fill:false,borderColor:'rgba(255,255,255,.4)',pointBackgroundColor:'#fff',pointRadius:2,tension:.4,borderWidth:1.5,borderDash:[4,3]}
+      ]},options:{responsive:true,interaction:{mode:'index',intersect:false},plugins:{legend:{labels:{color:'#5A6880',font:{size:9}}},tooltip:tt},scales:{x:ax,y:ax},animation:{duration:1400}}});
+  }
+
+  // Dano line
+  const dCtx = document.getElementById('ch_dano')?.getContext('2d');
+  if(dCtx){
+    const g2 = dCtx.createLinearGradient(0,0,0,180);
+    g2.addColorStop(0,'rgba(255,255,255,.18)');g2.addColorStop(1,'rgba(255,255,255,0)');
+    charts.dano = new Chart(dCtx,{type:'line',data:{
+      labels:pd.map((_,i)=>`P${i+1}`),
+      datasets:[
+        {label:'Dano',data:pd.map(d=>d.dano),fill:true,backgroundColor:g2,borderColor:'rgba(255,255,255,.8)',pointBackgroundColor:'#fff',pointRadius:3,tension:.4,borderWidth:2.5},
+        {label:'Cura',data:pd.map(d=>d.cura),fill:false,borderColor:'#1A6FFF',pointBackgroundColor:'#4D9FFF',pointRadius:2,tension:.4,borderWidth:1.8,borderDash:[4,3]}
+      ]},options:{responsive:true,interaction:{mode:'index',intersect:false},plugins:{legend:{labels:{color:'#5A6880',font:{size:9}}},tooltip:tt},scales:{x:ax,y:ax},animation:{duration:1400}}});
+  }
+
+  // Radar
+  const rCtx = document.getElementById('ch_radar')?.getContext('2d');
+  if(rCtx){
+    charts.radar = new Chart(rCtx,{type:'radar',data:{
+      labels:['KILLS','DANO','CABEÇA%','K/D','ASSIST','CURA'],
+      datasets:[{label:name,data:[
+        Math.min(avgK/3*100,100),Math.min(avgD/2000*100,100),Math.min(avgHS,100),
+        Math.min(kd/5*100,100),Math.min(avgA/3*100,100),Math.min(avg(pd.map(d=>d.cura))/2000*100,100)
+      ],fill:true,backgroundColor:'rgba(26,111,255,.1)',borderColor:'#1A6FFF',pointBackgroundColor:'#4D9FFF',borderWidth:2,pointRadius:3}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
+      scales:{r:{ticks:{display:false},grid:{color:'rgba(26,111,255,.13)'},
+      pointLabels:{color:'#5A6880',font:{size:9,family:"'Barlow Condensed'",weight:'700'}},
+      angleLines:{color:'rgba(26,111,255,.08)'}}}}});
+  }
+
+  // Mapa bar
+  const mCtx = document.getElementById('ch_mapa')?.getContext('2d');
+  if(mCtx && mapSt.length){
+    charts.mapa = new Chart(mCtx,{type:'bar',data:{
+      labels:mapSt.map(m=>m.map),
+      datasets:[
+        {label:'Kills',data:mapSt.map(m=>m.kills),backgroundColor:'rgba(26,111,255,.7)',borderColor:'#1A6FFF',borderWidth:1,borderRadius:3},
+        {label:'Dano Méd',data:mapSt.map(m=>m.dano),backgroundColor:'rgba(200,212,232,.25)',borderColor:'#C8D4E8',borderWidth:1,borderRadius:3}
+      ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#5A6880',font:{size:9}}},tooltip:tt},scales:{x:ax,y:ax},animation:{duration:1200}}});
+  }
+
+  // Pizza
+  const pCtx = document.getElementById('ch_pizza')?.getContext('2d');
+  if(pCtx){
+    const totalAss  = sum(pd.map(d=>d.ass));
+    const totalDerr = sum(pd.map(d=>d.derrubou));
+    const totalLev  = sum(pd.map(d=>d.levantados));
+    const totalRes  = sum(pd.map(d=>d.ressurgidos));
+    charts.pizza = new Chart(pCtx,{type:'doughnut',data:{
+      labels:['Kills','Assistências','Derrubou','Levantou','Ressurgiu'],
+      datasets:[{data:[totalK,totalAss,totalDerr,totalLev,totalRes],
+        backgroundColor:['rgba(26,111,255,.88)','rgba(77,159,255,.75)','rgba(200,212,232,.65)','rgba(13,79,204,.8)','rgba(140,190,255,.6)'],
+        borderColor:['#1A6FFF','#4D9FFF','#C8D4E8','#0D4FCC','#8CBEFF'],borderWidth:2}]},
+    options:{responsive:true,maintainAspectRatio:false,cutout:'60%',
+      plugins:{legend:{labels:{color:'#5A6880',font:{size:9,family:"'Barlow Condensed'"},boxWidth:8}}},animation:{animateRotate:true,duration:1500}}});
+  }
+}
+
+// ── BOOT ──
+loadSheetData();
+</script>
+</body>
+</html>
