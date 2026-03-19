@@ -352,7 +352,7 @@ function normRow(r){
     headshot:    parseFloat(g('ACERTO NA CABECA','ACERTO NA CABEÇA','HEADSHOT','headshot','hs','cabeca')||0),
     data:        String(g('DATA','data','date')||'').trim(),
     sala:        String(g('SALA','sala','room')||'').trim(),
-    funcao:      String(g('FUNCAO','FUNÇÃO','funcao','função','role','cargo')||'').trim(),
+    funcao:      (v => v.startsWith('http') ? '' : v)(String(g('FUNCAO','FUNÇÃO','funcao','função','role','cargo')||'').trim()),
     tipo:        String(g('TIPO','tipo','liga','campeonato','torneio','evento','event')||'').trim(),
     diaSemana:   String(g('DIA DA SEMANA','diasemana','weekday')||'').trim(),
     foto, video,
@@ -364,6 +364,7 @@ const sum  = arr => arr.reduce((a,b)=>a+(+b||0), 0);
 const avg  = arr => arr.length ? sum(arr)/arr.length : 0;
 const fmt  = v   => isNaN(v) ? '0' : (+v).toFixed(2).replace(/\.?0+$/,'');
 const esc  = s   => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const noUrl = s  => (String(s||'').startsWith('http') || String(s||'').includes('drive.google') || String(s||'').includes('github.io')) ? '' : String(s||'');
 const uniqPl = () => [...new Set(allData.map(r=>r.player).filter(Boolean))].sort();
 const plData = n  => allData.filter(r => r.player === n);
 
@@ -374,7 +375,7 @@ function renderSearchDropdown(filter='') {
   dd.innerHTML = players.map(name => {
     const pd   = plData(name);
     const foto = pd[0]?.foto || '';
-    const role = pd[0]?.funcao || 'PLAYER';
+    const role = noUrl(pd[0]?.funcao) || 'PLAYER';
     const img  = foto
       ? `<img src="${esc(foto)}" onerror="this.outerHTML='<div class=search-opt-ph>👤</div>'">`
       : `<div class="search-opt-ph">👤</div>`;
@@ -386,6 +387,10 @@ function renderSearchDropdown(filter='') {
       </div>
     </div>`;
   }).join('') || '<div style="padding:12px 16px;font-size:12px;color:var(--mu);">Nenhum jogador encontrado</div>';
+  // Remove qualquer texto que seja URL nos itens do dropdown
+  dd.querySelectorAll('.search-opt-role').forEach(el => {
+    if(el.textContent.startsWith('http')) el.textContent = '';
+  });
 }
 function filterSearch(v) { renderSearchDropdown(v); openSearch(); }
 function openSearch()  { document.getElementById('searchDropdown').classList.add('open'); }
@@ -397,7 +402,7 @@ function selectPlayer(name) {
   const pd      = plData(name);
   const videoUrl = pd[0]?.video || '';
   const foto    = pd[0]?.foto   || '';
-  const role    = pd[0]?.funcao || 'PLAYER';
+  const role    = noUrl(pd[0]?.funcao) || 'PLAYER';
   playIntro(name, role, videoUrl, () => {
     document.getElementById('welcomeScreen').style.display = 'none';
     document.getElementById('playerContent').style.display = 'block';
@@ -440,7 +445,7 @@ function renderPlayer(name) {
   if (!pd.length) { document.getElementById('playerContent').innerHTML = '<div style="color:var(--mu);padding:40px;text-align:center">Nenhum dado encontrado para este jogador.</div>'; return; }
 
   const foto     = pd[0]?.foto || '';
-  const funcao   = pd[0]?.funcao || 'PLAYER';
+  const funcao   = noUrl(pd[0]?.funcao) || 'PLAYER';
   const totalK   = sum(pd.map(d=>d.kills));
   const deaths   = sum(pd.map(d=>d.morreu));
   const avgK     = avg(pd.map(d=>d.kills));
@@ -467,7 +472,7 @@ function renderPlayer(name) {
         ${imgEl}
         <div class="ph-info">
           <div class="ph-name">${esc(name)}</div>
-          <div class="ph-role">${esc(funcao)}</div>
+          <div class="ph-role">${esc(noUrl(funcao))}</div>
           <div class="ph-stats-row">
             <div class="ph-stat"><div class="ph-stat-v">${pd.length}</div><div class="ph-stat-l">PARTIDAS</div></div>
             <div class="ph-stat"><div class="ph-stat-v">${totalK}</div><div class="ph-stat-l">KILLS</div></div>
@@ -700,7 +705,7 @@ function playIntro(name, role, videoUrl, cb) {
   const ifr  = document.getElementById('introIframe');
 
   document.getElementById('introName').textContent = name;
-  document.getElementById('introRole').textContent = role;
+  document.getElementById('introRole').textContent = noUrl(role);
 
   // Detecta se é Google Drive
   const isDrive = url.includes('drive.google.com');
