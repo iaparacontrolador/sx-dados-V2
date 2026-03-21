@@ -185,6 +185,68 @@ body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
 .period-info{font-size:10px;color:var(--mu);letter-spacing:1px;margin-left:auto;}
 .period-info em{color:var(--bl3);font-style:normal;font-weight:700;}
 
+/* ── CALENDAR BUTTON ── */
+.cal-btn{display:flex;align-items:center;gap:7px;background:rgba(26,111,255,.08);border:1px solid var(--brd);
+  color:var(--mu);padding:7px 14px;font-family:'Orbitron',sans-serif;font-size:9px;font-weight:700;
+  letter-spacing:2px;cursor:pointer;transition:all .3s;white-space:nowrap;position:relative;}
+.cal-btn:hover,.cal-btn.open{background:rgba(26,111,255,.18);border-color:var(--bl);color:#fff;box-shadow:var(--glow);}
+.cal-btn.active-range{background:rgba(26,111,255,.22);border-color:var(--bl);color:#fff;box-shadow:var(--glow);}
+.cal-btn-icon{font-size:15px;}
+.cal-range-label{font-size:9px;color:var(--bl3);letter-spacing:1px;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+
+/* ── CALENDAR DROPDOWN ── */
+.cal-dropdown{position:fixed;z-index:600;background:rgba(6,10,18,.98);border:1px solid var(--brd);
+  backdrop-filter:blur(20px);box-shadow:0 20px 60px rgba(0,0,0,.8),0 0 0 1px rgba(26,111,255,.12);
+  display:none;min-width:320px;}
+.cal-dropdown::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--bl),var(--bl3),transparent);}
+.cal-dropdown.open{display:block;}
+
+/* Calendar header */
+.cal-hdr{display:flex;align-items:center;justify-content:space-between;padding:14px 16px 10px;
+  border-bottom:1px solid var(--brd);}
+.cal-month-nav{display:flex;align-items:center;gap:8px;}
+.cal-nav-btn{background:none;border:1px solid var(--brd);color:var(--mu);width:26px;height:26px;
+  cursor:pointer;font-size:11px;transition:.2s;display:flex;align-items:center;justify-content:center;}
+.cal-nav-btn:hover{border-color:var(--bl);color:#fff;background:rgba(26,111,255,.15);}
+.cal-month-name{font-family:'Orbitron',sans-serif;font-size:11px;font-weight:700;color:#fff;
+  letter-spacing:2px;min-width:140px;text-align:center;}
+
+/* Calendar grid */
+.cal-grid{padding:12px 14px;}
+.cal-weekdays{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:6px;}
+.cal-wd{text-align:center;font-size:8px;font-weight:700;letter-spacing:2px;color:var(--mu);padding:4px 0;}
+.cal-days{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;}
+.cal-day{min-height:34px;display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:600;color:var(--mu);cursor:default;position:relative;border:1px solid transparent;
+  transition:all .15s;}
+.cal-day.has-data{color:#fff;cursor:pointer;background:rgba(26,111,255,.08);border-color:rgba(26,111,255,.2);}
+.cal-day.has-data:hover{background:rgba(26,111,255,.22);border-color:var(--bl);color:#fff;transform:scale(1.05);}
+.cal-day.has-data::after{content:'';position:absolute;bottom:3px;left:50%;transform:translateX(-50%);
+  width:4px;height:4px;border-radius:50%;background:var(--bl3);}
+.cal-day.range-start,.cal-day.range-end{background:rgba(26,111,255,.35)!important;border-color:var(--bl)!important;color:#fff!important;}
+.cal-day.range-start{border-radius:2px 0 0 2px;}
+.cal-day.range-end{border-radius:0 2px 2px 0;}
+.cal-day.in-range{background:rgba(26,111,255,.12);border-color:rgba(26,111,255,.15);color:var(--owh);}
+.cal-day.today{outline:1px solid rgba(255,215,0,.5);color:var(--owh);}
+.cal-day.today.has-data{outline-color:#ffd700;}
+.cal-day.empty{cursor:default;background:none;border-color:transparent;}
+.cal-day.selected-single{background:rgba(26,111,255,.35)!important;border-color:var(--bl)!important;color:#fff!important;}
+
+/* Calendar footer */
+.cal-footer{padding:10px 14px 12px;border-top:1px solid var(--brd);display:flex;flex-direction:column;gap:8px;}
+.cal-sel-info{font-size:10px;color:var(--mu);letter-spacing:1px;min-height:14px;}
+.cal-sel-info em{color:var(--bl3);font-style:normal;font-weight:700;}
+.cal-footer-btns{display:flex;gap:6px;}
+.cal-clear-btn{flex:1;padding:7px;background:transparent;border:1px solid rgba(255,255,255,.1);
+  color:var(--mu);font-family:'Orbitron',sans-serif;font-size:8px;letter-spacing:2px;cursor:pointer;transition:.2s;}
+.cal-clear-btn:hover{border-color:rgba(255,80,120,.4);color:#ff5078;}
+.cal-apply-btn{flex:2;padding:7px;background:rgba(26,111,255,.15);border:1px solid var(--bl);
+  color:#fff;font-family:'Orbitron',sans-serif;font-size:8px;font-weight:700;letter-spacing:2px;cursor:pointer;transition:.3s;}
+.cal-apply-btn:hover{background:rgba(26,111,255,.3);box-shadow:0 0 16px rgba(26,111,255,.3);}
+.cal-apply-btn:disabled{opacity:.4;cursor:default;}
+.cal-hint{font-size:9px;color:var(--mu);text-align:center;letter-spacing:1px;}
+
 /* ── PDF LOGIN MODAL ── */
 .pdf-modal-backdrop{position:fixed;inset:0;z-index:900;background:rgba(0,0,0,.82);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;}
 .pdf-modal-backdrop.open{display:flex;}
@@ -563,15 +625,49 @@ body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
   <div class="period-bar" id="periodBar" style="display:none;">
     <span class="period-label">📅 PERÍODO:</span>
     <div class="period-btns">
-      <button class="period-btn active" onclick="setPeriod('todos',this)">TODOS</button>
-      <button class="period-btn" onclick="setPeriod('hoje',this)">HOJE</button>
-      <button class="period-btn" onclick="setPeriod('semana',this)">ESTA SEMANA</button>
-      <button class="period-btn" onclick="setPeriod('mes',this)">ESTE MÊS</button>
+      <button class="period-btn active" id="pbTodos"  onclick="setPeriod('todos',this)">TODOS</button>
+      <button class="period-btn"        id="pbHoje"   onclick="setPeriod('hoje',this)">HOJE</button>
+      <button class="period-btn"        id="pbSemana" onclick="setPeriod('semana',this)">ESTA SEMANA</button>
+      <button class="period-btn"        id="pbMes"    onclick="setPeriod('mes',this)">ESTE MÊS</button>
     </div>
+
+    <!-- BOTÃO CALENDÁRIO -->
+    <button class="cal-btn" id="calBtn" onclick="toggleCalendar(event)">
+      <span class="cal-btn-icon">📆</span>
+      <span class="cal-range-label" id="calRangeLabel">PERSONALIZADO</span>
+    </button>
+
     <span class="period-info" id="periodInfo"></span>
     <button class="pdf-report-btn" onclick="openPdfModal()">
       <span class="pdf-report-btn-icon">📄</span> BAIXAR RELATÓRIO PDF
     </button>
+  </div>
+
+  <!-- CALENDAR DROPDOWN -->
+  <div class="cal-dropdown" id="calDropdown">
+    <div class="cal-hdr">
+      <div class="cal-month-nav">
+        <button class="cal-nav-btn" onclick="calNavMonth(-1)">‹</button>
+        <div class="cal-month-name" id="calMonthName">—</div>
+        <button class="cal-nav-btn" onclick="calNavMonth(1)">›</button>
+      </div>
+    </div>
+    <div class="cal-grid">
+      <div class="cal-weekdays">
+        <div class="cal-wd">DOM</div><div class="cal-wd">SEG</div><div class="cal-wd">TER</div>
+        <div class="cal-wd">QUA</div><div class="cal-wd">QUI</div><div class="cal-wd">SEX</div>
+        <div class="cal-wd">SÁB</div>
+      </div>
+      <div class="cal-days" id="calDaysGrid"></div>
+    </div>
+    <div class="cal-footer">
+      <div class="cal-hint">Clique para início · Clique novamente para fim</div>
+      <div class="cal-sel-info" id="calSelInfo">Nenhum período selecionado</div>
+      <div class="cal-footer-btns">
+        <button class="cal-clear-btn" onclick="calClear()">✕ LIMPAR</button>
+        <button class="cal-apply-btn" id="calApplyBtn" onclick="calApply()" disabled>APLICAR PERÍODO</button>
+      </div>
+    </div>
   </div>
 
   <!-- PDF LOGIN MODAL -->
@@ -637,10 +733,173 @@ let charts  = {};
 let currentPeriod = 'todos';
 let currentPlayerName = '';
 
-// ── PERIOD FILTER ──
+// ── CALENDAR STATE ──
+let calViewYear  = new Date().getFullYear();
+let calViewMonth = new Date().getMonth();
+let calRangeStart = null; // Date object
+let calRangeEnd   = null; // Date object
+let calSelecting  = false; // true = waiting for end date
+let datesWithData = new Set(); // 'YYYY-MM-DD' strings
+
+function dateKey(d){ return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
+function parseSheetDate(s){
+  if(!s) return null;
+  const m=String(s).match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+  if(m) return new Date(+m[3],+m[2]-1,+m[1]);
+  return null;
+}
+function fmtDateBR(d){ if(!d) return '—'; return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`; }
+
+function buildDatesWithData(){
+  datesWithData.clear();
+  allData.forEach(r=>{ const d=parseSheetDate(r.data); if(d) datesWithData.add(dateKey(d)); });
+}
+
+// ── CALENDAR OPEN/CLOSE ──
+function toggleCalendar(e){
+  e.stopPropagation();
+  const dd = document.getElementById('calDropdown');
+  const btn = document.getElementById('calBtn');
+  const isOpen = dd.classList.contains('open');
+  if(isOpen){ closeCalendar(); return; }
+  // Position below button
+  const rect = btn.getBoundingClientRect();
+  dd.style.top  = (rect.bottom + 6) + 'px';
+  dd.style.right = (window.innerWidth - rect.right) + 'px';
+  dd.style.left  = 'auto';
+  btn.classList.add('open');
+  dd.classList.add('open');
+  renderCalendar();
+}
+function closeCalendar(){
+  document.getElementById('calDropdown').classList.remove('open');
+  document.getElementById('calBtn').classList.remove('open');
+}
+document.addEventListener('click', e=>{
+  const dd = document.getElementById('calDropdown');
+  const btn = document.getElementById('calBtn');
+  if(dd && !dd.contains(e.target) && e.target !== btn && !btn.contains(e.target)) closeCalendar();
+});
+
+// ── CALENDAR RENDER ──
+function renderCalendar(){
+  const months = ['JANEIRO','FEVEREIRO','MARÇO','ABRIL','MAIO','JUNHO','JULHO','AGOSTO','SETEMBRO','OUTUBRO','NOVEMBRO','DEZEMBRO'];
+  document.getElementById('calMonthName').textContent = `${months[calViewMonth]} ${calViewYear}`;
+
+  const grid  = document.getElementById('calDaysGrid');
+  const today = new Date(); today.setHours(0,0,0,0);
+  const firstDay = new Date(calViewYear, calViewMonth, 1).getDay();
+  const daysInMonth = new Date(calViewYear, calViewMonth+1, 0).getDate();
+
+  let html = '';
+  // Empty cells before first day
+  for(let i=0; i<firstDay; i++) html += `<div class="cal-day empty"></div>`;
+
+  for(let d=1; d<=daysInMonth; d++){
+    const date = new Date(calViewYear, calViewMonth, d);
+    date.setHours(0,0,0,0);
+    const key = dateKey(date);
+    const hasData = datesWithData.has(key);
+    const isToday = date.getTime()===today.getTime();
+
+    let cls = 'cal-day';
+    if(hasData)  cls += ' has-data';
+    if(isToday)  cls += ' today';
+    if(!hasData) cls += ' no-data';
+
+    // Range highlight
+    if(calRangeStart && calRangeEnd){
+      const s = calRangeStart.getTime(), en = calRangeEnd.getTime(), t = date.getTime();
+      if(t===s && t===en) cls += ' selected-single';
+      else if(t===s) cls += ' range-start';
+      else if(t===en) cls += ' range-end';
+      else if(t>s && t<en) cls += ' in-range';
+    } else if(calRangeStart && !calRangeEnd && date.getTime()===calRangeStart.getTime()){
+      cls += ' range-start';
+    }
+
+    const clickFn = hasData ? `calDayClick(${calViewYear},${calViewMonth},${d})` : '';
+    const title = hasData ? `${fmtDateBR(date)} — com dados` : `${fmtDateBR(date)} — sem dados`;
+    html += `<div class="${cls}" ${hasData?`onclick="${clickFn}"`:''}  title="${title}">${d}</div>`;
+  }
+  grid.innerHTML = html;
+  updateCalSelInfo();
+}
+
+function calDayClick(y, m, d){
+  const clicked = new Date(y, m, d); clicked.setHours(0,0,0,0);
+  if(!calRangeStart || (calRangeStart && calRangeEnd)){
+    // Start new selection
+    calRangeStart = clicked;
+    calRangeEnd   = null;
+    calSelecting  = true;
+  } else {
+    // Set end (can be same day for single day)
+    if(clicked < calRangeStart){
+      calRangeEnd   = calRangeStart;
+      calRangeStart = clicked;
+    } else {
+      calRangeEnd = clicked;
+    }
+    calSelecting = false;
+  }
+  renderCalendar();
+}
+
+function updateCalSelInfo(){
+  const info = document.getElementById('calSelInfo');
+  const applyBtn = document.getElementById('calApplyBtn');
+  if(!calRangeStart){
+    info.textContent = 'Clique num dia com dados para iniciar';
+    applyBtn.disabled = true;
+  } else if(!calRangeEnd){
+    info.innerHTML = `Início: <em>${fmtDateBR(calRangeStart)}</em> · Clique para definir o fim`;
+    applyBtn.disabled = true;
+  } else {
+    const same = calRangeStart.getTime()===calRangeEnd.getTime();
+    info.innerHTML = same
+      ? `Dia selecionado: <em>${fmtDateBR(calRangeStart)}</em>`
+      : `De <em>${fmtDateBR(calRangeStart)}</em> até <em>${fmtDateBR(calRangeEnd)}</em>`;
+    applyBtn.disabled = false;
+  }
+}
+
+function calNavMonth(dir){
+  calViewMonth += dir;
+  if(calViewMonth < 0){ calViewMonth=11; calViewYear--; }
+  if(calViewMonth > 11){ calViewMonth=0; calViewYear++; }
+  renderCalendar();
+}
+
+function calClear(){
+  calRangeStart=null; calRangeEnd=null; calSelecting=false;
+  document.getElementById('calRangeLabel').textContent='PERSONALIZADO';
+  document.getElementById('calBtn').classList.remove('active-range');
+  renderCalendar();
+  // Reset to todos
+  setPeriod('todos', document.getElementById('pbTodos'));
+  closeCalendar();
+}
+
+function calApply(){
+  if(!calRangeStart || !calRangeEnd) return;
+  const same = calRangeStart.getTime()===calRangeEnd.getTime();
+  const label = same
+    ? fmtDateBR(calRangeStart)
+    : `${fmtDateBR(calRangeStart)} → ${fmtDateBR(calRangeEnd)}`;
+  document.getElementById('calRangeLabel').textContent = label;
+  document.getElementById('calBtn').classList.add('active-range');
+  // Deactivate all period btns
+  document.querySelectorAll('.period-btn').forEach(b=>b.classList.remove('active'));
+  currentPeriod = 'custom';
+  closeCalendar();
+  triggerRerender();
+}
+
+// Patch filterByPeriod to handle custom range
 function getDateFromStr(s) {
   if (!s) return null;
-  const m = s.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+  const m = String(s).match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
   if (m) return new Date(+m[3], +m[2]-1, +m[1]);
   return null;
 }
@@ -649,46 +908,66 @@ function filterByPeriod(data) {
   if (currentPeriod === 'todos') return data;
   const now = new Date();
   const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+  if (currentPeriod === 'custom') {
+    if (!calRangeStart) return data;
+    const endDate = calRangeEnd || calRangeStart;
+    const eEnd = new Date(endDate); eEnd.setHours(23,59,59,999);
+    return data.filter(d => {
+      const dt = getDateFromStr(d.data);
+      if (!dt) return false;
+      return dt >= calRangeStart && dt <= eEnd;
+    });
+  }
+
   return data.filter(d => {
     const dt = getDateFromStr(d.data);
-    if (!dt) return true; // sem data: inclui sempre
-    if (currentPeriod === 'hoje') {
-      return dt.toDateString() === today.toDateString();
-    }
+    if (!dt) return true;
+    if (currentPeriod === 'hoje') return dt.toDateString() === today.toDateString();
     if (currentPeriod === 'semana') {
       const weekAgo = new Date(today); weekAgo.setDate(today.getDate() - 7);
       return dt >= weekAgo;
     }
-    if (currentPeriod === 'mes') {
-      return dt.getFullYear() === today.getFullYear() && dt.getMonth() === today.getMonth();
-    }
+    if (currentPeriod === 'mes') return dt.getFullYear()===today.getFullYear() && dt.getMonth()===today.getMonth();
     return true;
   });
 }
 
-function setPeriod(period, btn) {
-  currentPeriod = period;
-  document.querySelectorAll('.period-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  const labels = {todos:'Todos os registros', hoje:'Apenas hoje', semana:'Últimos 7 dias', mes:'Mês atual'};
+function triggerRerender() {
+  const periodLabels = {todos:'Todos os registros',hoje:'Apenas hoje',semana:'Últimos 7 dias',mes:'Mês atual',custom:'Período personalizado'};
   const filtered = filterByPeriod(allData);
-  document.getElementById('periodInfo').innerHTML = `Filtrando: <em>${labels[period]}</em> · <em>${filtered.length}</em> registros`;
+  let label;
+  if (currentPeriod==='custom' && calRangeStart) {
+    label = calRangeEnd && calRangeStart.getTime()!==calRangeEnd.getTime()
+      ? `${fmtDateBR(calRangeStart)} → ${fmtDateBR(calRangeEnd)}`
+      : fmtDateBR(calRangeStart);
+  } else {
+    label = periodLabels[currentPeriod]||'Todos';
+  }
+  document.getElementById('periodInfo').innerHTML = `Filtrando: <em>${label}</em> · <em>${filtered.length}</em> registros`;
   if (currentPlayerName) {
-    // Destroy charts and re-render
     Object.keys(charts).forEach(k => { try{ charts[k].destroy(); }catch(e){} });
     charts = {};
-    // reset tab renders
-    const cmpI = document.getElementById('cmp-inner');
-    const indI = document.getElementById('ind-inner');
-    const colI = document.getElementById('col-inner');
-    if (cmpI) { cmpI.dataset.rendered=''; cmpI.innerHTML=''; }
-    if (indI) { indI.dataset.rendered=''; indI.innerHTML=''; }
-    if (colI) { colI.dataset.rendered=''; colI.innerHTML=''; }
+    ['cmp-inner','ind-inner','col-inner'].forEach(id=>{
+      const el=document.getElementById(id);
+      if(el){ el.dataset.rendered=''; el.innerHTML=''; }
+    });
     renderPlayer(currentPlayerName);
-    // Re-activate current tab
     const activeTab = document.querySelector('.tab-btn.active');
     if (activeTab) activeTab.click();
   }
+}
+
+function setPeriod(period, btn) {
+  currentPeriod = period;
+  // Clear calendar custom range visual
+  if(period !== 'custom'){
+    document.getElementById('calRangeLabel').textContent = 'PERSONALIZADO';
+    document.getElementById('calBtn').classList.remove('active-range');
+  }
+  document.querySelectorAll('.period-btn').forEach(b => b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  triggerRerender();
 }
 
 // ── PDF MODAL ──
@@ -755,6 +1034,13 @@ function loadSheetData() {
       document.getElementById('mainWrap').style.display       = 'block';
       document.getElementById('statusInfo').textContent = allData.length + ' registros · ' + uniqPl().length + ' jogadores';
       document.getElementById('statusTime').textContent = 'Atualizado: ' + new Date().toLocaleTimeString('pt-BR');
+      buildDatesWithData();
+      // Navigate calendar to most recent month with data
+      if(datesWithData.size>0){
+        const keys=[...datesWithData].sort();
+        const last=keys[keys.length-1].split('-');
+        calViewYear=+last[0]; calViewMonth=+last[1]-1;
+      }
       renderSearchDropdown();
     } catch(err) {
       document.getElementById('loadingScreen').style.display = 'none';
@@ -3069,11 +3355,142 @@ function buildColCharts(mapSt, tipoSt, funcSt, dateSt, diaSt, salaSt) {
 // ══════════════════════════════════════════════════════
 // ── GERAÇÃO DO RELATÓRIO TÁTICO PDF ──
 // ══════════════════════════════════════════════════════
+
+// Helper: converte imagem URL para base64 (para PDF)
+async function imgToBase64(url) {
+  if (!url) return null;
+  try {
+    const r = await fetch(url);
+    const b = await r.blob();
+    return await new Promise(res => { const fr = new FileReader(); fr.onload=()=>res(fr.result); fr.readAsDataURL(b); });
+  } catch { return null; }
+}
+
+// SVG gráfico pizza
+function svgPizza(slices, size=120) {
+  if (!slices.length) return '';
+  const total = slices.reduce((a,s)=>a+s.v,0); if (!total) return '';
+  let angle = -Math.PI/2, r=size/2-8, cx=size/2, cy=size/2, paths='', legends='';
+  slices.forEach((s,i) => {
+    const a = (s.v/total)*2*Math.PI;
+    const x1=cx+r*Math.cos(angle), y1=cy+r*Math.sin(angle);
+    const x2=cx+r*Math.cos(angle+a), y2=cy+r*Math.sin(angle+a);
+    const lg = a > Math.PI ? 1 : 0;
+    paths += `<path d="M${cx},${cy} L${x1.toFixed(1)},${y1.toFixed(1)} A${r},${r} 0 ${lg},1 ${x2.toFixed(1)},${y2.toFixed(1)} Z" fill="${s.c}" opacity=".88" stroke="#080C14" stroke-width="1.5"/>`;
+    // label no slice
+    const midA = angle + a/2;
+    const lx = cx + (r*0.65)*Math.cos(midA), ly = cy + (r*0.65)*Math.sin(midA);
+    const pct = ((s.v/total)*100).toFixed(0);
+    if (parseFloat(pct) >= 8) paths += `<text x="${lx.toFixed(1)}" y="${ly.toFixed(1)}" text-anchor="middle" dominant-baseline="middle" font-size="9" font-weight="700" fill="#fff">${pct}%</text>`;
+    legends += `<div style="display:flex;align-items:center;gap:5px;font-size:9px;color:#C8D4E8;"><span style="width:8px;height:8px;border-radius:50%;background:${s.c};flex-shrink:0;"></span>${s.l}: <strong style="color:#fff;">${s.v}</strong></div>`;
+    angle += a;
+  });
+  return `<div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+    <svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">${paths}</svg>
+    <div style="display:flex;flex-direction:column;gap:4px;">${legends}</div>
+  </div>`;
+}
+
+// SVG barras horizontais
+function svgBars(items, color='#1A6FFF', maxW=240) {
+  const maxV = Math.max(...items.map(i=>i.v),1);
+  return items.map(it => {
+    const w = Math.max((it.v/maxV)*maxW,2);
+    return `<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+      <div style="width:90px;font-size:10px;color:#C8D4E8;text-align:right;flex-shrink:0;">${it.l}</div>
+      <div style="flex:1;height:18px;background:#0A1018;border-radius:2px;overflow:hidden;position:relative;">
+        <div style="width:${w}px;max-width:100%;height:100%;background:${it.c||color};border-radius:2px;display:flex;align-items:center;padding-left:6px;">
+          <span style="font-size:10px;font-weight:700;color:#fff;">${it.v}</span>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// SVG gauge / sinal (semicircular)
+function svgGauge(val, max, label, color='#1A6FFF', size=100) {
+  const pct = Math.min(val/Math.max(max,1),1);
+  const angle = pct * Math.PI; // 0 to PI
+  const r = size/2 - 10, cx = size/2, cy = size/2 + 10;
+  const x1 = cx - r, y1 = cy; // start left
+  const x2 = cx + Math.cos(Math.PI - angle)*r, y2 = cy - Math.sin(Math.PI - angle)*r; // end
+  const sweep = angle > 0 ? 1 : 0;
+  const bg_x2 = cx + r, bg_y2 = cy;
+  // colored arc from left to current
+  const arcPath = angle >= Math.PI
+    ? `M${(cx-r).toFixed(1)},${cy} A${r},${r} 0 1,1 ${(cx+r).toFixed(1)},${cy}`
+    : `M${(cx-r).toFixed(1)},${cy} A${r},${r} 0 0,1 ${x2.toFixed(1)},${y2.toFixed(1)}`;
+  return `<div style="text-align:center;">
+    <svg width="${size}" height="${size/2+18}" viewBox="0 0 ${size} ${size/2+18}">
+      <path d="M${(cx-r).toFixed(1)},${cy} A${r},${r} 0 0,1 ${(cx+r).toFixed(1)},${cy}" fill="none" stroke="#1A2540" stroke-width="8"/>
+      <path d="${arcPath}" fill="none" stroke="${color}" stroke-width="8" stroke-linecap="round"/>
+      <text x="${cx}" y="${cy+14}" text-anchor="middle" font-size="12" font-weight="900" fill="#fff">${typeof val==='number'?val.toFixed(1):val}</text>
+    </svg>
+    <div style="font-size:8px;letter-spacing:2px;color:#5A6880;margin-top:2px;">${label}</div>
+  </div>`;
+}
+
+// SVG Overall circular (full circle progress)
+function svgOverall(score, label, color='#1A6FFF', size=90) {
+  const pct = Math.min(score/100,1);
+  const r=size/2-8, c=2*Math.PI*r, dash=pct*c;
+  const col = score>=75?'#00C853':score>=50?'#FFD700':score>=25?'#FF9F40':'#FF5252';
+  return `<div style="text-align:center;">
+    <div style="position:relative;width:${size}px;height:${size}px;margin:0 auto;">
+      <svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" style="transform:rotate(-90deg)">
+        <circle cx="${size/2}" cy="${size/2}" r="${r}" fill="none" stroke="#1A2540" stroke-width="7"/>
+        <circle cx="${size/2}" cy="${size/2}" r="${r}" fill="none" stroke="${col}" stroke-width="7"
+          stroke-dasharray="${dash.toFixed(1)} ${c.toFixed(1)}" stroke-linecap="round"/>
+      </svg>
+      <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+        <div style="font-size:16px;font-weight:900;color:${col};">${Math.round(score)}</div>
+        <div style="font-size:7px;color:#5A6880;letter-spacing:1px;">OVR</div>
+      </div>
+    </div>
+    <div style="font-size:9px;color:#C8D4E8;margin-top:4px;max-width:${size}px;">${label}</div>
+  </div>`;
+}
+
+// SVG cone / pirâmide (ranking visual)
+function svgCone(items) {
+  const n = Math.min(items.length, 5);
+  const levels = items.slice(0,n);
+  const colors = ['#FFD700','#C0C0C0','#CD7F32','#4D9FFF','#cc66ff'];
+  const maxW = 260;
+  return `<div style="display:flex;flex-direction:column;align-items:center;gap:3px;">
+    ${levels.map((it,i) => {
+      const w = maxW * (0.3 + (0.7 * (i+1)/n));
+      return `<div style="width:${w}px;background:${colors[i]};padding:5px 10px;text-align:center;clip-path:polygon(8px 0,calc(100% - 8px) 0,100% 100%,0 100%);">
+        <span style="font-size:10px;font-weight:700;color:#080C14;">${i===0?'🥇 ':i===1?'🥈 ':i===2?'🥉 ':''}${it.l}: <strong>${it.v}</strong></span>
+      </div>`;
+    }).join('')}
+  </div>`;
+}
+
+// SVG árvore de decisão tática (treemap visual)
+function svgTreemap(mapSt) {
+  if (!mapSt.length) return '';
+  const total = mapSt.reduce((a,m)=>a+m.kills,0)||1;
+  const colors=['#1A6FFF','#cc66ff','#4dff88','#ffd700','#ff5078','#ff9f40','#4D9FFF'];
+  const items = mapSt.slice(0,7);
+  return `<div style="display:flex;flex-wrap:wrap;gap:4px;align-items:flex-end;">
+    ${items.map((m,i)=>{
+      const h = Math.max(30, (m.kills/Math.max(...items.map(x=>x.kills),1))*100);
+      const w = Math.max(60, (m.kills/total)*320);
+      return `<div style="width:${Math.round(w)}px;height:${Math.round(h)}px;background:${colors[i%colors.length]};display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4px;min-width:50px;">
+        <div style="font-size:9px;font-weight:900;color:#fff;text-align:center;">${m.map}</div>
+        <div style="font-size:11px;font-weight:900;color:#fff;">${m.kills}</div>
+        <div style="font-size:8px;color:rgba(255,255,255,.7);">kills</div>
+      </div>`;
+    }).join('')}
+  </div>`;
+}
+
 function generateTacticalPDF() {
   const overlay = document.getElementById('pdfGenOverlay');
   overlay.classList.add('open');
 
-  setTimeout(() => {
+  (async () => {
     try {
       const data = filterByPeriod(allData);
       const players = [...new Set(data.map(r=>r.player).filter(Boolean))].sort();
@@ -3120,8 +3537,54 @@ function generateTacticalPDF() {
         const zeroKGames=rows.filter(d=>d.kills===0).length;
         const games=rows.length;
         const consistency=(stdDev(rows.map(d=>d.kills))).toFixed(2);
-        const funcao=rows[0]?.funcao||'—';
-        return {pl,tK,tD,tA,tDr,tLv,tRs,tC,deaths,aK,aD,aA,aHS,aM,kd,kda,dpk,killConf,assRatio,supIdx,atkIdx,recordD,recordK,zeroKGames,games,consistency,funcao};
+        const funcaoRaw=rows[0]?.funcao||'';
+        const funcao=funcaoRaw&&!funcaoRaw.startsWith('http')?funcaoRaw:'PLAYER';
+        const foto=rows[0]?.foto||'';
+        // Detectar tipo de jogador pela função
+        const fUp=funcao.toUpperCase();
+        const isBomba=fUp.includes('BOMB')||fUp.includes('BOMBA');
+        const isSupport=fUp.includes('SUP')||fUp.includes('MEDIC')||fUp.includes('HEAL');
+        const isSniper=fUp.includes('SNIPER')||fUp.includes('FRANGO')||fUp.includes('AWP');
+        const isRush=fUp.includes('RUSH')||fUp.includes('FRAG')||fUp.includes('ASSALT');
+        // Overall score calculado por função
+        let overall = 0;
+        if (isBomba) {
+          // Bomba: priorizamos dano, derrubadas e kill confirm — NÃO suporte médico
+          overall = Math.min(100,
+            (Math.min(aK/3,1)*25) +
+            (Math.min(aD/2000,1)*30) +
+            (Math.min(parseFloat(killConf)/100,1)*20) +
+            (Math.min(kd/3,1)*15) +
+            (Math.min(tDr/Math.max(games,1)/3,1)*10)
+          );
+        } else if (isSupport) {
+          // Suporte: cura, levantamentos e assists
+          overall = Math.min(100,
+            (Math.min(tC/Math.max(games,1)/800,1)*30) +
+            (Math.min(tLv/Math.max(games,1)/2,1)*25) +
+            (Math.min(aA/3,1)*20) +
+            (Math.min(kd/2,1)*15) +
+            (Math.min(aM<=1?1:1/aM,1)*10)
+          );
+        } else if (isSniper) {
+          // Sniper: headshot%, K/D, dano
+          overall = Math.min(100,
+            (Math.min(aHS/50,1)*30) +
+            (Math.min(kd/4,1)*25) +
+            (Math.min(aD/2500,1)*25) +
+            (Math.min(aM<=1?1:0.5/aM,1)*20)
+          );
+        } else {
+          // Fragger / padrão
+          overall = Math.min(100,
+            (Math.min(aK/4,1)*30) +
+            (Math.min(aD/2000,1)*25) +
+            (Math.min(kd/3,1)*25) +
+            (Math.min(aHS/40,1)*10) +
+            (Math.min(aM<=1?1:0.5/aM,1)*10)
+          );
+        }
+        return {pl,tK,tD,tA,tDr,tLv,tRs,tC,deaths,aK,aD,aA,aHS,aM,kd,kda,dpk,killConf,assRatio,supIdx,atkIdx,recordD,recordK,zeroKGames,games,consistency,funcao,foto,overall,isBomba,isSupport,isSniper};
       }).filter(Boolean);
 
       // Mapas
@@ -3174,79 +3637,179 @@ function generateTacticalPDF() {
         </tr>`;
       }).join('');
 
-      const detailRows = pStats.map((p,i) => {
+      const detailRows = await Promise.all(pStats.map(async (p,i) => {
         const positivos = [];
         const negativos = [];
-        if (p.tK === Math.max(...pStats.map(x=>x.tK))) positivos.push('🏆 TOP FRAGGER do time');
-        if (p.kd >= 2) positivos.push(`✅ K/D excelente (${p.kd.toFixed(2)})`);
-        else if (p.kd >= 1) positivos.push(`✅ K/D positivo (${p.kd.toFixed(2)})`);
-        if (p.aHS >= 20) positivos.push(`🎯 Alta precisão (${p.aHS.toFixed(1)}% HS)`);
-        if (p.tC === Math.max(...pStats.map(x=>x.tC))) positivos.push('💊 Maior curador do time');
-        if (p.tA === Math.max(...pStats.map(x=>x.tA))) positivos.push('🤝 Maior playmaker');
-        if (p.aM <= 0.5) positivos.push('🛡️ Alta sobrevivência');
-        if (parseFloat(p.killConf) >= 70) positivos.push(`💀 Alta confirmação de kills (${p.killConf}%)`);
-        if (p.aD >= 1500) positivos.push(`💥 Dano médio alto (${Math.round(p.aD)} HP)`);
-        if (p.zeroKGames === 0) positivos.push('🔥 Matou em todas as partidas');
-        if (p.tLv >= 3) positivos.push(`🏥 Levantou companheiros (${p.tLv}x)`);
-        if (p.tRs >= 2) positivos.push(`♻️ Ressurgimentos (${p.tRs}x)`);
+        // Análise adaptada à função
+        if (p.isBomba) {
+          // BOMBA: foco em dano, derrubadas, não se espera suporte médico
+          if (p.tK === Math.max(...pStats.map(x=>x.tK))) positivos.push('🏆 TOP FRAGGER do time — Referência ofensiva');
+          if (p.kd >= 2) positivos.push(`✅ K/D excelente para bombeiro (${p.kd.toFixed(2)})`);
+          else if (p.kd >= 1) positivos.push(`✅ K/D positivo (${p.kd.toFixed(2)})`);
+          if (p.aD >= 1800) positivos.push(`💥 Dano de bomba acima da média (${Math.round(p.aD)} HP)`);
+          if (parseFloat(p.killConf) >= 65) positivos.push(`💀 Alta confirmação de kills (${p.killConf}%) — finalizador eficiente`);
+          if (p.tDr >= p.games*1.5) positivos.push(`👊 Forte impacto físico — ${p.tDr} derrubadas`);
+          if (p.zeroKGames === 0) positivos.push('🔥 Matou em todas as partidas — consistência ofensiva');
+          if (p.aHS >= 15) positivos.push(`🎯 Boa precisão de cabeça (${p.aHS.toFixed(1)}%)`);
+          // Negativos para bomba
+          if (p.kd < 0.7) negativos.push(`⚠️ K/D preocupante (${p.kd.toFixed(2)}) — bomba precisa ter impacto`);
+          if (p.aD < 800) negativos.push('⚔️ Dano muito baixo para bomba — aumentar agressividade');
+          if (p.aM >= 2.5) negativos.push(`💀 Muitas mortes/jogo (${p.aM.toFixed(1)}) — posicionamento de plante/defuse`);
+          if (parseFloat(p.killConf) < 40 && p.tDr > 0) negativos.push(`❌ Confirmação de kills baixa (${p.killConf}%) — finalizar alvos`);
+          if (p.zeroKGames >= Math.ceil(p.games*0.3)) negativos.push(`🚫 ${p.zeroKGames} partidas sem kill — inconsistência ofensiva`);
+        } else if (p.isSupport) {
+          // SUPORTE: foco em cura, levantamentos, assists
+          if (p.tC === Math.max(...pStats.map(x=>x.tC))) positivos.push('💊 MAIOR CURADOR da equipe — pilar de sobrevivência');
+          if (p.tLv === Math.max(...pStats.map(x=>x.tLv))) positivos.push(`🏥 Mais levantamentos do time (${p.tLv}x)`);
+          if (p.tA === Math.max(...pStats.map(x=>x.tA))) positivos.push('🤝 Maior playmaker — cria espaço para o time');
+          if (p.aM <= 0.8) positivos.push('🛡️ Excelente sobrevivência — suporte vivo é suporte eficaz');
+          if (p.tC >= p.games*500) positivos.push(`💉 Cura média alta (${Math.round(p.tC/p.games)} HP/jogo)`);
+          if (p.tRs >= 2) positivos.push(`♻️ Ressurgiu companheiros (${p.tRs}x) — salva rounds`);
+          // Negativos para suporte (NÃO penalizar por kills/dano baixo)
+          if (p.tC < p.games*100 && p.tLv === 0) negativos.push('💊 Pouca cura e sem levantamentos — suporte inativo');
+          if (p.aM >= 2) negativos.push(`💀 Suporte não pode morrer muito (${p.aM.toFixed(1)}/jogo) — posicionamento mais seguro`);
+          if (p.tA === 0) negativos.push('🤝 Sem assistências — integrar mais no jogo coletivo');
+          if (p.kd < 0.3) negativos.push(`📉 K/D muito baixo (${p.kd.toFixed(2)}) — mesmo suporte precisa de algum impacto`);
+        } else if (p.isSniper) {
+          if (p.aHS >= 30) positivos.push(`🎯 Precisão de sniper excelente (${p.aHS.toFixed(1)}% HS)`);
+          if (p.kd >= 2) positivos.push(`✅ K/D de elite (${p.kd.toFixed(2)}) — sniper eficaz`);
+          if (p.aD >= 2000) positivos.push(`💥 Dano altíssimo por partida (${Math.round(p.aD)} HP)`);
+          if (p.aM <= 0.5) positivos.push('🛡️ Alta sobrevivência — sniper bem posicionado');
+          if (p.aHS < 15) negativos.push('🎯 % Headshot baixo para sniper — treinar mira longa');
+          if (p.kd < 1.5) negativos.push(`📉 K/D abaixo do esperado para sniper (${p.kd.toFixed(2)})`);
+          if (p.aM >= 1.5) negativos.push(`⚠️ Sniper exposto — ${p.aM.toFixed(1)} mortes/jogo`);
+        } else {
+          // Fragger geral
+          if (p.tK === Math.max(...pStats.map(x=>x.tK))) positivos.push('🏆 TOP FRAGGER do time');
+          if (p.kd >= 2) positivos.push(`✅ K/D excelente (${p.kd.toFixed(2)})`);
+          else if (p.kd >= 1) positivos.push(`✅ K/D positivo (${p.kd.toFixed(2)})`);
+          if (p.aHS >= 20) positivos.push(`🎯 Alta precisão (${p.aHS.toFixed(1)}% HS)`);
+          if (p.aD >= 1500) positivos.push(`💥 Dano médio alto (${Math.round(p.aD)} HP)`);
+          if (p.zeroKGames === 0) positivos.push('🔥 Matou em todas as partidas');
+          if (parseFloat(p.killConf) >= 70) positivos.push(`💀 Alta confirmação (${p.killConf}%)`);
+          if (p.kd < 0.5) negativos.push(`⚠️ K/D muito baixo (${p.kd.toFixed(2)})`);
+          else if (p.kd < 1) negativos.push(`📉 K/D negativo (${p.kd.toFixed(2)})`);
+          if (p.aHS < 5) negativos.push('🎯 Precisão baixa — treinar mira');
+          if (p.aD < 500) negativos.push('⚔️ Dano muito baixo');
+          if (p.zeroKGames >= Math.ceil(p.games*0.4)) negativos.push(`🚫 ${p.zeroKGames} partidas sem kill`);
+        }
+        if (p.aM >= 2) negativos.push(`💀 Muitas mortes/jogo (${p.aM.toFixed(1)}) — melhorar posicionamento`);
 
-        if (p.kd < 0.5) negativos.push(`⚠️ K/D muito baixo (${p.kd.toFixed(2)}) — revisar agressividade`);
-        else if (p.kd < 1) negativos.push(`📉 K/D negativo (${p.kd.toFixed(2)}) — cuidado com exposição`);
-        if (p.aHS < 5) negativos.push('🎯 Precisão baixa — treinar mira');
-        if (p.aM >= 2) negativos.push(`💀 Muitas mortes por jogo (${p.aM.toFixed(1)}) — melhorar posicionamento`);
-        if (p.aD < 500) negativos.push('⚔️ Dano muito baixo — ser mais ativo no combate');
-        if (p.zeroKGames >= Math.ceil(p.games * 0.4)) negativos.push(`🚫 ${p.zeroKGames} partidas sem kill — impacto ofensivo inconsistente`);
-        if (parseFloat(p.killConf) < 40 && p.tDr > 0) negativos.push(`❌ Baixa confirmação de kills (${p.killConf}%) — finalizar alvos derrubados`);
-        if (p.tC === 0 && p.supIdx < 5) negativos.push('💊 Sem contribuição de suporte — integrar mais ao time');
+        const green2='#00C853', red2='#FF5252', blue2='#1A6FFF', gold2='#FFD700';
+        const ovrCol = p.overall>=75?'#00C853':p.overall>=50?'#FFD700':p.overall>=25?'#FF9F40':'#FF5252';
+        const ovrLabel = p.overall>=75?'ELITE':p.overall>=50?'BOM':p.overall>=25?'REGULAR':'INICIANTE';
 
-        const green2='#00C853', red2='#FF5252';
+        // foto base64
+        const fotoB64 = p.foto ? await imgToBase64(p.foto).catch(()=>null) : null;
+        const fotoHtml = fotoB64
+          ? `<img src="${fotoB64}" style="width:72px;height:90px;object-fit:cover;object-position:top;border:2px solid #1A3A6B;" onerror="this.style.display='none'">`
+          : `<div style="width:72px;height:90px;background:#0D1E3D;border:2px solid #1A3A6B;display:flex;align-items:center;justify-content:center;font-size:28px;">👤</div>`;
+
+        // Pizza contribuição
+        const teamTK = sum(pStats.map(x=>x.tK))||1;
+        const myKpct = Math.round((p.tK/teamTK)*100);
+        const othKpct = 100-myKpct;
+        const pizzaKills = svgPizza([{l:p.pl,v:p.tK,c:'#1A6FFF'},{l:'Time',v:sum(pStats.filter(x=>x.pl!==p.pl).map(x=>x.tK)),c:'#1A2540'}],100);
+
+        // Gauge KD
+        const gaugeKD = svgGauge(p.kd, 4, 'K/D RATIO', p.kd>=1?'#00C853':'#FF5252', 100);
+
+        // Overall circle
+        const ovrCircle = svgOverall(p.overall, ovrLabel, ovrCol, 90);
+
+        // Barras por mapa
+        const playerMapas = [...new Set(data.filter(d=>d.player===p.pl).map(d=>d.mapa).filter(Boolean))];
+        const playerMapSt = playerMapas.map(m=>{
+          const rows=data.filter(d=>d.player===p.pl&&d.mapa===m);
+          return {l:m, v:sum(rows.map(d=>d.kills)), c:'#1A6FFF'};
+        }).sort((a,b)=>b.v-a.v).slice(0,5);
+        const barsMapas = playerMapSt.length ? svgBars(playerMapSt,'#1A6FFF',180) : '';
+
         return `
-          <div style="break-inside:avoid;margin-bottom:20px;background:#0C1220;border:1px solid #1A3A6B;border-left:4px solid ${blue};padding:16px 20px;border-radius:3px;">
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px;">
-              <div>
-                <div style="font-family:'Orbitron',sans-serif;font-size:14px;font-weight:900;color:#fff;">${p.pl}</div>
-                <div style="font-size:10px;color:${blue};letter-spacing:3px;margin-top:2px;">${p.funcao} · ${p.games} PARTIDAS · PERÍODO: ${periodLabel.toUpperCase()}</div>
+          <div style="break-inside:avoid;margin-bottom:24px;background:#0C1220;border:1px solid #1A3A6B;border-top:3px solid ${blue2};padding:0;overflow:hidden;">
+            <!-- Cabeçalho do jogador -->
+            <div style="background:linear-gradient(135deg,#0D1E3D,#080C14);padding:16px 20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+              ${fotoHtml}
+              <div style="flex:1;min-width:180px;">
+                <div style="font-size:9px;letter-spacing:4px;color:${blue2};font-weight:700;">#${i+1} · ${p.funcao.toUpperCase()}</div>
+                <div style="font-size:20px;font-weight:900;color:#fff;margin:4px 0;letter-spacing:1px;">${p.pl}</div>
+                <div style="font-size:10px;color:#5A6880;">${p.games} partidas · Período: ${periodLabel}</div>
+                <div style="display:flex;gap:16px;margin-top:10px;flex-wrap:wrap;">
+                  <div><div style="font-size:20px;font-weight:900;color:${gold2};">${p.tK}</div><div style="font-size:7px;letter-spacing:2px;color:#5A6880;">KILLS</div></div>
+                  <div><div style="font-size:20px;font-weight:900;color:${p.kd>=1?green2:red2};">${p.kd.toFixed(2)}</div><div style="font-size:7px;letter-spacing:2px;color:#5A6880;">K/D</div></div>
+                  <div><div style="font-size:20px;font-weight:900;color:${blue2};">${Math.round(p.aD)}</div><div style="font-size:7px;letter-spacing:2px;color:#5A6880;">DANO MÉD</div></div>
+                  <div><div style="font-size:20px;font-weight:900;color:#cc66ff;">${p.kda.toFixed(2)}</div><div style="font-size:7px;letter-spacing:2px;color:#5A6880;">KDA</div></div>
+                </div>
               </div>
-              <div style="display:flex;gap:12px;flex-wrap:wrap;">
-                <div style="text-align:center;"><div style="font-size:18px;font-weight:900;color:${gold};">${p.tK}</div><div style="font-size:8px;color:#5A6880;letter-spacing:2px;">KILLS</div></div>
-                <div style="text-align:center;"><div style="font-size:18px;font-weight:900;color:${p.kd>=1?green:'#FF5252'};">${p.kd.toFixed(2)}</div><div style="font-size:8px;color:#5A6880;letter-spacing:2px;">K/D</div></div>
-                <div style="text-align:center;"><div style="font-size:18px;font-weight:900;color:${blue};">${Math.round(p.aD)}</div><div style="font-size:8px;color:#5A6880;letter-spacing:2px;">DANO MÉD</div></div>
-                <div style="text-align:center;"><div style="font-size:18px;font-weight:900;color:${purple};">${p.kda.toFixed(2)}</div><div style="font-size:8px;color:#5A6880;letter-spacing:2px;">KDA</div></div>
+              <!-- Overall + Gauge -->
+              <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
+                ${ovrCircle}
+                ${gaugeKD}
               </div>
             </div>
 
-            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px;">
-              ${[
-                {l:'Assist',v:p.tA,c:'#4D9FFF'},
-                {l:'Dano Total',v:p.tD,c:blue},
-                {l:'Headshot%',v:p.aHS.toFixed(1)+'%',c:'#4dff88'},
-                {l:'Mortes/Jogo',v:p.aM.toFixed(1),c:p.aM<=1?green2:red2},
-                {l:'Cura Total',v:p.tC,c:'#4dff88'},
-                {l:'Derrubou',v:p.tDr,c:purple},
-                {l:'Levantou',v:p.tLv,c:green2},
-                {l:'Conf.Kill%',v:p.killConf+'%',c:parseFloat(p.killConf)>=60?green2:red2},
-                {l:'Dano/Kill',v:p.dpk,c:'#C8D4E8'},
-                {l:'Suporte',v:p.supIdx,c:purple},
-                {l:'Rec.Kill',v:p.recordK,c:gold},
-                {l:'Consistência',v:p.consistency,c:'#C8D4E8'},
-              ].map(s=>`<div style="background:#080C14;padding:8px;border:1px solid #1A2540;text-align:center;">
-                <div style="font-size:13px;font-weight:900;color:${s.c};">${s.v}</div>
-                <div style="font-size:8px;color:#5A6880;letter-spacing:1px;margin-top:2px;">${s.l}</div>
-              </div>`).join('')}
-            </div>
-
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-              <div>
-                <div style="font-size:9px;letter-spacing:3px;color:${green2};font-weight:700;margin-bottom:8px;">✅ PONTOS POSITIVOS</div>
-                ${positivos.length ? positivos.map(p=>`<div style="font-size:11px;color:#C8D4E8;padding:4px 0;border-bottom:1px solid #1A2540;">${p}</div>`).join('') : '<div style="font-size:11px;color:#5A6880;">Nenhum destaque neste período.</div>'}
+            <div style="padding:16px 20px;">
+              <!-- Grid de 12 métricas -->
+              <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-bottom:16px;">
+                ${[
+                  {l:'ASSIST',v:p.tA,c:'#4D9FFF'},
+                  {l:'HS%',v:p.aHS.toFixed(1)+'%',c:p.aHS>=20?'#4dff88':'#ffd700'},
+                  {l:'MORTES/JG',v:p.aM.toFixed(1),c:p.aM<=1?green2:red2},
+                  {l:'CURA TOTAL',v:p.tC,c:'#4dff88'},
+                  {l:'DERRUBOU',v:p.tDr,c:'#cc66ff'},
+                  {l:'LEVANTOU',v:p.tLv,c:green2},
+                  {l:'CONF.KILL',v:p.killConf+'%',c:parseFloat(p.killConf)>=60?green2:red2},
+                  {l:'DANO/KILL',v:p.dpk,c:'#C8D4E8'},
+                  {l:'RESSURGIU',v:p.tRs,c:'#cc66ff'},
+                  {l:'REC.KILL',v:p.recordK,c:gold2},
+                  {l:'REC.DANO',v:p.recordD,c:gold2},
+                  {l:'CONSIST.',v:p.consistency,c:'#C8D4E8'},
+                ].map(s=>`<div style="background:#080C14;padding:8px 4px;border:1px solid #1A2540;text-align:center;">
+                  <div style="font-size:13px;font-weight:900;color:${s.c};">${s.v}</div>
+                  <div style="font-size:7px;color:#5A6880;letter-spacing:1px;margin-top:2px;">${s.l}</div>
+                </div>`).join('')}
               </div>
-              <div>
-                <div style="font-size:9px;letter-spacing:3px;color:${red2};font-weight:700;margin-bottom:8px;">⚠️ PONTOS A MELHORAR</div>
-                ${negativos.length ? negativos.map(n=>`<div style="font-size:11px;color:#C8D4E8;padding:4px 0;border-bottom:1px solid #1A2540;">${n}</div>`).join('') : '<div style="font-size:11px;color:#5A6880;">Sem alertas.</div>'}
+
+              <!-- Gráficos visuais: pizza + barras mapa -->
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+                <div>
+                  <div style="font-size:8px;letter-spacing:3px;color:#5A6880;margin-bottom:8px;">🍕 CONTRIBUIÇÃO DE KILLS NO TIME</div>
+                  ${pizzaKills}
+                </div>
+                <div>
+                  <div style="font-size:8px;letter-spacing:3px;color:#5A6880;margin-bottom:8px;">📊 KILLS POR MAPA</div>
+                  ${barsMapas || '<div style="color:#5A6880;font-size:10px;">Sem dados de mapa.</div>'}
+                </div>
+              </div>
+
+              <!-- Análise por função -->
+              <div style="background:#080C14;border:1px solid #1A2540;padding:10px 14px;margin-bottom:12px;border-left:3px solid ${p.isBomba?'#ff5078':p.isSupport?'#4dff88':p.isSniper?'#cc66ff':'#1A6FFF'};">
+                <div style="font-size:8px;letter-spacing:3px;color:${p.isBomba?'#ff5078':p.isSupport?'#4dff88':p.isSniper?'#cc66ff':'#1A6FFF'};font-weight:700;margin-bottom:4px;">
+                  ${p.isBomba?'💣 ANÁLISE DE BOMBA':p.isSupport?'🛡️ ANÁLISE DE SUPORTE':p.isSniper?'🎯 ANÁLISE DE SNIPER':'⚔️ ANÁLISE DE FRAGGER'}
+                </div>
+                <div style="font-size:10px;color:#C8D4E8;line-height:1.6;">
+                  ${p.isBomba?`Avaliação baseada em: dano (${Math.round(p.aD)} HP), derrubadas (${p.tDr}), confirmação de kills (${p.killConf}%) e K/D (${p.kd.toFixed(2)}). Suporte médico não é critério de avaliação para a função bomba.`:
+                    p.isSupport?`Avaliação baseada em: cura total (${p.tC} HP), levantamentos (${p.tLv}x), ressurgimentos (${p.tRs}x) e assistências (${p.tA}). Kills não são o principal indicador desta função.`:
+                    p.isSniper?`Avaliação baseada em: HS% (${p.aHS.toFixed(1)}%), K/D (${p.kd.toFixed(2)}), dano médio (${Math.round(p.aD)} HP) e sobrevivência (${p.aM.toFixed(1)} mortes/jogo).`:
+                    `Avaliação baseada em: kills (${p.tK}), dano médio (${Math.round(p.aD)} HP), K/D (${p.kd.toFixed(2)}) e precisão (${p.aHS.toFixed(1)}% HS).`}
+                </div>
+              </div>
+
+              <!-- Positivos e Negativos -->
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                <div style="background:#0A150A;border:1px solid #1A4020;padding:10px 12px;">
+                  <div style="font-size:8px;letter-spacing:3px;color:#00C853;font-weight:700;margin-bottom:8px;">✅ PONTOS POSITIVOS</div>
+                  ${positivos.length ? positivos.map(x=>`<div style="font-size:10px;color:#C8D4E8;padding:4px 0;border-bottom:1px solid #1A2540;">${x}</div>`).join('') : '<div style="font-size:10px;color:#5A6880;">Sem destaques neste período.</div>'}
+                </div>
+                <div style="background:#150A0A;border:1px solid #401A1A;padding:10px 12px;">
+                  <div style="font-size:8px;letter-spacing:3px;color:#FF5252;font-weight:700;margin-bottom:8px;">⚠️ PONTOS A MELHORAR</div>
+                  ${negativos.length ? negativos.map(x=>`<div style="font-size:10px;color:#C8D4E8;padding:4px 0;border-bottom:1px solid #1A2540;">${x}</div>`).join('') : '<div style="font-size:10px;color:#5A6880;">Sem alertas neste período.</div>'}
+                </div>
               </div>
             </div>
           </div>`;
-      }).join('');
+      }));
+
 
       // Análises coletivas (positivas e negativas)
       const posColetivo = [];
@@ -3277,19 +3840,236 @@ function generateTacticalPDF() {
           <td style="padding:7px 10px;text-align:center;color:#C8D4E8;">${m.games}</td>
         </tr>`).join('');
 
+      // Gráficos globais
+      const pizzaContrib = svgPizza(
+        pStats.map((p,i)=>({l:p.pl,v:p.tK,c:['#1A6FFF','#ffd700','#ff5078','#4dff88','#cc66ff','#ff9f40'][i%6]})),120);
+      const coneRankK = svgCone(
+        [...pStats].sort((a,b)=>b.tK-a.tK).map(p=>({l:p.pl,v:p.tK})));
+      const coneRankD = svgCone(
+        [...pStats].sort((a,b)=>b.aD-a.aD).map(p=>({l:p.pl,v:Math.round(p.aD)})));
+      const treemapMap = svgTreemap(mapSt);
+      const barsAssist = svgBars(
+        [...pStats].sort((a,b)=>b.tA-a.tA).slice(0,6).map(p=>({l:p.pl,v:p.tA,c:'#4D9FFF'})),'#4D9FFF',200);
+      const barsCura = svgBars(
+        [...pStats].sort((a,b)=>b.tC-a.tC).slice(0,6).map(p=>({l:p.pl,v:p.tC,c:'#4dff88'})),'#4dff88',200);
+
+      // Mapas completo por jogador
+      const mapPlayerRows = mapSt.map(m=>{
+        const rows = data.filter(d=>d.mapa===m.map);
+        const mapPlayers = pStats.map(p=>{
+          const pr=rows.filter(d=>d.player===p.pl);
+          return {pl:p.pl, kills:sum(pr.map(d=>d.kills)), dano:Math.round(avg(pr.map(d=>d.dano))||0), ass:sum(pr.map(d=>d.ass))};
+        }).filter(x=>x.kills>0||x.dano>0);
+        const topK = mapPlayers.sort((a,b)=>b.kills-a.kills)[0];
+        return `<div style="margin-bottom:16px;break-inside:avoid;">
+          <div style="background:#0D1E3D;padding:8px 14px;border-left:3px solid #1A6FFF;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;">
+            <span style="font-size:11px;font-weight:700;color:#fff;letter-spacing:2px;">🗺️ ${m.map}</span>
+            <span style="font-size:9px;color:#5A6880;">${m.games} jogos · ${m.kills} kills · ${m.mortes} mortes · HS: ${m.hs}%</span>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;padding:0 4px;">
+            ${mapPlayers.map(mp=>`<div style="background:#080C14;border:1px solid #1A2540;padding:6px 10px;min-width:90px;">
+              <div style="font-size:9px;color:#C8D4E8;font-weight:700;">${mp.pl}</div>
+              <div style="display:flex;gap:10px;margin-top:3px;">
+                <span style="font-size:10px;color:#1A6FFF;font-weight:900;">${mp.kills}K</span>
+                <span style="font-size:10px;color:#cc66ff;">${mp.dano}D</span>
+                <span style="font-size:10px;color:#4D9FFF;">${mp.ass}A</span>
+              </div>
+            </div>`).join('')}
+          </div>
+          ${topK?`<div style="font-size:9px;color:#ffd700;padding:4px 6px;">⭐ MVP neste mapa: <strong>${topK.pl}</strong> (${topK.kills} kills)</div>`:''}
+        </div>`;
+      }).join('');
+
       const html = `<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
   *{margin:0;padding:0;box-sizing:border-box;}
-  body{background:#080C14;color:#C8D4E8;font-family:'Segoe UI',Arial,sans-serif;font-size:12px;}
-  @media print{body{background:#080C14!important;-webkit-print-color-adjust:exact;print-color-adjust:exact;}}
-  h1,h2,h3{font-family:'Courier New',monospace;}
+  body{background:#080C14;color:#C8D4E8;font-family:'Barlow Condensed','Segoe UI',Arial,sans-serif;font-size:12px;line-height:1.4;}
+  @page{size:A4;margin:15mm;}
+  @media print{body{background:#080C14!important;-webkit-print-color-adjust:exact;print-color-adjust:exact;color-adjust:exact;}
+    .no-break{page-break-inside:avoid;}}
   table{border-collapse:collapse;width:100%;}
+  .orb{font-family:'Orbitron','Courier New',monospace;}
+  .section-title{font-size:9px;letter-spacing:4px;color:#1A6FFF;font-weight:700;margin-bottom:12px;padding:6px 12px;border-left:3px solid #1A6FFF;background:rgba(26,111,255,.06);display:flex;align-items:center;gap:8px;}
 </style>
 </head>
-<body style="padding:28px;">
+<body style="padding:20px 24px;">
+
+<!-- ═══ CAPA ═══ -->
+<div class="no-break" style="text-align:center;padding:36px 24px;background:linear-gradient(135deg,#0A1628 0%,#060A12 60%,#0A1628 100%);border:2px solid #1A3A6B;margin-bottom:24px;position:relative;overflow:hidden;">
+  <div style="position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(26,111,255,.025) 3px,rgba(26,111,255,.025) 4px);"></div>
+  <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#1A6FFF,#4D9FFF,transparent);"></div>
+  <div style="position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,#1A6FFF,transparent);"></div>
+  <div style="position:relative;">
+    <div style="font-size:9px;letter-spacing:8px;color:#4D9FFF;margin-bottom:10px;font-weight:700;">@COACH.STIVE10 · SISTEMA DE ANÁLISES PROFISSIONAIS</div>
+    <div class="orb" style="font-size:36px;font-weight:900;color:#fff;letter-spacing:3px;text-shadow:0 0 40px rgba(26,111,255,.6);">RELATÓRIO TÁTICO</div>
+    <div style="font-size:12px;letter-spacing:5px;color:#4D9FFF;margin-top:8px;">FREE FIRE · VISÃO COMPLETA DA EQUIPE</div>
+    <div style="margin-top:20px;display:flex;justify-content:center;gap:28px;flex-wrap:wrap;">
+      <div style="background:#0C1220;border:1px solid #1A3A6B;padding:8px 16px;"><span style="font-size:8px;letter-spacing:2px;color:#5A6880;">📅 GERADO</span><br><strong style="color:#fff;">${dateStr} ${timeStr}</strong></div>
+      <div style="background:#0C1220;border:1px solid #1A3A6B;padding:8px 16px;"><span style="font-size:8px;letter-spacing:2px;color:#5A6880;">⏱️ PERÍODO</span><br><strong style="color:#4D9FFF;">${periodLabel}</strong></div>
+      <div style="background:#0C1220;border:1px solid #1A3A6B;padding:8px 16px;"><span style="font-size:8px;letter-spacing:2px;color:#5A6880;">👥 JOGADORES</span><br><strong style="color:#fff;">${players.length}</strong></div>
+      <div style="background:#0C1220;border:1px solid #1A3A6B;padding:8px 16px;"><span style="font-size:8px;letter-spacing:2px;color:#5A6880;">📊 REGISTROS</span><br><strong style="color:#fff;">${data.length}</strong></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ KPIs GLOBAIS ═══ -->
+<div class="no-break" style="margin-bottom:20px;">
+  <div class="section-title">📊 PANORAMA GERAL DA EQUIPE</div>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;">
+    ${[
+      {i:'💀',v:totalK,l:'KILLS TOTAIS',c:'#1A6FFF'},
+      {i:'💥',v:Math.round(avgDg),l:'DANO MÉD/JOGO',c:'#cc66ff'},
+      {i:'🤝',v:totalA,l:'ASSISTÊNCIAS',c:'#4D9FFF'},
+      {i:'💊',v:totalC,l:'CURA TOTAL',c:'#4dff88'},
+      {i:'👊',v:totalDr,l:'DERRUBADAS',c:'#ffd700'},
+      {i:'🏥',v:totalLv,l:'LEVANTAMENTOS',c:'#4dff88'},
+      {i:'♻️',v:totalRs,l:'RESSURGIMENTOS',c:'#cc66ff'},
+      {i:'📊',v:idxColab,l:'SINERGIA ASS/K',c:'#ffd700'},
+    ].map(s=>`<div style="background:#0C1220;border:1px solid #1A3A6B;padding:12px;text-align:center;">
+      <div style="font-size:20px;">${s.i}</div>
+      <div class="orb" style="font-size:18px;font-weight:900;color:${s.c};margin:4px 0;">${s.v}</div>
+      <div style="font-size:7px;letter-spacing:2px;color:#5A6880;">${s.l}</div>
+    </div>`).join('')}
+  </div>
+</div>
+
+<!-- ═══ GRÁFICOS GLOBAIS ═══ -->
+<div class="no-break" style="margin-bottom:20px;display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+  <div style="background:#0C1220;border:1px solid #1A3A6B;padding:14px;">
+    <div style="font-size:8px;letter-spacing:3px;color:#5A6880;margin-bottom:10px;">🍕 DISTRIBUIÇÃO DE KILLS — PIZZA</div>
+    ${pizzaContrib}
+  </div>
+  <div style="background:#0C1220;border:1px solid #1A3A6B;padding:14px;">
+    <div style="font-size:8px;letter-spacing:3px;color:#5A6880;margin-bottom:10px;">🌳 TREEMAP — KILLS POR MAPA</div>
+    ${treemapMap}
+  </div>
+</div>
+
+<!-- ═══ CONE DE RANKING ═══ -->
+<div class="no-break" style="margin-bottom:20px;display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+  <div style="background:#0C1220;border:1px solid #1A3A6B;padding:14px;">
+    <div style="font-size:8px;letter-spacing:3px;color:#5A6880;margin-bottom:12px;">🏆 PIRÂMIDE — RANKING KILLS</div>
+    ${coneRankK}
+  </div>
+  <div style="background:#0C1220;border:1px solid #1A3A6B;padding:14px;">
+    <div style="font-size:8px;letter-spacing:3px;color:#5A6880;margin-bottom:12px;">🏆 PIRÂMIDE — RANKING DANO MÉDIO</div>
+    ${coneRankD}
+  </div>
+</div>
+
+<!-- ═══ BARRAS ASSIST + CURA ═══ -->
+<div class="no-break" style="margin-bottom:20px;display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+  <div style="background:#0C1220;border:1px solid #1A3A6B;padding:14px;">
+    <div style="font-size:8px;letter-spacing:3px;color:#5A6880;margin-bottom:10px;">📊 BARRAS — ASSISTÊNCIAS</div>
+    ${barsAssist}
+  </div>
+  <div style="background:#0C1220;border:1px solid #1A3A6B;padding:14px;">
+    <div style="font-size:8px;letter-spacing:3px;color:#5A6880;margin-bottom:10px;">📊 BARRAS — CURA TOTAL</div>
+    ${barsCura}
+  </div>
+</div>
+
+<!-- ═══ TABELA COMPARATIVA ═══ -->
+<div class="no-break" style="margin-bottom:20px;">
+  <div class="section-title">⚔️ RANKING COMPARATIVO — TODOS OS JOGADORES</div>
+  <div style="overflow-x:auto;">
+    <table>
+      <thead>
+        <tr style="background:#0D1E3D;border-bottom:2px solid #1A6FFF;">
+          ${['#','JOGADOR','FUNÇÃO','OVR','KILLS','DANO MÉD','ASSIST','K/D','HS%','MORTES','CURA','CONF%'].map(h=>`<th style="padding:8px 8px;text-align:${h==='#'||h==='OVR'?'center':'left'};font-size:7px;letter-spacing:2px;color:#4D9FFF;">${h}</th>`).join('')}
+        </tr>
+      </thead>
+      <tbody>
+        ${pStats.map((p,i)=>{
+          const medals=['🥇','🥈','🥉'];
+          const kdc=p.kd>=1?'#00C853':'#FF5252';
+          const ovrC=p.overall>=75?'#00C853':p.overall>=50?'#FFD700':p.overall>=25?'#FF9F40':'#FF5252';
+          return `<tr style="background:${i%2===0?'#0C1220':'#0A1018'};border-bottom:1px solid #1A2540;">
+            <td style="padding:7px 8px;text-align:center;font-weight:900;color:#ffd700;">${medals[i]||i+1}</td>
+            <td style="padding:7px 8px;font-weight:700;color:#fff;">${p.pl}</td>
+            <td style="padding:7px 8px;font-size:9px;color:${p.isBomba?'#ff5078':p.isSupport?'#4dff88':p.isSniper?'#cc66ff':'#4D9FFF'};">${p.funcao}</td>
+            <td style="padding:7px 8px;text-align:center;font-weight:900;color:${ovrC};">${Math.round(p.overall)}</td>
+            <td style="padding:7px 8px;font-weight:900;color:#1A6FFF;">${p.tK}</td>
+            <td style="padding:7px 8px;color:#C8D4E8;">${Math.round(p.aD)}</td>
+            <td style="padding:7px 8px;color:#4D9FFF;">${p.tA}</td>
+            <td style="padding:7px 8px;font-weight:700;color:${kdc};">${p.kd.toFixed(2)}</td>
+            <td style="padding:7px 8px;color:#C8D4E8;">${p.aHS.toFixed(1)}%</td>
+            <td style="padding:7px 8px;color:${p.aM<=1?'#00C853':'#FF5252'};">${p.aM.toFixed(1)}</td>
+            <td style="padding:7px 8px;color:#4dff88;">${p.tC}</td>
+            <td style="padding:7px 8px;color:${parseFloat(p.killConf)>=60?'#00C853':'#FF5252'};">${p.killConf}%</td>
+          </tr>`;
+        }).join('')}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ═══ DIAGNÓSTICO COLETIVO ═══ -->
+<div class="no-break" style="margin-bottom:20px;">
+  <div class="section-title">🎯 DIAGNÓSTICO COLETIVO DA EQUIPE</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+    <div style="background:#0A150A;border:1px solid #1A4020;border-left:4px solid #00C853;padding:14px;">
+      <div style="font-size:8px;letter-spacing:3px;color:#00C853;font-weight:700;margin-bottom:10px;">✅ FORÇAS DO TIME</div>
+      ${posColetivo.map(x=>`<div style="font-size:10px;color:#C8D4E8;padding:5px 0;border-bottom:1px solid #1A2540;">${x}</div>`).join('')||'<div style="color:#5A6880;font-size:10px;">Sem destaques.</div>'}
+    </div>
+    <div style="background:#150A0A;border:1px solid #401A1A;border-left:4px solid #FF1744;padding:14px;">
+      <div style="font-size:8px;letter-spacing:3px;color:#FF5252;font-weight:700;margin-bottom:10px;">⚠️ PONTOS A CORRIGIR</div>
+      ${negColetivo.map(x=>`<div style="font-size:10px;color:#C8D4E8;padding:5px 0;border-bottom:1px solid #1A2540;">${x}</div>`).join('')||'<div style="color:#5A6880;font-size:10px;">Sem alertas.</div>'}
+    </div>
+  </div>
+</div>
+
+<!-- ═══ ANÁLISE COLETIVA POR MAPA ═══ -->
+<div style="margin-bottom:20px;">
+  <div class="section-title">🗺️ ANÁLISE COLETIVA POR MAPA — DESEMPENHO DE CADA JOGADOR</div>
+  <table style="margin-bottom:14px;">
+    <thead>
+      <tr style="background:#0D1E3D;border-bottom:2px solid #1A6FFF;">
+        ${['MAPA','KILLS','DANO MÉD','ASSIST','MORTES','CURA','HS%','JOGOS'].map(h=>`<th style="padding:7px 8px;text-align:${h==='MAPA'?'left':'center'};font-size:7px;letter-spacing:2px;color:#4D9FFF;">${h}</th>`).join('')}
+      </tr>
+    </thead>
+    <tbody>${mapRows}</tbody>
+  </table>
+  ${mapPlayerRows}
+</div>
+
+<!-- ═══ DESTAQUES TÁTICOS ═══ -->
+<div class="no-break" style="margin-bottom:20px;">
+  <div class="section-title">⭐ DESTAQUES TÁTICOS DA EQUIPE</div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">
+    ${[
+      {icon:'💀',title:'TOP FRAGGER',name:topK?.pl,val:`${topK?.tK} kills totais`,c:'#1A6FFF'},
+      {icon:'💥',title:'DAMAGE KING',name:topD?.pl,val:`${Math.round(topD?.aD||0)} HP/jogo`,c:'#cc66ff'},
+      {icon:'📊',title:'MELHOR K/D',name:topKD?.pl,val:topKD?.kd.toFixed(2),c:'#4dff88'},
+      {icon:'💊',title:'HEALER',name:topC?.pl,val:`${topC?.tC} HP curados`,c:'#4dff88'},
+      {icon:'🎯',title:'SNIPER',name:topHS?.pl,val:`${topHS?.aHS.toFixed(1)}% HS`,c:'#ffd700'},
+      {icon:'🛡️',title:'SUPPORT KING',name:topSup?.pl,val:`Idx. Suporte: ${topSup?.supIdx}`,c:'#4D9FFF'},
+    ].map(d=>`<div style="background:#0C1220;border:1px solid #1A3A6B;border-top:2px solid ${d.c};padding:12px;text-align:center;">
+      <div style="font-size:22px;">${d.icon}</div>
+      <div style="font-size:7px;letter-spacing:3px;color:#5A6880;margin:4px 0;">${d.title}</div>
+      <div class="orb" style="font-size:12px;font-weight:900;color:#fff;">${d.name||'—'}</div>
+      <div style="font-size:9px;color:${d.c};margin-top:3px;">${d.val||''}</div>
+    </div>`).join('')}
+  </div>
+</div>
+
+<!-- ═══ ANÁLISE INDIVIDUAL ═══ -->
+<div>
+  <div class="section-title">👤 ANÁLISE INDIVIDUAL DETALHADA — POR FUNÇÃO</div>
+  ${detailRows.join('')}
+</div>
+
+<!-- ═══ RODAPÉ ═══ -->
+<div style="text-align:center;padding:16px;border-top:1px solid #1A3A6B;color:#5A6880;font-size:8px;letter-spacing:2px;margin-top:8px;">
+  <div style="margin-bottom:4px;">RELATÓRIO GERADO AUTOMATICAMENTE · @COACH.STIVE10 · ${dateStr}</div>
+  <div>ACESSO RESTRITO — USO INTERNO DA COMISSÃO TÉCNICA</div>
+</div>
+
+</body></html>`;
 
   <!-- CAPA -->
   <div style="text-align:center;padding:32px 20px;background:linear-gradient(135deg,#0D1E3D,#080C14);border:2px solid #1A3A6B;margin-bottom:28px;position:relative;overflow:hidden;">
@@ -3422,20 +4202,39 @@ function generateTacticalPDF() {
 
 </body></html>`;
 
-      // Abrir em nova janela e imprimir como PDF
-      const win = window.open('', '_blank');
-      if (!win) { alert('Permita pop-ups para baixar o relatório.'); overlay.classList.remove('open'); return; }
-      win.document.write(html);
-      win.document.close();
-      win.onload = () => {
-        overlay.classList.remove('open');
-        setTimeout(() => win.print(), 400);
-      };
+      // ── Download real via blob ──
+      const blob = new Blob([html], {type:'text/html;charset=utf-8'});
+      const url = URL.createObjectURL(blob);
+      const win = window.open(url, '_blank');
+      overlay.classList.remove('open');
+      if (!win) {
+        // fallback: link download direto
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `relatorio-tatico-${new Date().toISOString().slice(0,10)}.html`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setTimeout(()=>URL.revokeObjectURL(url),5000);
+      } else {
+        // Instrui o usuário a salvar como PDF via Ctrl+P
+        setTimeout(()=>{
+          win.document.write(html);
+          win.document.close();
+          win.onload = ()=>{
+            // Trigger save dialog
+            setTimeout(()=>{
+              try { win.print(); } catch(e){}
+            }, 800);
+          };
+          URL.revokeObjectURL(url);
+        }, 300);
+      }
     } catch(e) {
       overlay.classList.remove('open');
       alert('Erro ao gerar relatório: ' + e.message);
     }
-  }, 600);
+  })();
 }
 
 // ── BOOT ──
