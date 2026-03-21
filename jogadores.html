@@ -173,6 +173,58 @@ body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
 .badge.bom{background:rgba(77,255,136,.12);border:1px solid rgba(77,255,136,.3);color:#4dff88;}
 .badge.excelente{background:rgba(204,102,255,.12);border:1px solid rgba(204,102,255,.3);color:#cc66ff;}
 
+/* ── PERIOD FILTER BAR ── */
+.period-bar{display:flex;align-items:center;gap:0;padding:10px 24px;background:rgba(8,12,20,.95);border-bottom:1px solid var(--brd);flex-wrap:wrap;gap:10px;}
+.period-label{font-family:'Orbitron',sans-serif;font-size:9px;letter-spacing:3px;color:var(--mu);font-weight:700;margin-right:4px;}
+.period-btns{display:flex;gap:0;border:1px solid var(--brd);overflow:hidden;}
+.period-btn{padding:7px 18px;font-family:'Orbitron',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;
+  background:transparent;border:none;border-right:1px solid var(--brd);color:var(--mu);cursor:pointer;transition:all .25s;white-space:nowrap;}
+.period-btn:last-child{border-right:none;}
+.period-btn.active{background:rgba(26,111,255,.2);color:#fff;box-shadow:inset 0 0 16px rgba(26,111,255,.1);}
+.period-btn:hover:not(.active){background:rgba(26,111,255,.07);color:var(--owh);}
+.period-info{font-size:10px;color:var(--mu);letter-spacing:1px;margin-left:auto;}
+.period-info em{color:var(--bl3);font-style:normal;font-weight:700;}
+
+/* ── PDF LOGIN MODAL ── */
+.pdf-modal-backdrop{position:fixed;inset:0;z-index:900;background:rgba(0,0,0,.82);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;}
+.pdf-modal-backdrop.open{display:flex;}
+.pdf-modal{background:rgba(8,12,20,.99);border:1px solid var(--brd);width:380px;max-width:95vw;position:relative;overflow:hidden;}
+.pdf-modal::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--bl),var(--bl3),transparent);}
+.pdf-modal-hdr{padding:24px 24px 0;display:flex;align-items:center;gap:14px;}
+.pdf-modal-icon{width:44px;height:44px;background:rgba(26,111,255,.12);border:1px solid var(--brd);display:flex;align-items:center;justify-content:center;font-size:22px;}
+.pdf-modal-title{font-family:'Orbitron',sans-serif;font-size:13px;font-weight:900;color:#fff;letter-spacing:1px;}
+.pdf-modal-sub{font-size:9px;letter-spacing:3px;color:var(--bl3);margin-top:2px;}
+.pdf-modal-body{padding:24px;}
+.pdf-modal-field{margin-bottom:14px;}
+.pdf-modal-field label{display:block;font-size:9px;letter-spacing:3px;color:var(--mu);margin-bottom:6px;font-weight:700;}
+.pdf-modal-input{width:100%;background:rgba(26,111,255,.06);border:1px solid var(--brd);color:var(--owh);padding:10px 14px;
+  font-family:'Barlow Condensed',sans-serif;font-size:14px;letter-spacing:1px;outline:none;transition:all .3s;}
+.pdf-modal-input:focus{border-color:var(--bl);background:rgba(26,111,255,.12);box-shadow:0 0 16px rgba(26,111,255,.2);}
+.pdf-modal-err{font-size:11px;color:#ff5078;letter-spacing:1px;margin-top:8px;min-height:16px;}
+.pdf-modal-btns{display:flex;gap:8px;margin-top:4px;}
+.pdf-modal-cancel{flex:1;padding:10px;background:transparent;border:1px solid rgba(255,255,255,.1);color:var(--mu);
+  font-family:'Orbitron',sans-serif;font-size:9px;letter-spacing:2px;cursor:pointer;transition:.2s;}
+.pdf-modal-cancel:hover{border-color:rgba(255,80,120,.4);color:#ff5078;}
+.pdf-modal-submit{flex:2;padding:10px;background:rgba(26,111,255,.15);border:1px solid var(--bl);color:#fff;
+  font-family:'Orbitron',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;cursor:pointer;transition:all .3s;}
+.pdf-modal-submit:hover{background:rgba(26,111,255,.3);box-shadow:0 0 20px rgba(26,111,255,.3);}
+.pdf-modal-close{position:absolute;top:12px;right:14px;background:none;border:none;color:var(--mu);font-size:16px;cursor:pointer;transition:.2s;}
+.pdf-modal-close:hover{color:#fff;}
+
+/* ── PDF GENERATING OVERLAY ── */
+.pdf-gen-overlay{position:fixed;inset:0;z-index:950;background:rgba(0,0,0,.9);display:none;flex-direction:column;align-items:center;justify-content:center;gap:20px;}
+.pdf-gen-overlay.open{display:flex;}
+.pdf-gen-ring{width:64px;height:64px;border:3px solid rgba(26,111,255,.15);border-top-color:var(--bl3);border-radius:50%;animation:spin 1s linear infinite;}
+.pdf-gen-txt{font-family:'Orbitron',sans-serif;font-size:12px;letter-spacing:3px;color:var(--bl3);}
+.pdf-gen-sub{font-size:11px;color:var(--mu);letter-spacing:1px;}
+
+/* ── PDF REPORT BTN ── */
+.pdf-report-btn{display:flex;align-items:center;gap:7px;background:rgba(26,111,255,.12);border:1px solid rgba(26,111,255,.35);
+  color:var(--bl3);padding:8px 16px;font-family:'Orbitron',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;cursor:pointer;
+  transition:all .3s;white-space:nowrap;clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px));}
+.pdf-report-btn:hover{background:rgba(26,111,255,.25);border-color:var(--bl);color:#fff;box-shadow:0 0 20px rgba(26,111,255,.3);}
+.pdf-report-btn-icon{font-size:14px;}
+
 /* KILL GRID */
 .kill-grid{display:flex;flex-wrap:wrap;gap:6px;padding:16px 0;}
 .kill-cell{width:52px;height:62px;border:1px solid;border-radius:2px;display:flex;
@@ -507,6 +559,57 @@ body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
     <div class="status-time" id="statusTime"></div>
   </div>
 
+  <!-- PERIOD FILTER BAR -->
+  <div class="period-bar" id="periodBar" style="display:none;">
+    <span class="period-label">📅 PERÍODO:</span>
+    <div class="period-btns">
+      <button class="period-btn active" onclick="setPeriod('todos',this)">TODOS</button>
+      <button class="period-btn" onclick="setPeriod('hoje',this)">HOJE</button>
+      <button class="period-btn" onclick="setPeriod('semana',this)">ESTA SEMANA</button>
+      <button class="period-btn" onclick="setPeriod('mes',this)">ESTE MÊS</button>
+    </div>
+    <span class="period-info" id="periodInfo"></span>
+    <button class="pdf-report-btn" onclick="openPdfModal()">
+      <span class="pdf-report-btn-icon">📄</span> BAIXAR RELATÓRIO PDF
+    </button>
+  </div>
+
+  <!-- PDF LOGIN MODAL -->
+  <div class="pdf-modal-backdrop" id="pdfModalBackdrop">
+    <div class="pdf-modal">
+      <button class="pdf-modal-close" onclick="closePdfModal()">✕</button>
+      <div class="pdf-modal-hdr">
+        <div class="pdf-modal-icon">🔐</div>
+        <div>
+          <div class="pdf-modal-title">ACESSO RESTRITO</div>
+          <div class="pdf-modal-sub">RELATÓRIO TÁTICO — COACH ONLY</div>
+        </div>
+      </div>
+      <div class="pdf-modal-body">
+        <div class="pdf-modal-field">
+          <label>USUÁRIO</label>
+          <input class="pdf-modal-input" id="pdfUser" type="text" placeholder="Digite o usuário..." autocomplete="off">
+        </div>
+        <div class="pdf-modal-field">
+          <label>SENHA</label>
+          <input class="pdf-modal-input" id="pdfPass" type="password" placeholder="Digite a senha..." onkeydown="if(event.key==='Enter')submitPdfLogin()">
+        </div>
+        <div class="pdf-modal-err" id="pdfErr"></div>
+        <div class="pdf-modal-btns">
+          <button class="pdf-modal-cancel" onclick="closePdfModal()">CANCELAR</button>
+          <button class="pdf-modal-submit" onclick="submitPdfLogin()">🔓 ACESSAR E GERAR PDF</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PDF GENERATING OVERLAY -->
+  <div class="pdf-gen-overlay" id="pdfGenOverlay">
+    <div class="pdf-gen-ring"></div>
+    <div class="pdf-gen-txt">GERANDO RELATÓRIO...</div>
+    <div class="pdf-gen-sub">Compilando 50+ análises táticas</div>
+  </div>
+
   <!-- APP -->
   <div id="app">
     <!-- WELCOME -->
@@ -531,6 +634,86 @@ const SHEET_ID = '1UEOBEj2GT60kdoT7_NV2DJFMvhhcSY0Ao-ej2nka-ec';
 
 let allData = [];
 let charts  = {};
+let currentPeriod = 'todos';
+let currentPlayerName = '';
+
+// ── PERIOD FILTER ──
+function getDateFromStr(s) {
+  if (!s) return null;
+  const m = s.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+  if (m) return new Date(+m[3], +m[2]-1, +m[1]);
+  return null;
+}
+
+function filterByPeriod(data) {
+  if (currentPeriod === 'todos') return data;
+  const now = new Date();
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  return data.filter(d => {
+    const dt = getDateFromStr(d.data);
+    if (!dt) return true; // sem data: inclui sempre
+    if (currentPeriod === 'hoje') {
+      return dt.toDateString() === today.toDateString();
+    }
+    if (currentPeriod === 'semana') {
+      const weekAgo = new Date(today); weekAgo.setDate(today.getDate() - 7);
+      return dt >= weekAgo;
+    }
+    if (currentPeriod === 'mes') {
+      return dt.getFullYear() === today.getFullYear() && dt.getMonth() === today.getMonth();
+    }
+    return true;
+  });
+}
+
+function setPeriod(period, btn) {
+  currentPeriod = period;
+  document.querySelectorAll('.period-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const labels = {todos:'Todos os registros', hoje:'Apenas hoje', semana:'Últimos 7 dias', mes:'Mês atual'};
+  const filtered = filterByPeriod(allData);
+  document.getElementById('periodInfo').innerHTML = `Filtrando: <em>${labels[period]}</em> · <em>${filtered.length}</em> registros`;
+  if (currentPlayerName) {
+    // Destroy charts and re-render
+    Object.keys(charts).forEach(k => { try{ charts[k].destroy(); }catch(e){} });
+    charts = {};
+    // reset tab renders
+    const cmpI = document.getElementById('cmp-inner');
+    const indI = document.getElementById('ind-inner');
+    const colI = document.getElementById('col-inner');
+    if (cmpI) { cmpI.dataset.rendered=''; cmpI.innerHTML=''; }
+    if (indI) { indI.dataset.rendered=''; indI.innerHTML=''; }
+    if (colI) { colI.dataset.rendered=''; colI.innerHTML=''; }
+    renderPlayer(currentPlayerName);
+    // Re-activate current tab
+    const activeTab = document.querySelector('.tab-btn.active');
+    if (activeTab) activeTab.click();
+  }
+}
+
+// ── PDF MODAL ──
+function openPdfModal() {
+  document.getElementById('pdfModalBackdrop').classList.add('open');
+  document.getElementById('pdfUser').value='';
+  document.getElementById('pdfPass').value='';
+  document.getElementById('pdfErr').textContent='';
+  setTimeout(()=>document.getElementById('pdfUser').focus(),100);
+}
+function closePdfModal() {
+  document.getElementById('pdfModalBackdrop').classList.remove('open');
+}
+function submitPdfLogin() {
+  const u = document.getElementById('pdfUser').value.trim();
+  const p = document.getElementById('pdfPass').value.trim();
+  if (u === 'STIVE' && p === 'coachstive') {
+    closePdfModal();
+    generateTacticalPDF();
+  } else {
+    document.getElementById('pdfErr').textContent = '⚠ Usuário ou senha incorretos.';
+    document.getElementById('pdfPass').value = '';
+    document.getElementById('pdfPass').focus();
+  }
+}
 
 // ── LOAD DATA VIA GOOGLE SHEETS GVIZ (sem CORS) ──
 function loadSheetData() {
@@ -759,11 +942,20 @@ function badge(key,val){
 
 // ── RENDER PLAYER ──
 function renderPlayer(name) {
+  currentPlayerName = name;
+  document.getElementById('periodBar').style.display = 'flex';
+  const periodFiltered = filterByPeriod(allData);
+  const periodInfo = document.getElementById('periodInfo');
+  if (periodInfo && currentPeriod === 'todos') {
+    periodInfo.innerHTML = `Mostrando: <em>Todos os registros</em> · <em>${periodFiltered.length}</em> registros`;
+  }
+
   // destroy old charts
   Object.keys(charts).forEach(k => { try{ charts[k].destroy(); }catch(e){} });
   charts = {};
 
-  const pd     = plData(name);
+  const pd_all = allData.filter(r => r.player === name);
+  const pd     = filterByPeriod(pd_all);
   if (!pd.length) { document.getElementById('playerContent').innerHTML = '<div style="color:var(--mu);padding:40px;text-align:center">Nenhum dado encontrado para este jogador.</div>'; return; }
 
   const foto     = pd[0]?.foto || '';
@@ -1070,8 +1262,9 @@ function renderComparative(focusName, tipoFilter) {
   // Todos os tipos disponíveis
   const allTipos = ['TODOS', ...new Set(allData.map(d=>d.tipo).filter(Boolean).map(t=>t.trim()).filter(t=>t!==''))].sort((a,b)=>a==='TODOS'?-1:b==='TODOS'?1:a.localeCompare(b));
 
-  // Filtra dados por tipo
-  const baseData = tipoFilter === 'TODOS' ? allData : allData.filter(d => d.tipo === tipoFilter);
+  // Filtra dados por tipo e período
+  const periodData = filterByPeriod(allData);
+  const baseData = tipoFilter === 'TODOS' ? periodData : periodData.filter(d => d.tipo === tipoFilter);
 
   // Agrupa stats por jogador
   const players = uniqPl();
@@ -1445,9 +1638,11 @@ function renderIndividual(focusName) {
   const inner = document.getElementById('ind-inner');
   if (!inner) return;
 
-  const players = uniqPl();
+  const indData = filterByPeriod(allData);
+
+  const players = [...new Set(indData.map(r=>r.player).filter(Boolean))].sort();
   const pStats = players.map(pl => {
-    const rows = allData.filter(d => d.player === pl);
+    const rows = indData.filter(d => d.player === pl);
     if (!rows.length) return null;
     const totalK    = sum(rows.map(d=>d.kills));
     const totalD    = sum(rows.map(d=>d.dano));
@@ -1573,7 +1768,7 @@ function renderIndividual(focusName) {
   const topRes     = [...pStats].sort((a,b)=>b.totalRes-a.totalRes)[0];
 
   // Mapa stats do foco
-  const focusRows = allData.filter(d=>d.player===focusSt.pl);
+  const focusRows = indData.filter(d=>d.player===focusSt.pl);
   const mapas     = [...new Set(focusRows.map(d=>d.mapa).filter(Boolean))];
   const mapStats  = mapas.map(m=>{
     const mp = focusRows.filter(d=>d.mapa===m);
@@ -2202,10 +2397,12 @@ function renderColetivas() {
   const inner = document.getElementById('col-inner');
   if (!inner) return;
 
+  const colData = filterByPeriod(allData);
+
   // Stats por mapa (coletivo)
-  const mapas = [...new Set(allData.map(d=>d.mapa).filter(Boolean))];
+  const mapas = [...new Set(colData.map(d=>d.mapa).filter(Boolean))];
   const mapSt = mapas.map(m=>{
-    const rows = allData.filter(d=>d.mapa===m);
+    const rows = colData.filter(d=>d.mapa===m);
     return {
       map:m, kills:sum(rows.map(d=>d.kills)), dano:Math.round(avg(rows.map(d=>d.dano))),
       cura:sum(rows.map(d=>d.cura)), ass:sum(rows.map(d=>d.ass)),
@@ -2217,26 +2414,26 @@ function renderColetivas() {
   }).sort((a,b)=>b.kills-a.kills);
 
   // Stats por tipo
-  const tipos = [...new Set(allData.map(d=>d.tipo).filter(Boolean).map(t=>t.trim()).filter(t=>t!==''))];
+  const tipos = [...new Set(colData.map(d=>d.tipo).filter(Boolean).map(t=>t.trim()).filter(t=>t!==''))];
   const tipoSt = tipos.map(t=>{
-    const rows = allData.filter(d=>d.tipo===t);
+    const rows = colData.filter(d=>d.tipo===t);
     return {tipo:t, kills:sum(rows.map(d=>d.kills)), dano:Math.round(avg(rows.map(d=>d.dano))),
       cura:sum(rows.map(d=>d.cura)), ass:sum(rows.map(d=>d.ass)), res:sum(rows.map(d=>d.ressurgidos)),
       mortes:avg(rows.map(d=>d.morreu)), games:rows.length};
   });
 
   // Stats por função
-  const funcoes = [...new Set(allData.map(d=>d.funcao).filter(Boolean).map(f=>f.trim()).filter(f=>f&&!f.startsWith('http')))];
+  const funcoes = [...new Set(colData.map(d=>d.funcao).filter(Boolean).map(f=>f.trim()).filter(f=>f&&!f.startsWith('http')))];
   const funcSt = funcoes.map(f=>{
-    const rows = allData.filter(d=>d.funcao===f);
+    const rows = colData.filter(d=>d.funcao===f);
     return {func:f, kills:sum(rows.map(d=>d.kills)), dano:sum(rows.map(d=>d.dano)),
       cura:sum(rows.map(d=>d.cura)), ass:sum(rows.map(d=>d.ass)), games:rows.length};
   });
 
   // Stats por data
-  const datas = [...new Set(allData.map(d=>d.data).filter(Boolean))].sort();
+  const datas = [...new Set(colData.map(d=>d.data).filter(Boolean))].sort();
   const dateSt = datas.map(dt=>{
-    const rows = allData.filter(d=>d.data===dt);
+    const rows = colData.filter(d=>d.data===dt);
     return {data:dt, kills:sum(rows.map(d=>d.kills)), dano:Math.round(avg(rows.map(d=>d.dano))),
       hs:avg(rows.filter(d=>d.headshot>0).map(d=>d.headshot))};
   });
@@ -2244,41 +2441,41 @@ function renderColetivas() {
   // Stats por dia semana
   const dias = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
   const diaSt = dias.map(d=>{
-    const rows = allData.filter(r=>r.diaSemana&&r.diaSemana.toLowerCase().includes(d.toLowerCase()));
+    const rows = colData.filter(r=>r.diaSemana&&r.diaSemana.toLowerCase().includes(d.toLowerCase()));
     return {dia:d, kills:sum(rows.map(d=>d.kills)), hs:avg(rows.filter(d=>d.headshot>0).map(d=>d.headshot)), games:rows.length};
   });
 
   // Stats por sala
-  const salas = [...new Set(allData.map(d=>d.sala).filter(Boolean))];
+  const salas = [...new Set(colData.map(d=>d.sala).filter(Boolean))];
   const salaSt = salas.map(s=>{
-    const rows = allData.filter(d=>d.sala===s);
+    const rows = colData.filter(d=>d.sala===s);
     const score = sum(rows.map(d=>d.kills+d.ass)) + avg(rows.map(d=>d.dano))/100;
     return {sala:s, kills:sum(rows.map(d=>d.kills)), dano:Math.round(avg(rows.map(d=>d.dano))),
       ass:sum(rows.map(d=>d.ass)), score, games:rows.length};
   }).sort((a,b)=>b.score-a.score);
 
   // Totais gerais
-  const totalKills = sum(allData.map(d=>d.kills));
-  const totalDano  = sum(allData.map(d=>d.dano));
-  const totalCura  = sum(allData.map(d=>d.cura));
-  const totalDerr  = sum(allData.map(d=>d.derrubou));
-  const avgKills   = avg(allData.map(d=>d.kills));
-  const avgDano    = avg(allData.map(d=>d.dano));
-  const avgMortes  = avg(allData.map(d=>d.morreu));
+  const totalKills = sum(colData.map(d=>d.kills));
+  const totalDano  = sum(colData.map(d=>d.dano));
+  const totalCura  = sum(colData.map(d=>d.cura));
+  const totalDerr  = sum(colData.map(d=>d.derrubou));
+  const avgKills   = avg(colData.map(d=>d.kills));
+  const avgDano    = avg(colData.map(d=>d.dano));
+  const avgMortes  = avg(colData.map(d=>d.morreu));
 
   // Desvio padrão
   const stdDev = arr => {
     const m = avg(arr); return Math.sqrt(avg(arr.map(v=>Math.pow(v-m,2))));
   };
-  const stdK = stdDev(allData.map(d=>d.kills));
-  const stdD = stdDev(allData.map(d=>d.dano));
+  const stdK = stdDev(colData.map(d=>d.kills));
+  const stdD = stdDev(colData.map(d=>d.dano));
 
   // Índices coletivos
-  const idxAtaque  = allData.length > 0 ? (totalKills + totalDerr) / allData.length : 0;
-  const idxDefesa  = allData.length > 0 ? (totalCura + sum(allData.map(d=>d.levantados))) / allData.length : 0;
+  const idxAtaque  = colData.length > 0 ? (totalKills + totalDerr) / colData.length : 0;
+  const idxDefesa  = colData.length > 0 ? (totalCura + sum(colData.map(d=>d.levantados))) / colData.length : 0;
   const idxAgress  = avgMortes > 0 ? (avgKills + avgDano/100) / avgMortes : 0;
-  const idxSuport  = avgMortes > 0 ? (avg(allData.map(d=>d.cura)) + avg(allData.map(d=>d.levantados))) / avgMortes : 0;
-  const idxColab   = totalKills > 0 ? sum(allData.map(d=>d.ass)) / totalKills : 0;
+  const idxSuport  = avgMortes > 0 ? (avg(colData.map(d=>d.cura)) + avg(colData.map(d=>d.levantados))) / avgMortes : 0;
+  const idxColab   = totalKills > 0 ? sum(colData.map(d=>d.ass)) / totalKills : 0;
 
   // Mapa mais letal e mais perigoso
   const mapaLetal    = [...mapSt].sort((a,b)=>b.kills-a.kills)[0];
@@ -2705,9 +2902,10 @@ function buildColCharts(mapSt, tipoSt, funcSt, dateSt, diaSt, salaSt) {
   // ID-13: Scatter Dano vs Kills
   const sc1 = document.getElementById('col_scatter_let')?.getContext('2d');
   if (sc1) {
-    const players = [...new Set(allData.map(d=>d.player).filter(Boolean))];
+    const colSc = filterByPeriod(allData);
+    const players = [...new Set(colSc.map(d=>d.player).filter(Boolean))];
     const ps = players.map(pl=>{
-      const rows=allData.filter(d=>d.player===pl);
+      const rows=colSc.filter(d=>d.player===pl);
       return {pl, x:sum(rows.map(d=>d.dano)), y:sum(rows.map(d=>d.kills))};
     });
     const avgX=avg(ps.map(p=>p.x)), avgY=avg(ps.map(p=>p.y));
@@ -2720,11 +2918,11 @@ function buildColCharts(mapSt, tipoSt, funcSt, dateSt, diaSt, salaSt) {
       scales:{x:{...ax,title:{display:true,text:'DANO TOTAL',color:'#5A6880',font:{size:9}}},y:{...ax,title:{display:true,text:'KILLS',color:'#5A6880',font:{size:9}}}}}});
   }
 
-  // ID-14: Funil derrubados→kills
   const funilKillEl = document.getElementById('col_funil_kills');
   if (funilKillEl) {
-    const tDerr = sum(allData.map(d=>d.derrubou));
-    const tKill = sum(allData.map(d=>d.kills));
+    const colFk = filterByPeriod(allData);
+    const tDerr = sum(colFk.map(d=>d.derrubou));
+    const tKill = sum(colFk.map(d=>d.kills));
     funilKillEl.innerHTML = `<div class="funnel-wrap">
       <div class="funnel-stage">
         <div class="funnel-bar-outer" style="width:100%">
@@ -2781,13 +2979,14 @@ function buildColCharts(mapSt, tipoSt, funcSt, dateSt, diaSt, salaSt) {
   // ID-22: Mortes por partida
   const c22 = document.getElementById('col_mortes_part')?.getContext('2d');
   if (c22) {
-    const mortesArr = allData.map(d=>d.morreu);
+    const colData22 = filterByPeriod(allData);
+    const mortesArr = colData22.map(d=>d.morreu);
     const avgM = avg(mortesArr);
     new Chart(c22, {type:'line', data:{
-      labels: allData.map((_,i)=>`#${i+1}`),
+      labels: colData22.map((_,i)=>`#${i+1}`),
       datasets:[
         {label:'Mortes', data:mortesArr, fill:false, borderColor:'rgba(255,80,120,.6)', pointBackgroundColor:mortesArr.map(v=>v>avgM*1.5?'#ff5078':'rgba(255,80,120,.5)'), pointRadius:mortesArr.map(v=>v>avgM*1.5?5:2), tension:.3, borderWidth:1.5},
-        {label:'Média', data:allData.map(()=>avgM.toFixed(2)), borderColor:'rgba(255,215,0,.5)', borderWidth:1.5, borderDash:[4,3], pointRadius:0, fill:false}
+        {label:'Média', data:colData22.map(()=>avgM.toFixed(2)), borderColor:'rgba(255,215,0,.5)', borderWidth:1.5, borderDash:[4,3], pointRadius:0, fill:false}
       ]
     }, options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#5A6880',font:{size:9}}},tooltip:tt},scales:{x:{...ax,ticks:{display:false}},y:{...ax,beginAtZero:true}}}});
   }
@@ -2795,9 +2994,10 @@ function buildColCharts(mapSt, tipoSt, funcSt, dateSt, diaSt, salaSt) {
   // ID-35/36: Box plot coletivo
   const c35 = document.getElementById('col_boxplot')?.getContext('2d');
   if (c35) {
-    const players2 = [...new Set(allData.map(d=>d.player).filter(Boolean))];
+    const colData35 = filterByPeriod(allData);
+    const players2 = [...new Set(colData35.map(d=>d.player).filter(Boolean))];
     const bpData = players2.map(pl=>{
-      const rows = allData.filter(d=>d.player===pl).map(d=>d.kills).sort((a,b)=>a-b);
+      const rows = colData35.filter(d=>d.player===pl).map(d=>d.kills).sort((a,b)=>a-b);
       const q1=rows[Math.floor(rows.length*.25)]||0, q3=rows[Math.floor(rows.length*.75)]||0;
       const med=rows[Math.floor(rows.length*.5)]||0, mn=rows[0]||0, mx=rows[rows.length-1]||0;
       return {pl,q1,q3,med,mn,mx};
@@ -2817,7 +3017,8 @@ function buildColCharts(mapSt, tipoSt, funcSt, dateSt, diaSt, salaSt) {
   // ID-33: Funil sinergia
   const funilSinEl = document.getElementById('col_funil_sinergia');
   if (funilSinEl) {
-    const tK=sum(allData.map(d=>d.kills)), tA=sum(allData.map(d=>d.ass));
+    const colSin = filterByPeriod(allData);
+    const tK=sum(colSin.map(d=>d.kills)), tA=sum(colSin.map(d=>d.ass));
     funilSinEl.innerHTML = `<div class="funnel-wrap">
       <div class="funnel-stage">
         <div class="funnel-bar-outer" style="width:100%">
@@ -2863,6 +3064,378 @@ function buildColCharts(mapSt, tipoSt, funcSt, dateSt, diaSt, salaSt) {
       scales:{r:{ticks:{display:false},grid:{color:'rgba(26,111,255,.1)'},
         pointLabels:{color:'#5A6880',font:{size:8}},angleLines:{color:'rgba(26,111,255,.07)'}}}}});
   }
+}
+
+// ══════════════════════════════════════════════════════
+// ── GERAÇÃO DO RELATÓRIO TÁTICO PDF ──
+// ══════════════════════════════════════════════════════
+function generateTacticalPDF() {
+  const overlay = document.getElementById('pdfGenOverlay');
+  overlay.classList.add('open');
+
+  setTimeout(() => {
+    try {
+      const data = filterByPeriod(allData);
+      const players = [...new Set(data.map(r=>r.player).filter(Boolean))].sort();
+      const now = new Date();
+      const dateStr = now.toLocaleDateString('pt-BR');
+      const timeStr = now.toLocaleTimeString('pt-BR');
+      const periodLabels = {todos:'Todos os registros', hoje:'Hoje', semana:'Últimos 7 dias', mes:'Mês atual'};
+      const periodLabel = periodLabels[currentPeriod] || 'Todos';
+
+      // Agregados globais
+      const totalK  = sum(data.map(d=>d.kills));
+      const totalD  = sum(data.map(d=>d.dano));
+      const totalA  = sum(data.map(d=>d.ass));
+      const totalC  = sum(data.map(d=>d.cura));
+      const totalDr = sum(data.map(d=>d.derrubou));
+      const totalLv = sum(data.map(d=>d.levantados));
+      const totalRs = sum(data.map(d=>d.ressurgidos));
+      const avgKg   = avg(data.map(d=>d.kills));
+      const avgDg   = avg(data.map(d=>d.dano));
+      const avgMg   = avg(data.map(d=>d.morreu));
+      const idxColab = totalK > 0 ? (totalA/totalK).toFixed(2) : '0.00';
+      const stdDev = arr => { const m=avg(arr); return Math.sqrt(avg(arr.map(v=>Math.pow(v-m,2)))); };
+
+      // Stats por jogador
+      const pStats = players.map(pl => {
+        const rows = data.filter(d=>d.player===pl);
+        if (!rows.length) return null;
+        const tK=sum(rows.map(d=>d.kills)), tD=sum(rows.map(d=>d.dano)), tA=sum(rows.map(d=>d.ass));
+        const tDr=sum(rows.map(d=>d.derrubou)), tLv=sum(rows.map(d=>d.levantados));
+        const tRs=sum(rows.map(d=>d.ressurgidos)), tC=sum(rows.map(d=>d.cura));
+        const deaths=sum(rows.map(d=>d.morreu));
+        const aK=avg(rows.map(d=>d.kills)), aD=avg(rows.map(d=>d.dano)), aA=avg(rows.map(d=>d.ass));
+        const aHS=avg(rows.filter(d=>d.headshot>0).map(d=>d.headshot));
+        const aM=avg(rows.map(d=>d.morreu));
+        const kd=avg(rows.map(d=>d.morreu>0?d.kills/d.morreu:d.kills));
+        const kda=deaths>0?(tK+tA)/deaths:tK;
+        const dpk=tK>0?Math.round(tD/tK):0;
+        const killConf=tDr>0?((tK/tDr)*100).toFixed(1):'0.0';
+        const assRatio=tK>0?(tA/tK).toFixed(2):'0.00';
+        const supIdx=tC+tLv+tA;
+        const atkIdx=tK+tDr;
+        const recordD=Math.max(...rows.map(d=>d.dano),0);
+        const recordK=Math.max(...rows.map(d=>d.kills),0);
+        const zeroKGames=rows.filter(d=>d.kills===0).length;
+        const games=rows.length;
+        const consistency=(stdDev(rows.map(d=>d.kills))).toFixed(2);
+        const funcao=rows[0]?.funcao||'—';
+        return {pl,tK,tD,tA,tDr,tLv,tRs,tC,deaths,aK,aD,aA,aHS,aM,kd,kda,dpk,killConf,assRatio,supIdx,atkIdx,recordD,recordK,zeroKGames,games,consistency,funcao};
+      }).filter(Boolean);
+
+      // Mapas
+      const mapas = [...new Set(data.map(d=>d.mapa).filter(Boolean))];
+      const mapSt = mapas.map(m=>{
+        const rows=data.filter(d=>d.mapa===m);
+        return {map:m, kills:sum(rows.map(d=>d.kills)), dano:Math.round(avg(rows.map(d=>d.dano))),
+          cura:sum(rows.map(d=>d.cura)), ass:sum(rows.map(d=>d.ass)), mortes:sum(rows.map(d=>d.morreu)),
+          hs:avg(rows.filter(d=>d.headshot>0).map(d=>d.headshot)).toFixed(1), games:rows.length};
+      }).sort((a,b)=>b.kills-a.kills);
+
+      // Ranks
+      const rankOf = (arr, val, getter) => [...arr].sort((a,b)=>getter(b)-getter(a)).findIndex(p=>getter(p)===val)+1;
+
+      // Insights automáticos positivos e negativos
+      const topK   = [...pStats].sort((a,b)=>b.tK-a.tK)[0];
+      const topD   = [...pStats].sort((a,b)=>b.aD-a.aD)[0];
+      const topKD  = [...pStats].sort((a,b)=>b.kd-a.kd)[0];
+      const topC   = [...pStats].sort((a,b)=>b.tC-a.tC)[0];
+      const topSup = [...pStats].sort((a,b)=>b.supIdx-a.supIdx)[0];
+      const topHS  = [...pStats].sort((a,b)=>b.aHS-a.aHS)[0];
+      const lowKD  = [...pStats].sort((a,b)=>a.kd-b.kd)[0];
+      const lowD   = [...pStats].sort((a,b)=>a.aD-b.aD)[0];
+      const mostDead= [...pStats].sort((a,b)=>b.aM-a.aM)[0];
+      const mapaLetal= mapSt[0];
+      const mapaPerigo= [...mapSt].sort((a,b)=>b.mortes-a.mortes)[0];
+
+      // Geração do HTML do relatório
+      const green='#00C853', red='#FF1744', blue='#1A6FFF', gold='#FFD700', purple='#CE93D8';
+
+      const playerRows = pStats.map((p,i) => {
+        const medals = ['🥇','🥈','🥉'];
+        const rK = rankOf(pStats, p.tK, x=>x.tK);
+        const rD = rankOf(pStats, p.aD, x=>x.aD);
+        const kdbg = p.kd>=1?'#00C85320':'#FF174420';
+        const kdc = p.kd>=1?green:red;
+        return `<tr style="background:${i%2===0?'#0C1220':'#0A1018'};border-bottom:1px solid #1A2540;">
+          <td style="padding:8px 10px;font-family:'Orbitron',sans-serif;font-size:10px;font-weight:900;color:${gold}">${medals[i]||'#'+(i+1)}</td>
+          <td style="padding:8px 10px;font-weight:700;color:#fff;font-size:11px;">${p.pl}</td>
+          <td style="padding:8px 10px;color:#C8D4E8;font-size:10px;">${p.funcao}</td>
+          <td style="padding:8px 10px;text-align:center;font-weight:900;color:${blue};font-size:13px;">${p.tK}</td>
+          <td style="padding:8px 10px;text-align:center;color:#C8D4E8;">${Math.round(p.aD)}</td>
+          <td style="padding:8px 10px;text-align:center;color:#C8D4E8;">${p.tA}</td>
+          <td style="padding:8px 10px;text-align:center;background:${kdbg};color:${kdc};font-weight:700;">${p.kd.toFixed(2)}</td>
+          <td style="padding:8px 10px;text-align:center;color:#C8D4E8;">${p.aHS.toFixed(1)}%</td>
+          <td style="padding:8px 10px;text-align:center;color:${p.aM<=1?green:red};">${p.aM.toFixed(1)}</td>
+          <td style="padding:8px 10px;text-align:center;color:#C8D4E8;">${p.tC}</td>
+          <td style="padding:8px 10px;text-align:center;color:${green};">${p.killConf}%</td>
+          <td style="padding:8px 10px;text-align:center;color:${purple};">${p.supIdx}</td>
+        </tr>`;
+      }).join('');
+
+      const detailRows = pStats.map((p,i) => {
+        const positivos = [];
+        const negativos = [];
+        if (p.tK === Math.max(...pStats.map(x=>x.tK))) positivos.push('🏆 TOP FRAGGER do time');
+        if (p.kd >= 2) positivos.push(`✅ K/D excelente (${p.kd.toFixed(2)})`);
+        else if (p.kd >= 1) positivos.push(`✅ K/D positivo (${p.kd.toFixed(2)})`);
+        if (p.aHS >= 20) positivos.push(`🎯 Alta precisão (${p.aHS.toFixed(1)}% HS)`);
+        if (p.tC === Math.max(...pStats.map(x=>x.tC))) positivos.push('💊 Maior curador do time');
+        if (p.tA === Math.max(...pStats.map(x=>x.tA))) positivos.push('🤝 Maior playmaker');
+        if (p.aM <= 0.5) positivos.push('🛡️ Alta sobrevivência');
+        if (parseFloat(p.killConf) >= 70) positivos.push(`💀 Alta confirmação de kills (${p.killConf}%)`);
+        if (p.aD >= 1500) positivos.push(`💥 Dano médio alto (${Math.round(p.aD)} HP)`);
+        if (p.zeroKGames === 0) positivos.push('🔥 Matou em todas as partidas');
+        if (p.tLv >= 3) positivos.push(`🏥 Levantou companheiros (${p.tLv}x)`);
+        if (p.tRs >= 2) positivos.push(`♻️ Ressurgimentos (${p.tRs}x)`);
+
+        if (p.kd < 0.5) negativos.push(`⚠️ K/D muito baixo (${p.kd.toFixed(2)}) — revisar agressividade`);
+        else if (p.kd < 1) negativos.push(`📉 K/D negativo (${p.kd.toFixed(2)}) — cuidado com exposição`);
+        if (p.aHS < 5) negativos.push('🎯 Precisão baixa — treinar mira');
+        if (p.aM >= 2) negativos.push(`💀 Muitas mortes por jogo (${p.aM.toFixed(1)}) — melhorar posicionamento`);
+        if (p.aD < 500) negativos.push('⚔️ Dano muito baixo — ser mais ativo no combate');
+        if (p.zeroKGames >= Math.ceil(p.games * 0.4)) negativos.push(`🚫 ${p.zeroKGames} partidas sem kill — impacto ofensivo inconsistente`);
+        if (parseFloat(p.killConf) < 40 && p.tDr > 0) negativos.push(`❌ Baixa confirmação de kills (${p.killConf}%) — finalizar alvos derrubados`);
+        if (p.tC === 0 && p.supIdx < 5) negativos.push('💊 Sem contribuição de suporte — integrar mais ao time');
+
+        const green2='#00C853', red2='#FF5252';
+        return `
+          <div style="break-inside:avoid;margin-bottom:20px;background:#0C1220;border:1px solid #1A3A6B;border-left:4px solid ${blue};padding:16px 20px;border-radius:3px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px;">
+              <div>
+                <div style="font-family:'Orbitron',sans-serif;font-size:14px;font-weight:900;color:#fff;">${p.pl}</div>
+                <div style="font-size:10px;color:${blue};letter-spacing:3px;margin-top:2px;">${p.funcao} · ${p.games} PARTIDAS · PERÍODO: ${periodLabel.toUpperCase()}</div>
+              </div>
+              <div style="display:flex;gap:12px;flex-wrap:wrap;">
+                <div style="text-align:center;"><div style="font-size:18px;font-weight:900;color:${gold};">${p.tK}</div><div style="font-size:8px;color:#5A6880;letter-spacing:2px;">KILLS</div></div>
+                <div style="text-align:center;"><div style="font-size:18px;font-weight:900;color:${p.kd>=1?green:'#FF5252'};">${p.kd.toFixed(2)}</div><div style="font-size:8px;color:#5A6880;letter-spacing:2px;">K/D</div></div>
+                <div style="text-align:center;"><div style="font-size:18px;font-weight:900;color:${blue};">${Math.round(p.aD)}</div><div style="font-size:8px;color:#5A6880;letter-spacing:2px;">DANO MÉD</div></div>
+                <div style="text-align:center;"><div style="font-size:18px;font-weight:900;color:${purple};">${p.kda.toFixed(2)}</div><div style="font-size:8px;color:#5A6880;letter-spacing:2px;">KDA</div></div>
+              </div>
+            </div>
+
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px;">
+              ${[
+                {l:'Assist',v:p.tA,c:'#4D9FFF'},
+                {l:'Dano Total',v:p.tD,c:blue},
+                {l:'Headshot%',v:p.aHS.toFixed(1)+'%',c:'#4dff88'},
+                {l:'Mortes/Jogo',v:p.aM.toFixed(1),c:p.aM<=1?green2:red2},
+                {l:'Cura Total',v:p.tC,c:'#4dff88'},
+                {l:'Derrubou',v:p.tDr,c:purple},
+                {l:'Levantou',v:p.tLv,c:green2},
+                {l:'Conf.Kill%',v:p.killConf+'%',c:parseFloat(p.killConf)>=60?green2:red2},
+                {l:'Dano/Kill',v:p.dpk,c:'#C8D4E8'},
+                {l:'Suporte',v:p.supIdx,c:purple},
+                {l:'Rec.Kill',v:p.recordK,c:gold},
+                {l:'Consistência',v:p.consistency,c:'#C8D4E8'},
+              ].map(s=>`<div style="background:#080C14;padding:8px;border:1px solid #1A2540;text-align:center;">
+                <div style="font-size:13px;font-weight:900;color:${s.c};">${s.v}</div>
+                <div style="font-size:8px;color:#5A6880;letter-spacing:1px;margin-top:2px;">${s.l}</div>
+              </div>`).join('')}
+            </div>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+              <div>
+                <div style="font-size:9px;letter-spacing:3px;color:${green2};font-weight:700;margin-bottom:8px;">✅ PONTOS POSITIVOS</div>
+                ${positivos.length ? positivos.map(p=>`<div style="font-size:11px;color:#C8D4E8;padding:4px 0;border-bottom:1px solid #1A2540;">${p}</div>`).join('') : '<div style="font-size:11px;color:#5A6880;">Nenhum destaque neste período.</div>'}
+              </div>
+              <div>
+                <div style="font-size:9px;letter-spacing:3px;color:${red2};font-weight:700;margin-bottom:8px;">⚠️ PONTOS A MELHORAR</div>
+                ${negativos.length ? negativos.map(n=>`<div style="font-size:11px;color:#C8D4E8;padding:4px 0;border-bottom:1px solid #1A2540;">${n}</div>`).join('') : '<div style="font-size:11px;color:#5A6880;">Sem alertas.</div>'}
+              </div>
+            </div>
+          </div>`;
+      }).join('');
+
+      // Análises coletivas (positivas e negativas)
+      const posColetivo = [];
+      const negColetivo = [];
+      const idxColabNum = parseFloat(idxColab);
+      if (idxColabNum >= 1) posColetivo.push(`🤝 Alta sinergia de equipe (Assist/Kill: ${idxColab})`);
+      else if (idxColabNum >= 0.5) posColetivo.push(`🤝 Boa colaboração entre jogadores (${idxColab})`);
+      else negColetivo.push(`⚠️ Baixa colaboração — apenas ${idxColab} assists/kill. Focar jogo coletivo.`);
+      if (avgKg >= 2) posColetivo.push(`💀 Média de kills alta (${avgKg.toFixed(1)}/jogo)`);
+      else negColetivo.push(`📉 Média de kills baixa (${avgKg.toFixed(1)}/jogo)`);
+      if (avgDg >= 1000) posColetivo.push(`💥 Dano médio consistente (${Math.round(avgDg)} HP/jogo)`);
+      else negColetivo.push(`⚔️ Dano médio baixo (${Math.round(avgDg)} HP) — melhorar impacto no combate`);
+      if (totalLv >= 5) posColetivo.push(`🏥 Bom suporte médico — ${totalLv} levantamentos`);
+      if (totalRs >= 3) posColetivo.push(`♻️ Ressurgimentos ativos — ${totalRs} no período`);
+      if (mapaLetal) posColetivo.push(`🗺️ Melhor performance no mapa ${mapaLetal.map} (${mapaLetal.kills} kills)`);
+      if (mapaPerigo && mapaPerigo.map !== mapaLetal?.map) negColetivo.push(`⚠️ Mapa mais perigoso: ${mapaPerigo.map} (${mapaPerigo.mortes} mortes) — revisar tática`);
+      if (avgMg >= 2.5) negColetivo.push(`💀 Alta média de mortes por jogo (${avgMg.toFixed(1)}) — melhorar posicionamento coletivo`);
+
+      const mapRows = mapSt.map((m,i)=>`
+        <tr style="background:${i%2===0?'#0C1220':'#0A1018'};border-bottom:1px solid #1A2540;">
+          <td style="padding:7px 10px;font-weight:700;color:${i===0?gold:'#C8D4E8'};">${m.map}</td>
+          <td style="padding:7px 10px;text-align:center;font-weight:900;color:${blue};">${m.kills}</td>
+          <td style="padding:7px 10px;text-align:center;color:#C8D4E8;">${m.dano}</td>
+          <td style="padding:7px 10px;text-align:center;color:#C8D4E8;">${m.ass}</td>
+          <td style="padding:7px 10px;text-align:center;color:#ff5078;">${m.mortes}</td>
+          <td style="padding:7px 10px;text-align:center;color:#4dff88;">${m.cura}</td>
+          <td style="padding:7px 10px;text-align:center;color:#cc66ff;">${m.hs}%</td>
+          <td style="padding:7px 10px;text-align:center;color:#C8D4E8;">${m.games}</td>
+        </tr>`).join('');
+
+      const html = `<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:#080C14;color:#C8D4E8;font-family:'Segoe UI',Arial,sans-serif;font-size:12px;}
+  @media print{body{background:#080C14!important;-webkit-print-color-adjust:exact;print-color-adjust:exact;}}
+  h1,h2,h3{font-family:'Courier New',monospace;}
+  table{border-collapse:collapse;width:100%;}
+</style>
+</head>
+<body style="padding:28px;">
+
+  <!-- CAPA -->
+  <div style="text-align:center;padding:32px 20px;background:linear-gradient(135deg,#0D1E3D,#080C14);border:2px solid #1A3A6B;margin-bottom:28px;position:relative;overflow:hidden;">
+    <div style="position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(26,111,255,.03) 3px,rgba(26,111,255,.03) 4px);pointer-events:none;"></div>
+    <div style="font-size:9px;letter-spacing:8px;color:#1A6FFF;margin-bottom:8px;">@COACH.STIVE10 · SISTEMA DE ANÁLISES PROFISSIONAIS</div>
+    <div style="font-size:32px;font-weight:900;color:#fff;letter-spacing:2px;font-family:'Courier New',monospace;text-shadow:0 0 30px rgba(26,111,255,.5);">RELATÓRIO TÁTICO</div>
+    <div style="font-size:13px;letter-spacing:4px;color:#4D9FFF;margin-top:6px;">FREE FIRE · VISÃO COMPLETA DA EQUIPE</div>
+    <div style="margin-top:16px;display:flex;justify-content:center;gap:32px;flex-wrap:wrap;">
+      <span style="font-size:10px;color:#5A6880;">📅 Gerado em: <strong style="color:#C8D4E8;">${dateStr} ${timeStr}</strong></span>
+      <span style="font-size:10px;color:#5A6880;">⏱️ Período: <strong style="color:#4D9FFF;">${periodLabel}</strong></span>
+      <span style="font-size:10px;color:#5A6880;">👥 Jogadores: <strong style="color:#C8D4E8;">${players.length}</strong></span>
+      <span style="font-size:10px;color:#5A6880;">📊 Registros: <strong style="color:#C8D4E8;">${data.length}</strong></span>
+    </div>
+  </div>
+
+  <!-- KPIs GLOBAIS -->
+  <div style="margin-bottom:24px;">
+    <div style="font-size:9px;letter-spacing:4px;color:#1A6FFF;font-weight:700;margin-bottom:12px;padding-left:10px;border-left:3px solid #1A6FFF;">PANORAMA GERAL DO TIME</div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;">
+      ${[
+        {i:'💀',v:totalK,l:'KILLS TOTAIS',c:'#1A6FFF'},
+        {i:'💥',v:Math.round(avgDg),l:'DANO MÉD/JOGO',c:'#cc66ff'},
+        {i:'🤝',v:totalA,l:'ASSISTÊNCIAS',c:'#4D9FFF'},
+        {i:'💊',v:totalC,l:'CURA TOTAL',c:'#4dff88'},
+        {i:'👊',v:totalDr,l:'DERRUBADAS',c:'#ffd700'},
+        {i:'🏥',v:totalLv,l:'LEVANTAMENTOS',c:'#4dff88'},
+        {i:'♻️',v:totalRs,l:'RESSURGIMENTOS',c:'#cc66ff'},
+        {i:'📊',v:idxColab,l:'SINERGIA (ASS/K)',c:'#ffd700'},
+      ].map(s=>`<div style="background:#0C1220;border:1px solid #1A3A6B;padding:14px;text-align:center;">
+        <div style="font-size:22px;">${s.i}</div>
+        <div style="font-size:20px;font-weight:900;color:${s.c};font-family:'Courier New',monospace;">${s.v}</div>
+        <div style="font-size:8px;letter-spacing:2px;color:#5A6880;margin-top:3px;">${s.l}</div>
+      </div>`).join('')}
+    </div>
+  </div>
+
+  <!-- TABELA COMPARATIVA COMPLETA -->
+  <div style="margin-bottom:24px;">
+    <div style="font-size:9px;letter-spacing:4px;color:#1A6FFF;font-weight:700;margin-bottom:12px;padding-left:10px;border-left:3px solid #1A6FFF;">RANKING COMPARATIVO — TODOS OS JOGADORES</div>
+    <div style="overflow-x:auto;">
+      <table>
+        <thead>
+          <tr style="background:#0D1E3D;border-bottom:2px solid #1A6FFF;">
+            <th style="padding:9px 10px;text-align:left;font-size:8px;letter-spacing:2px;color:#4D9FFF;">#</th>
+            <th style="padding:9px 10px;text-align:left;font-size:8px;letter-spacing:2px;color:#4D9FFF;">JOGADOR</th>
+            <th style="padding:9px 10px;text-align:left;font-size:8px;letter-spacing:2px;color:#4D9FFF;">FUNÇÃO</th>
+            <th style="padding:9px 10px;text-align:center;font-size:8px;letter-spacing:2px;color:#4D9FFF;">KILLS</th>
+            <th style="padding:9px 10px;text-align:center;font-size:8px;letter-spacing:2px;color:#4D9FFF;">DANO MÉD</th>
+            <th style="padding:9px 10px;text-align:center;font-size:8px;letter-spacing:2px;color:#4D9FFF;">ASSIST</th>
+            <th style="padding:9px 10px;text-align:center;font-size:8px;letter-spacing:2px;color:#4D9FFF;">K/D</th>
+            <th style="padding:9px 10px;text-align:center;font-size:8px;letter-spacing:2px;color:#4D9FFF;">HS%</th>
+            <th style="padding:9px 10px;text-align:center;font-size:8px;letter-spacing:2px;color:#4D9FFF;">MORTES</th>
+            <th style="padding:9px 10px;text-align:center;font-size:8px;letter-spacing:2px;color:#4D9FFF;">CURA</th>
+            <th style="padding:9px 10px;text-align:center;font-size:8px;letter-spacing:2px;color:#4D9FFF;">CONF%</th>
+            <th style="padding:9px 10px;text-align:center;font-size:8px;letter-spacing:2px;color:#4D9FFF;">SUPORTE</th>
+          </tr>
+        </thead>
+        <tbody>${playerRows}</tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ANÁLISE COLETIVA -->
+  <div style="margin-bottom:24px;break-inside:avoid;">
+    <div style="font-size:9px;letter-spacing:4px;color:#1A6FFF;font-weight:700;margin-bottom:12px;padding-left:10px;border-left:3px solid #1A6FFF;">DIAGNÓSTICO COLETIVO DA EQUIPE</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+      <div style="background:#0C1220;border:1px solid #1A3A6B;border-left:4px solid #00C853;padding:16px;">
+        <div style="font-size:9px;letter-spacing:3px;color:#00C853;font-weight:700;margin-bottom:10px;">✅ PONTOS FORTES DO TIME</div>
+        ${posColetivo.map(p=>`<div style="font-size:11px;color:#C8D4E8;padding:5px 0;border-bottom:1px solid #1A2540;">${p}</div>`).join('')}
+        ${posColetivo.length===0?'<div style="color:#5A6880;font-size:11px;">Sem destaques positivos neste período.</div>':''}
+      </div>
+      <div style="background:#0C1220;border:1px solid #1A3A6B;border-left:4px solid #FF1744;padding:16px;">
+        <div style="font-size:9px;letter-spacing:3px;color:#FF5252;font-weight:700;margin-bottom:10px;">⚠️ PONTOS A CORRIGIR</div>
+        ${negColetivo.map(n=>`<div style="font-size:11px;color:#C8D4E8;padding:5px 0;border-bottom:1px solid #1A2540;">${n}</div>`).join('')}
+        ${negColetivo.length===0?'<div style="color:#5A6880;font-size:11px;">Sem alertas neste período.</div>':''}
+      </div>
+    </div>
+  </div>
+
+  <!-- ANÁLISE POR MAPA -->
+  <div style="margin-bottom:24px;">
+    <div style="font-size:9px;letter-spacing:4px;color:#1A6FFF;font-weight:700;margin-bottom:12px;padding-left:10px;border-left:3px solid #1A6FFF;">PERFORMANCE POR MAPA</div>
+    <table>
+      <thead>
+        <tr style="background:#0D1E3D;border-bottom:2px solid #1A6FFF;">
+          <th style="padding:8px 10px;text-align:left;font-size:8px;letter-spacing:2px;color:#4D9FFF;">MAPA</th>
+          <th style="padding:8px 10px;text-align:center;font-size:8px;letter-spacing:2px;color:#4D9FFF;">KILLS</th>
+          <th style="padding:8px 10px;text-align:center;font-size:8px;letter-spacing:2px;color:#4D9FFF;">DANO MÉD</th>
+          <th style="padding:8px 10px;text-align:center;font-size:8px;letter-spacing:2px;color:#4D9FFF;">ASSIST</th>
+          <th style="padding:8px 10px;text-align:center;font-size:8px;letter-spacing:2px;color:#4D9FFF;">MORTES</th>
+          <th style="padding:8px 10px;text-align:center;font-size:8px;letter-spacing:2px;color:#4D9FFF;">CURA</th>
+          <th style="padding:8px 10px;text-align:center;font-size:8px;letter-spacing:2px;color:#4D9FFF;">HS%</th>
+          <th style="padding:8px 10px;text-align:center;font-size:8px;letter-spacing:2px;color:#4D9FFF;">JOGOS</th>
+        </tr>
+      </thead>
+      <tbody>${mapRows}</tbody>
+    </table>
+  </div>
+
+  <!-- ANÁLISE INDIVIDUAL DETALHADA -->
+  <div style="margin-bottom:24px;">
+    <div style="font-size:9px;letter-spacing:4px;color:#1A6FFF;font-weight:700;margin-bottom:16px;padding-left:10px;border-left:3px solid #1A6FFF;">ANÁLISE INDIVIDUAL DETALHADA — 50+ MÉTRICAS</div>
+    ${detailRows}
+  </div>
+
+  <!-- RANKING DE DESTAQUES -->
+  <div style="margin-bottom:24px;break-inside:avoid;">
+    <div style="font-size:9px;letter-spacing:4px;color:#1A6FFF;font-weight:700;margin-bottom:12px;padding-left:10px;border-left:3px solid #1A6FFF;">DESTAQUES TÁTICOS DA EQUIPE</div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;">
+      ${[
+        {icon:'💀',title:'TOP FRAGGER',name:topK?.pl,val:`${topK?.tK} kills`},
+        {icon:'💥',title:'DAMAGE KING',name:topD?.pl,val:`${Math.round(topD?.aD||0)} HP/jogo`},
+        {icon:'📊',title:'MELHOR K/D',name:topKD?.pl,val:topKD?.kd.toFixed(2)},
+        {icon:'💊',title:'HEALER',name:topC?.pl,val:`${topC?.tC} HP curados`},
+        {icon:'🎯',title:'SNIPER',name:topHS?.pl,val:`${topHS?.aHS.toFixed(1)}% HS`},
+        {icon:'🛡️',title:'SUPPORT KING',name:topSup?.pl,val:`${topSup?.supIdx} idx suporte`},
+      ].map(d=>`<div style="background:#0C1220;border:1px solid #1A3A6B;padding:14px;text-align:center;">
+        <div style="font-size:24px;">${d.icon}</div>
+        <div style="font-size:8px;letter-spacing:3px;color:#5A6880;margin:4px 0;">${d.title}</div>
+        <div style="font-size:13px;font-weight:900;color:#fff;">${d.name||'—'}</div>
+        <div style="font-size:10px;color:#4D9FFF;margin-top:4px;">${d.val||''}</div>
+      </div>`).join('')}
+    </div>
+  </div>
+
+  <!-- RODAPÉ -->
+  <div style="text-align:center;padding:20px;border-top:1px solid #1A3A6B;color:#5A6880;font-size:9px;letter-spacing:2px;">
+    RELATÓRIO GERADO AUTOMATICAMENTE · @COACH.STIVE10 · ${dateStr} · ACESSO RESTRITO — USO INTERNO
+  </div>
+
+</body></html>`;
+
+      // Abrir em nova janela e imprimir como PDF
+      const win = window.open('', '_blank');
+      if (!win) { alert('Permita pop-ups para baixar o relatório.'); overlay.classList.remove('open'); return; }
+      win.document.write(html);
+      win.document.close();
+      win.onload = () => {
+        overlay.classList.remove('open');
+        setTimeout(() => win.print(), 400);
+      };
+    } catch(e) {
+      overlay.classList.remove('open');
+      alert('Erro ao gerar relatório: ' + e.message);
+    }
+  }, 600);
 }
 
 // ── BOOT ──
