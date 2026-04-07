@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>SX GG — MEUS STATS</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Barlow+Condensed:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -482,12 +482,16 @@ body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
    RESPONSIVE — TABLET (≤ 900px)
 ═══════════════════════════════════════════ */
 @media(max-width:900px){
+  .charts-row{grid-template-columns:1fr;}
   .charts-row3{grid-template-columns:1fr 1fr;}
   .focus-banner{flex-wrap:wrap;gap:12px;}
   .focus-banner-kpis{gap:12px;}
   .rank-bar-wrap{width:80px;}
-  .contrib-grid{grid-template-columns:repeat(3,1fr);}
-  .idx-cards{grid-template-columns:repeat(3,1fr);}
+  .contrib-grid{grid-template-columns:repeat(2,1fr);}
+  .idx-cards{grid-template-columns:repeat(2,1fr);}
+  .kpi-grid{grid-template-columns:repeat(3,1fr);}
+  .combat-v2-main{gap:40px;}
+  .combat-v2-player{width:100%; max-width:400px;}
 }
 
 /* ═══════════════════════════════════════════
@@ -528,9 +532,9 @@ body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
   /* KPI GRID */
   .kpi-grid{grid-template-columns:repeat(2,1fr);gap:8px;}
   .kpi{padding:12px 8px;}
-  .kpi-v{font-size:18px;}
-  .kpi-l{font-size:7px;}
-  .kpi-i{font-size:13px;}
+  .kpi-v{font-size:16px;}
+  .kpi-l{font-size:8px; letter-spacing: 1px;}
+  .kpi-i{font-size:12px;}
 
   /* CHARTS */
   .charts-row{grid-template-columns:1fr;}
@@ -599,8 +603,20 @@ body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
   .perf-pill-num{font-size:11px;}
 
   /* FILTER BAR */
-  .cmp-filter-bar{gap:6px;}
-  .cmp-filter-btn{padding:5px 10px;font-size:11px;}
+  .cmp-filter-bar{gap:6px; overflow-x: auto; padding-bottom: 8px;}
+  .cmp-filter-btn{padding:8px 12px;font-size:10px;}
+  
+  /* X1 RESPONSIVE */
+  .combat-v2-wrap{padding: 20px 10px; min-height: auto;}
+  .combat-v2-title{font-size: 20px; letter-spacing: 5px;}
+  .combat-v2-subtitle{font-size: 16px;}
+  .combat-v2-vs-large{font-size: 50px; opacity: 0.05;}
+  .combat-v2-bombas{font-size: 60px;}
+  .combat-v2-player{width: 100%;}
+  .combat-v2-photo-container{width: 150px; height: 200px;}
+  .combat-v2-stat-value{font-size: 14px;}
+  .combat-v2-stat-label{font-size: 9px;}
+  .comp-modal-content{width: 90%; padding: 20px;}
 
   /* WELCOME */
   .welcome-title{font-size:16px;}
