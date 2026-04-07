@@ -324,12 +324,15 @@ body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
 .kill-cell-map{font-size:7px;letter-spacing:1px;color:var(--mu);}
 
 /* ── TABS ── */
-.tab-bar{display:flex;gap:0;margin-bottom:24px;border-bottom:1px solid var(--brd);position:relative;
-  overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
-.tab-bar::-webkit-scrollbar{display:none;}
-.tab-btn{padding:12px 20px;font-family:'Orbitron',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;
+.tab-bar{display:flex;gap:8px;margin-bottom:24px;border-bottom:1px solid var(--brd);position:relative;
+  overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:auto;
+  padding: 4px 0; scroll-snap-type: x proximity; scroll-behavior: smooth;}
+.tab-bar::-webkit-scrollbar{height: 4px; background: rgba(255,255,255,0.05);}
+.tab-bar::-webkit-scrollbar-thumb{background: var(--bl); border-radius: 10px;}
+.tab-btn{padding:14px 22px;font-family:'Orbitron',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;
   color:var(--mu);background:transparent;border:none;cursor:pointer;position:relative;
-  transition:all .3s;text-transform:uppercase;white-space:nowrap;}
+  transition:all .3s;text-transform:uppercase;white-space:nowrap; scroll-snap-align: start;
+  min-height: 44px; display: flex; align-items: center; justify-content: center;}
 .tab-btn::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:2px;
   background:var(--bl);transform:scaleX(0);transition:transform .3s;}
 .tab-btn.active{color:var(--wh);}
@@ -537,10 +540,11 @@ body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
 
   /* TABS */
   .tab-bar{overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;
-    scrollbar-width:none;gap:4px;padding-bottom:2px;}
-  .tab-bar::-webkit-scrollbar{display:none;}
-  .tab-btn{padding:9px 12px;font-size:7px;letter-spacing:1px;white-space:nowrap;}
-  .tab-btn.cmp-btn{margin-left:4px;}
+    scrollbar-width: thin; gap:10px; padding: 10px 5px; border-bottom: 2px solid var(--brd);}
+  .tab-bar::-webkit-scrollbar{display:block; height: 3px;}
+  .tab-btn{padding:12px 16px; font-size:10px; letter-spacing:1px; white-space:nowrap; min-width: 120px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05);}
+  .tab-btn.active{background: rgba(26, 111, 255, 0.15); border-color: var(--bl);}
+  .tab-btn.cmp-btn{margin-left:0;}
 
   /* STITLE */
   .stitle{font-size:8px;letter-spacing:2px;margin-bottom:12px;}
@@ -662,6 +666,46 @@ body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
 .analysis-table { width: 100%; border-collapse: collapse; font-size: 11px; margin-top: 10px; }
 .analysis-table th { text-align: left; color: var(--mu); padding: 8px; border-bottom: 1px solid var(--bline); }
 .analysis-table td { padding: 8px; border-bottom: 1px solid rgba(255,255,255,.05); }
+
+/* COMPARAR ANALISES TAB */
+.comp-an-wrap { display: flex; flex-direction: column; gap: 20px; }
+.comp-an-controls { background: var(--dk2); border: 1px solid var(--brd); padding: 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
+.comp-an-field { display: flex; flex-direction: column; gap: 6px; }
+.comp-an-field label { font-family: 'Orbitron', sans-serif; font-size: 9px; color: var(--bl3); letter-spacing: 2px; }
+.comp-an-select, .comp-an-input { background: rgba(255,255,255,.05); border: 1px solid var(--brd); color: #fff; padding: 8px; font-family: 'Barlow Condensed', sans-serif; font-size: 14px; outline: none; }
+.comp-an-select:focus, .comp-an-input:focus { border-color: var(--bl); }
+.comp-an-main { display: grid; grid-template-columns: 300px 1fr; gap: 20px; }
+@media (max-width: 900px) { .comp-an-main { grid-template-columns: 1fr; } }
+.comp-an-player-card { background: var(--dk2); border: 1px solid var(--brd); padding: 20px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 15px; }
+.comp-an-photo { width: 180px; height: 240px; object-fit: cover; border: 2px solid var(--brd); box-shadow: var(--glow); }
+.comp-an-name { font-family: 'Orbitron', sans-serif; font-size: 20px; font-weight: 900; color: #fff; }
+.comp-an-charts { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+@media (max-width: 1200px) { .comp-an-charts { grid-template-columns: 1fr; } }
+.comp-an-chart-box { background: var(--dk2); border: 1px solid var(--brd); padding: 20px; min-height: 350px; }
+.comp-an-chart-title { font-family: 'Orbitron', sans-serif; font-size: 10px; color: var(--bl3); letter-spacing: 3px; margin-bottom: 15px; text-align: center; border-bottom: 1px solid var(--bline); padding-bottom: 10px; }
+
+	/* 1V1 COMBAT STYLES (x1) */
+	.combat-v2-wrap { background: #050505; border: 1px solid #222; position: relative; overflow: hidden; padding: 40px 20px; min-height: 600px; margin-top: 20px; }
+	.combat-v2-bg { position: absolute; inset: 0; background: radial-gradient(circle at center, #111 0%, #000 100%); opacity: 0.8; }
+	.combat-v2-header { position: relative; text-align: center; margin-bottom: 40px; }
+	.combat-v2-title { font-family: 'Orbitron', sans-serif; font-size: 32px; font-weight: 900; color: #fff; letter-spacing: 10px; }
+	.combat-v2-subtitle { font-family: 'Orbitron', sans-serif; font-size: 24px; color: #444; letter-spacing: 5px; margin-top: -5px; }
+	.combat-v2-bombas { position: absolute; top: 0; left: 50%; transform: translateX(-50%); font-size: 120px; font-weight: 900; color: rgba(255,255,255,0.03); z-index: 0; pointer-events: none; }
+	.combat-v2-vs-large { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-family: 'Orbitron', sans-serif; font-size: 100px; font-weight: 900; color: rgba(26, 111, 255, 0.1); z-index: 0; }
+	.combat-v2-main { position: relative; display: flex; justify-content: space-around; align-items: flex-start; gap: 20px; z-index: 1; flex-wrap: wrap; }
+	.combat-v2-player { width: 300px; display: flex; flex-direction: column; align-items: center; }
+	.combat-v2-photo-container { width: 200px; height: 260px; border: 2px solid #333; margin-bottom: 20px; overflow: hidden; background: #111; box-shadow: 0 0 30px rgba(0,0,0,0.5); }
+	.combat-v2-photo { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+	.combat-v2-player-info { text-align: center; margin-bottom: 20px; display: flex; flex-direction: column; align-items: center; gap: 5px; }
+	.combat-v2-player-name { font-family: 'Orbitron', sans-serif; font-size: 24px; font-weight: 900; color: #fff; }
+	.combat-v2-stats-list { width: 100%; display: flex; flex-direction: column; gap: 10px; }
+	.combat-v2-stat-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 15px; background: rgba(255,255,255,0.03); border-left: 3px solid #1A6FFF; }
+	.combat-v2-stat-label { font-size: 10px; letter-spacing: 1px; }
+	.combat-v2-stat-value { font-size: 18px; }
+	.comp-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 1000; display: none; align-items: center; justify-content: center; }
+	.comp-modal.open { display: flex; }
+	.comp-modal-content { background: var(--dk2); border: 1px solid var(--brd); padding: 30px; width: 400px; display: flex; flex-direction: column; gap: 20px; }
+	@media(max-width: 768px) { .combat-v2-vs-large { font-size: 60px; } .combat-v2-title { font-size: 24px; } .combat-v2-subtitle { font-size: 20px; } .combat-v2-stat-value { font-size: 14px; } }
 
 </style>
 </head>
@@ -1827,9 +1871,11 @@ function renderPlayer(name) {
     <div class="tab-bar">
       <button class="tab-btn active" onclick="switchTab('stats',this)">📊 Meus Stats</button>
        <button class="tab-btn" onclick="switchTab('goals',this)">🎯 Metas de Performance</button>
-      <button class="tab-btn cmp-btn" onclick="switchTab('cmp',this)">⚔️ Análises Comparativas</button>
+	      <button class="tab-btn cmp-btn" onclick="switchTab('cmp',this)">⚔️ Análises Comparativas</button>
+	      <button class="tab-btn cmp-btn" style="background:rgba(26,111,255,.1);border-color:var(--bl);color:var(--bl3);" onclick="openCompModal()">⚔️ Comparativo X1</button>
       <button class="tab-btn cmp-btn" onclick="switchTab('ind',this)">👤 Análises Individuais</button>
       <button class="tab-btn cmp-btn" onclick="switchTab('col',this)">🏆 Análises Coletivas</button>
+      <button class="tab-btn cmp-btn" style="background:rgba(255,215,0,.1);border-color:rgba(255,215,0,.3);color:#ffd700;" onclick="switchTab('comp-an',this)">⚖️ Comparar Análises</button>
     </div>
 
     <!-- TAB: STATS -->
@@ -1943,6 +1989,7 @@ function renderPlayer(name) {
         <div class="kpi"><div class="kpi-i">💀</div><div class="kpi-v">${totalK}</div><div class="kpi-l">Total Kills</div></div>
         <div class="kpi"><div class="kpi-i">⚔️</div><div class="kpi-v">${fmt(avgK)}</div><div class="kpi-l">Média Kills</div></div>
         <div class="kpi"><div class="kpi-i">💥</div><div class="kpi-v">${Math.round(avgD)}</div><div class="kpi-l">Dano Médio</div></div>
+        <div class="kpi"><div class="kpi-i">👊</div><div class="kpi-v">${sum(pd.map(d=>d.derrubou))}</div><div class="kpi-l">Total Derrubados</div></div>
         <div class="kpi"><div class="kpi-i">🎯</div><div class="kpi-v">${fmt(avgHS)}%</div><div class="kpi-l">% Cabeça</div></div>
         <div class="kpi"><div class="kpi-i">📊</div><div class="kpi-v">${fmt(kd)}</div><div class="kpi-l">K/D Ratio</div></div>
         <div class="kpi"><div class="kpi-i">🤝</div><div class="kpi-v">${fmt(avgA)}</div><div class="kpi-l">Méd Assist</div></div>
@@ -2063,6 +2110,7 @@ function renderPlayer(name) {
               {l:'Média de Abates',   k:'kills',   v:avgK,           s:''},
               {l:'Média de Assistência',k:'ass',   v:avgA,           s:''},
               {l:'Média de Dano',     k:'dano',    v:avgD,           s:' HP'},
+              {l:'Total de Derrubados',k:'derrubou',v:sum(pd.map(d=>d.derrubou)), s:''},
               {l:'Média de Cura',     k:'cura',    v:avg(pd.map(d=>d.cura)), s:' HP'},
               {l:'Média de Mortes',   k:'morreu',  v:avg(pd.map(d=>d.morreu)), s:''},
               {l:'K/D Ratio',         k:'kd',      v:kd,             s:''},
@@ -2095,11 +2143,175 @@ function renderPlayer(name) {
       <div id="col-inner"><!-- preenchido por renderColetivas() --></div>
     </div>
 
-  `;
+	    <!-- TAB: COMPARAR ANÁLISES -->
+	    <div id="tab-comp-an" class="tab-content">
+	      <div id="comp-an-inner"></div>
+	    </div>
+	
+	    <!-- TAB: COMPARATIVO X1 (x1) -->
+	    <div id="tab-x1" class="tab-content">
+	      <div id="x1-inner"></div>
+	    </div>
+	
+	  `;
 
-  // render charts after DOM update
-  setTimeout(() => buildCharts(pd, mapSt, name, totalK, avgK, avgD, avgHS, kd, avgA, totalCura), 60);
-}
+	  // render charts after DOM update
+	  setTimeout(() => buildCharts(pd, mapSt, name, totalK, avgK, avgD, avgHS, kd, avgA, totalCura), 60);
+	}
+	
+	// ── X1 FUNCTIONS (x1) ──
+	function openCompModal() {
+	  const players = uniqPl();
+	  const modalHtml = `
+	    <div id="compSelectionModal" class="comp-modal open">
+	      <div class="comp-modal-content">
+	        <div class="stitle">SELECIONAR JOGADORES 1V1</div>
+	        <div class="comp-an-field">
+	          <label>JOGADOR 1</label>
+	          <select id="sel-p1" class="comp-an-select">
+	            ${players.map(p => `<option value="${esc(p)}" ${p===currentPlayerName?'selected':''}>${esc(p)}</option>`).join('')}
+	          </select>
+	        </div>
+	        <div class="comp-an-field">
+	          <label>JOGADOR 2</label>
+	          <select id="sel-p2" class="comp-an-select">
+	            ${players.map(p => `<option value="${esc(p)}">${esc(p)}</option>`).join('')}
+	          </select>
+	        </div>
+	        <button class="tab-btn cmp-btn" style="width:100%; margin:0;" onclick="startComparison()">⚔️ INICIAR COMPARATIVO</button>
+	        <button class="tab-btn" style="width:100%;" onclick="closeCompModal()">CANCELAR</button>
+	      </div>
+	    </div>
+	  `;
+	  let modal = document.getElementById('compSelectionModal');
+	  if (!modal) {
+	    const div = document.createElement('div');
+	    div.id = 'compSelectionModalContainer';
+	    div.innerHTML = modalHtml;
+	    document.body.appendChild(div);
+	  } else {
+	    modal.classList.add('open');
+	  }
+	}
+	
+	function closeCompModal() {
+	  const modal = document.getElementById('compSelectionModal');
+	  if (modal) modal.classList.remove('open');
+	}
+	
+	function startComparison() {
+	  const p1 = document.getElementById('sel-p1').value;
+	  const p2 = document.getElementById('sel-p2').value;
+	  closeCompModal();
+	  renderComparison1v1(p1, p2);
+	}
+	
+function renderComparison1v1(p1, p2) {
+  // Calcula o total de kills da equipe no período selecionado (considerando o filtro de data atual)
+  const periodData = filterByPeriod(allData);
+  const teamTotalKills = sum(periodData.map(d => d.kills)) || 1;
+
+  const getStats = (name) => {
+    // Filtra os dados do jogador dentro do período selecionado
+    const d = periodData.filter(x => x.player === name);
+    const games = d.length || 1;
+    const kills = sum(d.map(x => x.kills));
+    const dano = sum(d.map(x => x.dano));
+    const pFoto = d.find(x => x.foto && x.foto.startsWith('http'));
+    
+    // Calcula a participação real: (Kills do Jogador / Total da Equipe) * 100
+    const participation = ((kills / teamTotalKills) * 100).toFixed(1);
+
+    return {
+      kills: kills,
+      media: (kills / games).toFixed(1),
+      ass: sum(d.map(x => x.ass)),
+      derrubados: sum(d.map(x => x.derrubou)),
+      dano: dano.toLocaleString('pt-BR'),
+      part: participation + "%", 
+      mvp: "-", 
+      quedas: games,
+      foto: pFoto ? pFoto.foto : ''
+    };
+  };
+
+  const s1 = getStats(p1);
+  const s2 = getStats(p2);
+	
+	  // Switch to X1 tab
+	  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+	  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+	  const tabX1 = document.getElementById('tab-x1');
+	  tabX1.classList.add('active');
+	  
+	  tabX1.innerHTML = `
+	    <div class="combat-v2-wrap">
+	      <div class="combat-v2-bg"></div>
+	      <div class="combat-v2-header">
+	        <div class="combat-v2-title">COMPARATIVO</div>
+	        <div class="combat-v2-subtitle">DOS JOGADORES</div>
+	        <div class="combat-v2-bombas">BOMBAS</div>
+	        <div class="combat-v2-vs-large">1V1</div>
+	      </div>
+	
+	      <div class="combat-v2-main">
+	        <!-- JOGADOR 1 -->
+	        <div class="combat-v2-player">
+	          <div class="combat-v2-photo-container">
+	            <img src="${s1.foto}" class="combat-v2-photo" onerror="this.src='https://i.ibb.co/Kxq2pRPz/SX-GAMING-LOGO.webp'">
+	          </div>
+	          <div class="combat-v2-player-info">
+	            <div class="combat-v2-player-name">${esc(p1)}</div>
+	            <div style="color:#fff; font-weight:bold; border:1px solid #fff; padding:2px 5px; font-size:10px;">SX GG</div>
+	          </div>
+	          <div class="combat-v2-stats-list">
+	            ${renderStatRow("ABATES", s1.kills)}
+	            ${renderStatRow("MÉDIA", s1.media)}
+	            ${renderStatRow("ASSIST.", s1.ass)}
+	            ${renderStatRow("DERRUBADOS", s1.derrubados)}
+	            ${renderStatRow("DANO", s1.dano)}
+	            ${renderStatRow("PART. ABATES", s1.part)}
+	            ${renderStatRow("MVP", s1.mvp)}
+	            ${renderStatRow("QUEDAS", s1.quedas)}
+	          </div>
+	        </div>
+	
+	        <!-- JOGADOR 2 -->
+	        <div class="combat-v2-player">
+	          <div class="combat-v2-photo-container">
+	            <img src="${s2.foto}" class="combat-v2-photo" onerror="this.src='https://i.ibb.co/Kxq2pRPz/SX-GAMING-LOGO.webp'">
+	          </div>
+	          <div class="combat-v2-player-info">
+	            <div style="color:#fff; font-weight:bold; border:1px solid #fff; padding:2px 5px; font-size:10px;">SX GG</div>
+	            <div class="combat-v2-player-name">${esc(p2)}</div>
+	          </div>
+	          <div class="combat-v2-stats-list">
+	            ${renderStatRow("ABATES", s2.kills)}
+	            ${renderStatRow("MÉDIA", s2.media)}
+	            ${renderStatRow("ASSIST.", s2.ass)}
+	            ${renderStatRow("DERRUBADOS", s2.derrubados)}
+	            ${renderStatRow("DANO", s2.dano)}
+	            ${renderStatRow("PART. ABATES", s2.part)}
+	            ${renderStatRow("MVP", s2.mvp)}
+	            ${renderStatRow("QUEDAS", s2.quedas)}
+	          </div>
+	        </div>
+	      </div>
+	      <div style="text-align:center; margin-top:30px; position:relative; z-index:1;">
+	        <button class="tab-btn" onclick="openCompModal()">⚔️ NOVO COMPARATIVO</button>
+	      </div>
+	    </div>
+	  `;
+	}
+	
+	function renderStatRow(label, value) {
+	  return `
+	    <div class="combat-v2-stat-row">
+	      <div class="combat-v2-stat-label">${label}</div>
+	      <div class="combat-v2-stat-value">${value}</div>
+	    </div>
+	  `;
+	}
 
 // ── COLLAPSE ──
 function toggleCollapse(bodyId, arrowId) {
@@ -2123,6 +2335,9 @@ function switchTab(tab, btn) {
   document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
   btn.classList.add('active');
   document.getElementById('tab-'+tab).classList.add('active');
+  
+  // Centraliza a aba clicada na visualização (melhora navegação mobile)
+  btn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
   if (tab === 'cmp') {
     const focusName = document.getElementById('tab-cmp').dataset.focus;
     if (!document.getElementById('cmp-inner').dataset.rendered) {
@@ -2143,6 +2358,307 @@ function switchTab(tab, btn) {
       document.getElementById('col-inner').dataset.rendered = '1';
     }
   }
+  if (tab === 'comp-an') {
+    renderCompAn();
+  }
+}
+
+// ── COMPARAR ANÁLISES ──
+function renderCompAn() {
+  const inner = document.getElementById('comp-an-inner');
+  if (!inner) return;
+
+  const players = uniqPl();
+  const allTipos = ['TODOS', ...new Set(allData.map(d=>d.tipo).filter(Boolean).map(t=>t.trim()).filter(t=>t!==''))].sort();
+  const metrics = [
+    {k:'kills', l:'KILLS'},
+    {k:'dano', l:'DANO'},
+    {k:'ass', l:'ASSISTÊNCIAS'},
+    {k:'derrubou', l:'DERRUBADOS'},
+    {k:'morreu', l:'MORTES'},
+    {k:'headshot', l:'HEADSHOT %'},
+    {k:'cura', l:'CURA'}
+  ];
+
+  inner.innerHTML = `
+    <div class="comp-an-wrap">
+      <div class="comp-an-controls">
+        <div class="comp-an-field">
+          <label>SELECIONAR JOGADOR</label>
+          <select id="ca-player" class="comp-an-select" onchange="updateCompAn()">
+            ${players.map(p => `<option value="${esc(p)}" ${p===currentPlayerName?'selected':''}>${esc(p)}</option>`).join('')}
+          </select>
+        </div>
+        <div class="comp-an-field">
+          <label>MÉTRICA A</label>
+          <select id="ca-metric-a" class="comp-an-select" onchange="updateCompAn()">
+            ${metrics.map(m => `<option value="${m.k}" ${m.k==='derrubou'?'selected':''}>${m.l}</option>`).join('')}
+          </select>
+        </div>
+        <div class="comp-an-field">
+          <label>MÉTRICA B</label>
+          <select id="ca-metric-b" class="comp-an-select" onchange="updateCompAn()">
+            ${metrics.map(m => `<option value="${m.k}" ${m.k==='kills'?'selected':''}>${m.l}</option>`).join('')}
+          </select>
+        </div>
+        <div class="comp-an-field">
+          <label>CAMPEONATO</label>
+          <select id="ca-tipo" class="comp-an-select" onchange="updateCompAn()">
+            ${allTipos.map(t => `<option value="${esc(t)}">${esc(t)}</option>`).join('')}
+          </select>
+        </div>
+        <div class="comp-an-field">
+          <label>DIA DA SEMANA</label>
+          <select id="ca-dia" class="comp-an-select" onchange="updateCompAn()">
+            <option value="TODOS">TODOS</option>
+            <option value="Segunda-feira">SEGUNDA</option>
+            <option value="Terça-feira">TERÇA</option>
+            <option value="Quarta-feira">QUARTA</option>
+            <option value="Quinta-feira">QUINTA</option>
+            <option value="Sexta-feira">SEXTA</option>
+            <option value="Sábado">SÁBADO</option>
+            <option value="Domingo">DOMINGO</option>
+          </select>
+        </div>
+        <div class="comp-an-field">
+          <label>DATA INÍCIO</label>
+          <input type="date" id="ca-start" class="comp-an-input" onchange="updateCompAn()">
+        </div>
+        <div class="comp-an-field">
+          <label>DATA FIM</label>
+          <input type="date" id="ca-end" class="comp-an-input" onchange="updateCompAn()">
+        </div>
+        <div class="comp-an-field">
+          <label>MODO DE ANÁLISE</label>
+          <select id="ca-mode" class="comp-an-select" onchange="updateCompAn()">
+            <option value="raw">DADOS BRUTOS</option>
+            <option value="pct">PERCENTUAL (%)</option>
+            <option value="combat">1V1 - COMBATE</option>
+          </select>
+        </div>
+        <div class="comp-an-field" id="ca-player-b-field" style="display:none;">
+          <label>OPONENTE (1V1)</label>
+          <select id="ca-player-b" class="comp-an-select" onchange="updateCompAn()">
+            ${players.map(p => `<option value="${esc(p)}">${esc(p)}</option>`).join('')}
+          </select>
+        </div>
+      </div>
+
+      <div class="comp-an-main">
+        <div id="ca-player-card" class="comp-an-player-card">
+          <!-- Preenchido via JS -->
+        </div>
+        <div class="comp-an-charts">
+          <div class="comp-an-chart-box">
+            <div class="comp-an-chart-title">DISTRIBUIÇÃO (PIZZA)</div>
+            <div style="height:280px;"><canvas id="ca-chart-pie"></canvas></div>
+          </div>
+          <div class="comp-an-chart-box">
+            <div class="comp-an-chart-title">EVOLUÇÃO (LINHA)</div>
+            <div style="height:280px;"><canvas id="ca-chart-line"></canvas></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  updateCompAn();
+}
+
+function updateCompAn() {
+  const plName = document.getElementById('ca-player').value;
+  const metA   = document.getElementById('ca-metric-a').value;
+  const metB   = document.getElementById('ca-metric-b').value;
+  const tipo   = document.getElementById('ca-tipo').value;
+  const dia    = document.getElementById('ca-dia').value;
+  const start  = document.getElementById('ca-start').value;
+  const end    = document.getElementById('ca-end').value;
+  const mode   = document.getElementById('ca-mode').value;
+  const plBName = document.getElementById('ca-player-b').value;
+
+  const metALabel = document.querySelector(`#ca-metric-a option[value="${metA}"]`).textContent;
+  const metBLabel = document.querySelector(`#ca-metric-b option[value="${metB}"]`).textContent;
+
+  // Toggle Player B field
+  document.getElementById('ca-player-b-field').style.display = mode === 'combat' ? 'flex' : 'none';
+
+  // Filtra dados Player A
+  const filterData = (name) => {
+    let d = allData.filter(x => x.player === name);
+    if (tipo !== 'TODOS') d = d.filter(x => x.tipo === tipo);
+    if (dia !== 'TODOS') d = d.filter(x => x.diaSemana === dia);
+    if (start) { const sDate = new Date(start); d = d.filter(x => { const dt = parseSheetDate(x.data); return dt && dt >= sDate; }); }
+    if (end) { const eDate = new Date(end); d = d.filter(x => { const dt = parseSheetDate(x.data); return dt && dt <= eDate; }); }
+    return d;
+  };
+
+  const dataA = filterData(plName);
+  const dataB = filterData(plBName);
+
+  const mainArea = document.querySelector('.comp-an-main');
+
+  if (mode === 'combat') {
+    // MODO COMBATE 1V1
+    const getStats = (data) => {
+      const k = sum(data.map(d => d.kills));
+      const d = sum(data.map(d => d.dano));
+      const a = sum(data.map(d => d.ass));
+      const dr = sum(data.map(d => d.derrubou));
+      const m = sum(data.map(d => d.morreu));
+      const hs = avg(data.filter(d => d.headshot > 0).map(d => d.headshot));
+      const avgK = avg(data.map(d => d.kills));
+      const games = data.length;
+      return { k, d, a, dr, m, hs, avgK, games };
+    };
+
+    const sA = getStats(dataA);
+    const sB = getStats(dataB);
+    const fA = dataA.find(d => d.foto)?.foto || '';
+    const fB = dataB.find(d => d.foto)?.foto || '';
+
+    const compare = (vA, vB, inv = false) => {
+      if (vA === vB) return { clsA: '', clsB: '' };
+      const aBetter = inv ? vA < vB : vA > vB;
+      return { clsA: aBetter ? 'better' : 'worse', clsB: aBetter ? 'worse' : 'better' };
+    };
+
+    const rK = compare(sA.k, sB.k);
+    const rAvg = compare(sA.avgK, sB.avgK);
+    const rA = compare(sA.a, sB.a);
+    const rDr = compare(sA.dr, sB.dr);
+    const rD = compare(sA.d, sB.d);
+    const rHS = compare(sA.hs, sB.hs);
+    const rM = compare(sA.m, sB.m, true);
+
+    mainArea.style.display = 'block';
+    mainArea.innerHTML = `
+      <div class="combat-wrap">
+        <div class="combat-header">
+          <div class="combat-player">
+            <div class="combat-photo-wrap">
+              ${fA ? `<img src="${esc(fA)}" class="combat-photo" onerror="this.outerHTML='<div class=ph-photo-ph style=width:100%;height:100%>👤</div>'">` : `<div class="ph-photo-ph" style="width:100%;height:100%">👤</div>`}
+            </div>
+            <div class="combat-name">${esc(plName)}</div>
+          </div>
+          <div class="combat-vs">1V1</div>
+          <div class="combat-player">
+            <div class="combat-photo-wrap">
+              ${fB ? `<img src="${esc(fB)}" class="combat-photo" onerror="this.outerHTML='<div class=ph-photo-ph style=width:100%;height:100%>👤</div>'">` : `<div class="ph-photo-ph" style="width:100%;height:100%">👤</div>`}
+            </div>
+            <div class="combat-name">${esc(plBName)}</div>
+          </div>
+        </div>
+        <table class="combat-table">
+          <tr class="combat-row"><td class="combat-cell combat-val ${rK.clsA}">${sA.k}</td><td class="combat-cell combat-label">ABATES TOTAIS</td><td class="combat-cell combat-val ${rK.clsB}">${sB.k}</td></tr>
+          <tr class="combat-row"><td class="combat-cell combat-val ${rAvg.clsA}">${sA.avgK.toFixed(2)}</td><td class="combat-cell combat-label">MÉDIA ABATES</td><td class="combat-cell combat-val ${rAvg.clsB}">${sB.avgK.toFixed(2)}</td></tr>
+          <tr class="combat-row"><td class="combat-cell combat-val ${rA.clsA}">${sA.a}</td><td class="combat-cell combat-label">ASSISTÊNCIAS</td><td class="combat-cell combat-val ${rA.clsB}">${sB.a}</td></tr>
+          <tr class="combat-row"><td class="combat-cell combat-val ${rDr.clsA}">${sA.dr}</td><td class="combat-cell combat-label">DERRUBADOS</td><td class="combat-cell combat-val ${rDr.clsB}">${sB.dr}</td></tr>
+          <tr class="combat-row"><td class="combat-cell combat-val ${rD.clsA}">${Math.round(sA.d)}</td><td class="combat-cell combat-label">DANO TOTAL</td><td class="combat-cell combat-val ${rD.clsB}">${Math.round(sB.d)}</td></tr>
+          <tr class="combat-row"><td class="combat-cell combat-val ${rHS.clsA}">${sA.hs.toFixed(1)}%</td><td class="combat-cell combat-label">% HEADSHOT</td><td class="combat-cell combat-val ${rHS.clsB}">${sB.hs.toFixed(1)}%</td></tr>
+          <tr class="combat-row"><td class="combat-cell combat-val ${rM.clsA}">${sA.m}</td><td class="combat-cell combat-label">MORTES</td><td class="combat-cell combat-val ${rM.clsB}">${sB.m}</td></tr>
+          <tr class="combat-row"><td class="combat-cell combat-val">${sA.games}</td><td class="combat-cell combat-label">PARTIDAS</td><td class="combat-cell combat-val">${sB.games}</td></tr>
+        </table>
+      </div>
+    `;
+    return;
+  }
+
+  // MODO NORMAL (PIZZA/LINHA)
+  mainArea.style.display = 'grid';
+  mainArea.innerHTML = `
+    <div id="ca-player-card" class="comp-an-player-card"></div>
+    <div class="comp-an-charts">
+      <div class="comp-an-chart-box">
+        <div class="comp-an-chart-title">DISTRIBUIÇÃO (PIZZA)</div>
+        <div style="height:280px;"><canvas id="ca-chart-pie"></canvas></div>
+      </div>
+      <div class="comp-an-chart-box">
+        <div class="comp-an-chart-title">EVOLUÇÃO (LINHA)</div>
+        <div style="height:280px;"><canvas id="ca-chart-line"></canvas></div>
+      </div>
+    </div>
+  `;
+
+  // Atualiza Card do Jogador
+  const card = document.getElementById('ca-player-card');
+  const foto = dataA.find(d => d.foto)?.foto || '';
+  const role = noUrl(dataA[0]?.funcao) || 'PLAYER';
+  card.innerHTML = `
+    ${foto ? `<img src="${esc(foto)}" class="comp-an-photo" onerror="this.outerHTML='<div class=ph-photo-ph style=width:180px;height:240px>👤</div>'">` : `<div class="ph-photo-ph" style="width:180px;height:240px">👤</div>`}
+    <div class="comp-an-name">${esc(plName)}</div>
+    <div style="font-size:12px;color:var(--bl3);letter-spacing:2px;">${esc(role)}</div>
+    <div style="margin-top:10px;font-size:11px;color:var(--mu);">${dataA.length} PARTIDAS FILTRADAS</div>
+  `;
+
+  // Prepara dados para gráficos
+  const sumA = sum(dataA.map(d => d[metA]));
+  const sumB = sum(dataA.map(d => d[metB]));
+
+  // Chart Pizza
+  const ctxPie = document.getElementById('ca-chart-pie')?.getContext('2d');
+  if (charts.caPie) charts.caPie.destroy();
+  
+  let pieData = [sumA, sumB];
+  let pieLabels = [metALabel, metBLabel];
+  if (mode === 'pct') {
+    const total = sumA + sumB;
+    if (total > 0) {
+      pieData = [(sumA/total*100).toFixed(1), (sumB/total*100).toFixed(1)];
+    }
+  }
+
+  charts.caPie = new Chart(ctxPie, {
+    type: 'pie',
+    data: {
+      labels: pieLabels,
+      datasets: [{
+        data: pieData,
+        backgroundColor: ['rgba(26,111,255,.7)', 'rgba(204,102,255,.7)'],
+        borderColor: ['#1A6FFF', '#cc66ff'],
+        borderWidth: 2
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { 
+        legend: { position: 'bottom', labels: { color: '#fff', font: { family: "'Barlow Condensed'" } } },
+        tooltip: { callbacks: { label: ctx => ` ${ctx.label}: ${ctx.raw}${mode==='pct'?'%':''}` } }
+      }
+    }
+  });
+
+  // Chart Linha (Evolução)
+  const ctxLine = document.getElementById('ca-chart-line')?.getContext('2d');
+  if (charts.caLine) charts.caLine.destroy();
+
+  const byDate = {};
+  dataA.forEach(d => { if(!d.data) return; (byDate[d.data]=byDate[d.data]||[]).push(d); });
+  const sortedDates = Object.keys(byDate).sort((a,b) => parseSheetDate(a) - parseSheetDate(b));
+
+  const lineLabels = sortedDates;
+  const lineDataA = sortedDates.map(d => avg(byDate[d].map(x => x[metA])));
+  const lineDataB = sortedDates.map(d => avg(byDate[d].map(x => x[metB])));
+
+  charts.caLine = new Chart(ctxLine, {
+    type: 'line',
+    data: {
+      labels: lineLabels,
+      datasets: [
+        { label: metALabel, data: lineDataA, borderColor: '#1A6FFF', backgroundColor: 'rgba(26,111,255,.1)', fill: true, tension: 0.4 },
+        { label: metBLabel, data: lineDataB, borderColor: '#cc66ff', backgroundColor: 'rgba(204,102,255,.1)', fill: true, tension: 0.4 }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      scales: {
+        x: { ticks: { color: '#888', font: { size: 9 } }, grid: { display: false } },
+        y: { ticks: { color: '#888' }, grid: { color: 'rgba(255,255,255,.05)' } }
+      },
+      plugins: { 
+        legend: { position: 'bottom', labels: { color: '#fff', font: { family: "'Barlow Condensed'" } } }
+      }
+    }
+  });
 }
 
 // ── COMPARATIVE ANALYSIS ──
@@ -4847,6 +5363,41 @@ function generateTacticalPDF() {
 .analysis-table th { text-align: left; color: var(--mu); padding: 8px; border-bottom: 1px solid var(--bline); }
 .analysis-table td { padding: 8px; border-bottom: 1px solid rgba(255,255,255,.05); }
 
+/* COMPARAR ANALISES TAB */
+.comp-an-wrap { display: flex; flex-direction: column; gap: 20px; }
+.comp-an-controls { background: var(--dk2); border: 1px solid var(--brd); padding: 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
+.comp-an-field { display: flex; flex-direction: column; gap: 6px; }
+.comp-an-field label { font-family: 'Orbitron', sans-serif; font-size: 9px; color: var(--bl3); letter-spacing: 2px; }
+.comp-an-select, .comp-an-input { background: rgba(255,255,255,.05); border: 1px solid var(--brd); color: #fff; padding: 8px; font-family: 'Barlow Condensed', sans-serif; font-size: 14px; outline: none; }
+.comp-an-select:focus, .comp-an-input:focus { border-color: var(--bl); }
+.comp-an-main { display: grid; grid-template-columns: 300px 1fr; gap: 20px; }
+@media (max-width: 900px) { .comp-an-main { grid-template-columns: 1fr; } }
+.comp-an-player-card { background: var(--dk2); border: 1px solid var(--brd); padding: 20px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 15px; }
+.comp-an-photo { width: 180px; height: 240px; object-fit: cover; border: 2px solid var(--brd); box-shadow: var(--glow); }
+.comp-an-name { font-family: 'Orbitron', sans-serif; font-size: 20px; font-weight: 900; color: #fff; }
+.comp-an-charts { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+@media (max-width: 1200px) { .comp-an-charts { grid-template-columns: 1fr; } }
+.comp-an-chart-box { background: var(--dk2); border: 1px solid var(--brd); padding: 20px; min-height: 350px; }
+.comp-an-chart-title { font-family: 'Orbitron', sans-serif; font-size: 10px; color: var(--bl3); letter-spacing: 3px; margin-bottom: 15px; text-align: center; border-bottom: 1px solid var(--bline); padding-bottom: 10px; }
+
+/* 1V1 COMBAT STYLES */
+.combat-wrap { display: flex; flex-direction: column; gap: 20px; background: linear-gradient(180deg, rgba(26,111,255,0.05) 0%, rgba(0,0,0,0) 100%); padding: 20px; border: 1px solid var(--brd); margin-top: 20px; }
+.combat-header { display: flex; justify-content: center; align-items: center; gap: 40px; margin-bottom: 30px; position: relative; }
+.combat-vs { font-family: 'Orbitron', sans-serif; font-size: 48px; font-weight: 900; color: #ffd700; text-shadow: 0 0 30px rgba(255,215,0,0.5); font-style: italic; z-index: 2; }
+.combat-player { display: flex; flex-direction: column; align-items: center; gap: 15px; width: 250px; }
+.combat-photo-wrap { position: relative; width: 200px; height: 260px; border: 3px solid var(--brd); overflow: hidden; transition: 0.3s; }
+.combat-player.winner .combat-photo-wrap { border-color: #ffd700; box-shadow: 0 0 30px rgba(255,215,0,0.4); }
+.combat-photo { width: 100%; height: 100%; object-fit: cover; }
+.combat-name { font-family: 'Orbitron', sans-serif; font-size: 22px; font-weight: 900; color: #fff; text-transform: uppercase; letter-spacing: 2px; }
+.combat-table { width: 100%; max-width: 800px; margin: 0 auto; border-collapse: separate; border-spacing: 0 8px; }
+.combat-row { background: rgba(255,255,255,0.03); transition: 0.2s; }
+.combat-row:hover { background: rgba(255,255,255,0.07); }
+.combat-cell { padding: 12px; text-align: center; font-family: 'Orbitron', sans-serif; font-size: 14px; font-weight: 700; border-top: 1px solid rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.05); }
+.combat-label { background: rgba(26,111,255,0.1); color: var(--bl3); font-size: 10px; letter-spacing: 2px; width: 180px; border: 1px solid var(--brd); }
+.combat-val { width: 120px; color: #fff; }
+.combat-val.better { color: #ffd700; text-shadow: 0 0 10px rgba(255,215,0,0.3); }
+.combat-val.worse { color: #ff5078; opacity: 0.7; }
+
 </style>
 </head>
 <body>
@@ -5412,6 +5963,41 @@ loadSheetData();
 .analysis-table { width: 100%; border-collapse: collapse; font-size: 11px; margin-top: 10px; }
 .analysis-table th { text-align: left; color: var(--mu); padding: 8px; border-bottom: 1px solid var(--bline); }
 .analysis-table td { padding: 8px; border-bottom: 1px solid rgba(255,255,255,.05); }
+
+/* COMPARAR ANALISES TAB */
+.comp-an-wrap { display: flex; flex-direction: column; gap: 20px; }
+.comp-an-controls { background: var(--dk2); border: 1px solid var(--brd); padding: 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
+.comp-an-field { display: flex; flex-direction: column; gap: 6px; }
+.comp-an-field label { font-family: 'Orbitron', sans-serif; font-size: 9px; color: var(--bl3); letter-spacing: 2px; }
+.comp-an-select, .comp-an-input { background: rgba(255,255,255,.05); border: 1px solid var(--brd); color: #fff; padding: 8px; font-family: 'Barlow Condensed', sans-serif; font-size: 14px; outline: none; }
+.comp-an-select:focus, .comp-an-input:focus { border-color: var(--bl); }
+.comp-an-main { display: grid; grid-template-columns: 300px 1fr; gap: 20px; }
+@media (max-width: 900px) { .comp-an-main { grid-template-columns: 1fr; } }
+.comp-an-player-card { background: var(--dk2); border: 1px solid var(--brd); padding: 20px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 15px; }
+.comp-an-photo { width: 180px; height: 240px; object-fit: cover; border: 2px solid var(--brd); box-shadow: var(--glow); }
+.comp-an-name { font-family: 'Orbitron', sans-serif; font-size: 20px; font-weight: 900; color: #fff; }
+.comp-an-charts { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+@media (max-width: 1200px) { .comp-an-charts { grid-template-columns: 1fr; } }
+.comp-an-chart-box { background: var(--dk2); border: 1px solid var(--brd); padding: 20px; min-height: 350px; }
+.comp-an-chart-title { font-family: 'Orbitron', sans-serif; font-size: 10px; color: var(--bl3); letter-spacing: 3px; margin-bottom: 15px; text-align: center; border-bottom: 1px solid var(--bline); padding-bottom: 10px; }
+
+/* 1V1 COMBAT STYLES */
+.combat-wrap { display: flex; flex-direction: column; gap: 20px; background: linear-gradient(180deg, rgba(26,111,255,0.05) 0%, rgba(0,0,0,0) 100%); padding: 20px; border: 1px solid var(--brd); margin-top: 20px; }
+.combat-header { display: flex; justify-content: center; align-items: center; gap: 40px; margin-bottom: 30px; position: relative; }
+.combat-vs { font-family: 'Orbitron', sans-serif; font-size: 48px; font-weight: 900; color: #ffd700; text-shadow: 0 0 30px rgba(255,215,0,0.5); font-style: italic; z-index: 2; }
+.combat-player { display: flex; flex-direction: column; align-items: center; gap: 15px; width: 250px; }
+.combat-photo-wrap { position: relative; width: 200px; height: 260px; border: 3px solid var(--brd); overflow: hidden; transition: 0.3s; }
+.combat-player.winner .combat-photo-wrap { border-color: #ffd700; box-shadow: 0 0 30px rgba(255,215,0,0.4); }
+.combat-photo { width: 100%; height: 100%; object-fit: cover; }
+.combat-name { font-family: 'Orbitron', sans-serif; font-size: 22px; font-weight: 900; color: #fff; text-transform: uppercase; letter-spacing: 2px; }
+.combat-table { width: 100%; max-width: 800px; margin: 0 auto; border-collapse: separate; border-spacing: 0 8px; }
+.combat-row { background: rgba(255,255,255,0.03); transition: 0.2s; }
+.combat-row:hover { background: rgba(255,255,255,0.07); }
+.combat-cell { padding: 12px; text-align: center; font-family: 'Orbitron', sans-serif; font-size: 14px; font-weight: 700; border-top: 1px solid rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.05); }
+.combat-label { background: rgba(26,111,255,0.1); color: var(--bl3); font-size: 10px; letter-spacing: 2px; width: 180px; border: 1px solid var(--brd); }
+.combat-val { width: 120px; color: #fff; }
+.combat-val.better { color: #ffd700; text-shadow: 0 0 10px rgba(255,215,0,0.3); }
+.combat-val.worse { color: #ff5078; opacity: 0.7; }
 
 </style>
 <script>
