@@ -1755,9 +1755,8 @@ function renderPlayer(name) {
   const avgA     = avg(pd.map(d=>d.ass));
   const avgHS    = avg(pd.filter(d=>d.headshot>0).map(d=>d.headshot));
   const totalCura= sum(pd.map(d=>d.cura));
-  // K/D: média do K/D de cada partida (kills/mortes por partida)
-  const kdPerGame = pd.map(d => d.morreu > 0 ? d.kills / d.morreu : d.kills);
-  const kd        = avg(kdPerGame);
+  // K/D: total de kills dividido pelo número de partidas
+  const kd        = pd.length > 0 ? totalK / pd.length : 0;
   const kda      = deaths > 0 ? (totalK + sum(pd.map(d=>d.ass)))/deaths : totalK;
   const mapas    = [...new Set(pd.map(d=>d.mapa).filter(Boolean))];
   const mapSt    = mapas.map(m => { const mp=pd.filter(d=>d.mapa===m); return{map:m,kills:sum(mp.map(d=>d.kills)),dano:Math.round(avg(mp.map(d=>d.dano))),games:mp.length}; });
@@ -2175,8 +2174,7 @@ function renderComparative(focusName, tipoFilter) {
     const avgD     = avg(rows.map(d=>d.dano));
     const avgA     = avg(rows.map(d=>d.ass));
     const avgHS    = avg(rows.filter(d=>d.headshot>0).map(d=>d.headshot));
-    const kdPerGame= rows.map(d => d.morreu > 0 ? d.kills/d.morreu : d.kills);
-    const kd       = avg(kdPerGame);
+    const kd       = rows.length > 0 ? sum(rows.map(d=>d.kills)) / rows.length : 0;
     const games    = rows.length;
     const foto     = rows[0]?.foto || '';
     const isFocus  = pl === focusName;
