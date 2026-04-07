@@ -2176,29 +2176,68 @@ function renderPlayer(name) {
 	}
 	
 	// ── X1 FUNCTIONS (x1) ──
-	function openCompModal() {
-	  const players = uniqPl();
-	  const modalHtml = `
-	    <div id="compSelectionModal" class="comp-modal open">
-	      <div class="comp-modal-content">
-	        <div class="stitle">SELECIONAR JOGADORES 1V1</div>
-	        <div class="comp-an-field">
-	          <label>JOGADOR 1</label>
-	          <select id="sel-p1" class="comp-an-select">
-	            ${players.map(p => `<option value="${esc(p)}" ${p===currentPlayerName?'selected':''}>${esc(p)}</option>`).join('')}
-	          </select>
-	        </div>
-	        <div class="comp-an-field">
-	          <label>JOGADOR 2</label>
-	          <select id="sel-p2" class="comp-an-select">
-	            ${players.map(p => `<option value="${esc(p)}">${esc(p)}</option>`).join('')}
-	          </select>
-	        </div>
-	        <button class="tab-btn cmp-btn" style="width:100%; margin:0;" onclick="startComparison()">⚔️ INICIAR COMPARATIVO</button>
-	        <button class="tab-btn" style="width:100%;" onclick="closeCompModal()">CANCELAR</button>
-	      </div>
-	    </div>
-	  `;
+function openCompModal() {
+  const players = uniqPl();
+  const allTipos = ['TODOS', ...new Set(allData.map(d=>d.tipo).filter(Boolean).map(t=>t.trim()).filter(t=>t!==''))].sort();
+  const modalHtml = `
+    <div id="compSelectionModal" class="comp-modal open">
+      <div class="comp-modal-content" style="width: 450px; max-height: 90vh; overflow-y: auto;">
+        <div class="stitle">SELECIONAR JOGADORES 1V1</div>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+          <div class="comp-an-field">
+            <label>JOGADOR 1</label>
+            <select id="sel-p1" class="comp-an-select">
+              ${players.map(p => `<option value="${esc(p)}" ${p===currentPlayerName?'selected':''}>${esc(p)}</option>`).join('')}
+            </select>
+          </div>
+          <div class="comp-an-field">
+            <label>JOGADOR 2</label>
+            <select id="sel-p2" class="comp-an-select">
+              ${players.map(p => `<option value="${esc(p)}">${esc(p)}</option>`).join('')}
+            </select>
+          </div>
+        </div>
+
+        <div class="stitle" style="margin-top: 20px; font-size: 10px; border-bottom: 1px solid var(--brd); padding-bottom: 5px;">FILTROS DE BATALHA</div>
+        
+        <div class="comp-an-field">
+          <label>CAMPEONATO</label>
+          <select id="sel-tipo" class="comp-an-select">
+            ${allTipos.map(t => `<option value="${esc(t)}">${esc(t)}</option>`).join('')}
+          </select>
+        </div>
+
+        <div class="comp-an-field">
+          <label>DIA DA SEMANA</label>
+          <select id="sel-dia" class="comp-an-select">
+            <option value="TODOS">TODOS</option>
+            <option value="Segunda-feira">SEGUNDA</option>
+            <option value="Terça-feira">TERÇA</option>
+            <option value="Quarta-feira">QUARTA</option>
+            <option value="Quinta-feira">QUINTA</option>
+            <option value="Sexta-feira">SEXTA</option>
+            <option value="Sábado">SÁBADO</option>
+            <option value="Domingo">DOMINGO</option>
+          </select>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+          <div class="comp-an-field">
+            <label>DATA INÍCIO</label>
+            <input type="date" id="sel-start" class="comp-an-input">
+          </div>
+          <div class="comp-an-field">
+            <label>DATA FIM</label>
+            <input type="date" id="sel-end" class="comp-an-input">
+          </div>
+        </div>
+
+        <button class="tab-btn cmp-btn" style="width:100%; margin:20px 0 0 0;" onclick="startComparison()">⚔️ INICIAR COMPARATIVO</button>
+        <button class="tab-btn" style="width:100%;" onclick="closeCompModal()">CANCELAR</button>
+      </div>
+    </div>
+  `;
 	  let modal = document.getElementById('compSelectionModal');
 	  if (!modal) {
 	    const div = document.createElement('div');
@@ -2215,27 +2254,47 @@ function renderPlayer(name) {
 	  if (modal) modal.classList.remove('open');
 	}
 	
-	function startComparison() {
-	  const p1 = document.getElementById('sel-p1').value;
-	  const p2 = document.getElementById('sel-p2').value;
-	  closeCompModal();
-	  renderComparison1v1(p1, p2);
-	}
-	
-function renderComparison1v1(p1, p2) {
-  // Calcula o total de kills da equipe no período selecionado (considerando o filtro de data atual)
-  const periodData = filterByPeriod(allData);
-  const teamTotalKills = sum(periodData.map(d => d.kills)) || 1;
+function startComparison() {
+  const p1 = document.getElementById('sel-p1').value;
+  const p2 = document.getElementById('sel-p2').value;
+  const tipo = document.getElementById('sel-tipo').value;
+  const dia = document.getElementById('sel-dia').value;
+  const start = document.getElementById('sel-start').value;
+  const end = document.getElementById('sel-end').value;
+  closeCompModal();
+  renderComparison1v1(p1, p2, { tipo, dia, start, end });
+}
+
+function renderComparison1v1(p1, p2, filters = {}) {
+  // Base de dados filtrada pelo período global primeiro
+  let baseData = filterByPeriod(allData);
+  
+  // Aplica filtros específicos do X1 (Campeonato, Dia, Datas personalizadas)
+  const applyX1Filters = (data) => {
+    let d = [...data];
+    if (filters.tipo && filters.tipo !== 'TODOS') d = d.filter(x => x.tipo === filters.tipo);
+    if (filters.dia && filters.dia !== 'TODOS') d = d.filter(x => x.diaSemana === filters.dia);
+    if (filters.start) { 
+      const sDate = new Date(filters.start); 
+      d = d.filter(x => { const dt = parseSheetDate(x.data); return dt && dt >= sDate; }); 
+    }
+    if (filters.end) { 
+      const eDate = new Date(filters.end); 
+      d = d.filter(x => { const dt = parseSheetDate(x.data); return dt && dt <= eDate; }); 
+    }
+    return d;
+  };
+
+  const filteredData = applyX1Filters(baseData);
+  const teamTotalKills = sum(filteredData.map(d => d.kills)) || 1;
 
   const getStats = (name) => {
-    // Filtra os dados do jogador dentro do período selecionado
-    const d = periodData.filter(x => x.player === name);
+    const d = filteredData.filter(x => x.player === name);
     const games = d.length || 1;
     const kills = sum(d.map(x => x.kills));
     const dano = sum(d.map(x => x.dano));
     const pFoto = d.find(x => x.foto && x.foto.startsWith('http'));
     
-    // Calcula a participação real: (Kills do Jogador / Total da Equipe) * 100
     const participation = ((kills / teamTotalKills) * 100).toFixed(1);
 
     return {
