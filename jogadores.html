@@ -1740,9 +1740,9 @@ function selectPlayer(name) {
   document.getElementById('searchInput').value = name;
   closeSearch();
   const pd      = plData(name);
-  const videoUrl = pd[0]?.video || '';
-  const foto    = pd[0]?.foto   || '';
-  const role    = noUrl(pd[0]?.funcao) || 'PLAYER';
+  const videoUrl = pd.find(r => r.video && r.video.trim())?.video || '';
+  const foto    = pd.find(r => r.foto && r.foto.trim())?.foto || '';
+  const role    = noUrl(pd.find(r => noUrl(r.funcao))?.funcao) || 'PLAYER';
   playIntro(name, role, videoUrl, () => {
     document.getElementById('welcomeScreen').style.display = 'none';
     document.getElementById('playerContent').style.display = 'block';
