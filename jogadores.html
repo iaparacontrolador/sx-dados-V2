@@ -98,8 +98,15 @@ body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
   .welcome-arrow{font-size:12px;color:var(--bl3);letter-spacing:2px;margin-top:8px;animation:bounce .8s infinite alternate;}
   @keyframes bounce{from{transform:translateY(0)}to{transform:translateY(-6px)}}
 
+  /* HOME TABS */
+  .home-tabs{display:flex;justify-content:center;gap:12px;margin-top:20px;flex-wrap:wrap;width:100%;max-width:1200px;}
+  .home-tab-btn{padding:12px 20px;font-family:'Orbitron',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;
+    color:var(--bl3);background:rgba(255,255,255,.06);border:1px solid var(--brd);cursor:pointer;
+    transition:all .3s;text-transform:uppercase;clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px));}
+  .home-tab-btn:hover{background:rgba(255,255,255,.15);border-color:var(--bl);color:#fff;box-shadow:var(--glow);transform:translateY(-2px);}
+
   /* PLAYER GALLERY */
-  .player-gallery{display:flex;justify-content:center;flex-wrap:wrap;gap:30px;width:100%;max-width:1200px;margin-top:30px;}
+  .player-gallery{display:flex;justify-content:center;flex-wrap:wrap;gap:30px;width:100%;max-width:1200px;margin-top:40px;}
   .gallery-item{width:160px;cursor:pointer;transition:all .3s;text-align:center;position:relative;}
   .gallery-item{cursor:pointer;transition:all .3s;text-align:center;position:relative;}
   .gallery-item:hover{transform:translateY(-10px);}
@@ -683,6 +690,85 @@ body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
 .analysis-table th { text-align: left; color: var(--mu); padding: 8px; border-bottom: 1px solid var(--bline); }
 .analysis-table td { padding: 8px; border-bottom: 1px solid rgba(255,255,255,.05); }
 
+
+/* ── QUEBRA DE CALL STYLES ── */
+.qc-kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 20px; }
+.qc-kpi { background: var(--dk2); border: 1px solid var(--brd); padding: 16px 14px; text-align: center; position: relative; overflow: hidden; }
+.qc-kpi::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; }
+.qc-kpi.win::before { background: linear-gradient(90deg, #4dff88, #00ffcc); }
+.qc-kpi.loss::before { background: linear-gradient(90deg, #ff5078, #ff9090); }
+.qc-kpi.neutral::before { background: linear-gradient(90deg, var(--bl), var(--bl3)); }
+.qc-kpi-v { font-family: 'Orbitron', sans-serif; font-size: 26px; font-weight: 900; }
+.qc-kpi-v.win-v { color: #4dff88; }
+.qc-kpi-v.loss-v { color: #ff5078; }
+.qc-kpi-v.neutral-v { background: linear-gradient(135deg, var(--bl3), #fff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.qc-kpi-l { font-size: 8px; letter-spacing: 3px; color: var(--mu); text-transform: uppercase; margin-top: 4px; }
+.qc-player-row { display: flex; align-items: center; gap: 14px; padding: 10px; background: rgba(255,215,0,.03); border: 1px solid rgba(255,215,0,.1); margin-bottom: 8px; transition: .2s; }
+.qc-player-row:hover { border-color: rgba(255,215,0,.3); background: rgba(255,215,0,.06); }
+.qc-player-row.first { border-color: rgba(255,215,0,.4); background: rgba(255,215,0,.06); }
+.qc-player-rank { font-family: 'Orbitron', sans-serif; font-size: 22px; font-weight: 900; width: 32px; text-align: center; }
+.qc-player-photo { width: 44px; height: 56px; object-fit: cover; object-position: top; border: 1px solid rgba(255,215,0,.3); flex-shrink: 0; }
+.qc-player-info { flex: 1; }
+.qc-player-name { font-family: 'Orbitron', sans-serif; font-size: 12px; font-weight: 700; color: #fff; }
+.qc-player-stats { font-size: 10px; color: var(--mu); margin-top: 3px; letter-spacing: 1px; }
+.qc-win-rate { font-family: 'Orbitron', sans-serif; font-size: 18px; font-weight: 900; }
+.qc-hist-table { width: 100%; border-collapse: collapse; font-size: 11px; }
+.qc-hist-table th { padding: 8px 10px; font-family: 'Orbitron', sans-serif; font-size: 8px; color: var(--bl3); letter-spacing: 2px; border-bottom: 1px solid var(--brd); background: rgba(255,255,255,.04); }
+.qc-hist-table td { padding: 8px 10px; border-bottom: 1px solid rgba(255,255,255,.04); }
+.qc-badge-win { background: rgba(77,255,136,.12); border: 1px solid rgba(77,255,136,.3); color: #4dff88; padding: 2px 8px; font-size: 8px; font-weight: 700; letter-spacing: 1px; }
+.qc-badge-loss { background: rgba(255,80,120,.12); border: 1px solid rgba(255,80,120,.3); color: #ff5078; padding: 2px 8px; font-size: 8px; font-weight: 700; letter-spacing: 1px; }
+.qc-section { background: var(--dk2); border: 1px solid var(--brd); padding: 18px; margin-bottom: 16px; }
+.qc-charts-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+@media(max-width:700px) { .qc-charts-row { grid-template-columns: 1fr; } }
+/* ── ANALISE DE MAPAS STYLES ── */
+.am-kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin-bottom: 18px; }
+.am-kpi { background: var(--dk2); border: 1px solid var(--brd); padding: 14px; text-align: center; position: relative; overflow: hidden; }
+.am-kpi::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, #4dff88, #00ffcc); opacity: .6; }
+.am-kpi-v { font-family: 'Orbitron', sans-serif; font-size: 20px; font-weight: 900; color: #4dff88; }
+.am-kpi-l { font-size: 8px; letter-spacing: 2px; color: var(--mu); margin-top: 3px; }
+.am-map-card { background: var(--dk2); border: 1px solid var(--brd); padding: 14px; margin-bottom: 8px; display: flex; align-items: center; gap: 14px; transition: .2s; }
+.am-map-card:hover { border-color: var(--bl); background: rgba(255,255,255,.04); }
+.am-map-card.best { border-color: rgba(77,255,136,.4); background: rgba(77,255,136,.04); }
+.am-map-name { font-family: 'Orbitron', sans-serif; font-size: 12px; font-weight: 900; color: #fff; width: 90px; flex-shrink: 0; }
+.am-map-stats { flex: 1; display: flex; gap: 12px; flex-wrap: wrap; }
+.am-map-stat { display: flex; flex-direction: column; align-items: center; min-width: 50px; }
+.am-map-stat-v { font-family: 'Orbitron', sans-serif; font-size: 13px; font-weight: 700; color: var(--bl3); }
+.am-map-stat-l { font-size: 7px; letter-spacing: 2px; color: var(--mu); }
+.am-charts-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
+@media(max-width:700px) { .am-charts-row { grid-template-columns: 1fr; } }
+.am-best-badge { display: inline-flex; align-items: center; gap: 10px; padding: 12px 20px; background: rgba(77,255,136,.08); border: 1px solid rgba(77,255,136,.3); }
+.am-best-badge-label { font-size: 9px; letter-spacing: 3px; color: var(--mu); }
+.am-best-badge-name { font-family: 'Orbitron', sans-serif; font-size: 24px; font-weight: 900; color: #4dff88; text-shadow: 0 0 20px rgba(77,255,136,.4); }
+.am-pos-bar-wrap { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+.am-pos-label { width: 80px; font-size: 9px; color: var(--mu); letter-spacing: 1px; text-align: right; flex-shrink: 0; }
+.am-pos-fill { height: 20px; border-radius: 2px; display: flex; align-items: center; padding-left: 8px; min-width: 30px; }
+.am-pos-val { font-size: 9px; font-weight: 700; color: #fff; }
+.am-section { background: var(--dk2); border: 1px solid var(--brd); padding: 18px; margin-bottom: 16px; }
+.am-no-data { padding: 60px; text-align: center; color: var(--mu); font-size: 13px; border: 1px dashed var(--brd); }
+
+/* ── TABELAS DE PROBABILIDADE (estilo futebol) ── */
+.prob-section { margin-bottom: 20px; }
+.prob-tabs { display: flex; gap: 0; margin-bottom: 0; }
+.prob-tab { flex: 1; padding: 10px; font-family: 'Orbitron', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 2px; background: rgba(255,255,255,.06); border: 1px solid var(--brd); color: var(--mu); cursor: pointer; text-align: center; transition: all .2s; }
+.prob-tab.active { background: rgba(255,255,255,.18); color: #fff; border-color: var(--bl); }
+.prob-tab:hover:not(.active) { background: rgba(255,255,255,.1); color: var(--owh); }
+.prob-table-wrap { background: var(--dk2); border: 1px solid var(--brd); border-top: none; overflow: hidden; }
+.prob-table { width: 100%; border-collapse: collapse; }
+.prob-table thead tr { background: rgba(255,255,255,.06); }
+.prob-table th { padding: 10px 12px; font-family: 'Orbitron', sans-serif; font-size: 8px; font-weight: 700; color: var(--bl3); letter-spacing: 2px; border-bottom: 1px solid var(--brd); text-align: center; white-space: nowrap; }
+.prob-table th:first-child { text-align: left; }
+.prob-table td { padding: 9px 12px; font-size: 13px; font-weight: 600; border-bottom: 1px solid rgba(255,255,255,.04); text-align: center; }
+.prob-table td:first-child { text-align: left; font-size: 12px; color: var(--owh); }
+.prob-table tr:last-child td { border-bottom: none; }
+.prob-table tr:hover td { background: rgba(255,255,255,.03); }
+.prob-cell-high { background: rgba(77,255,136,.14); color: #4dff88; border-radius: 3px; padding: 4px 8px; display: inline-block; min-width: 52px; font-weight: 700; }
+.prob-cell-mid { background: rgba(255,196,77,.1); color: #ffc44d; border-radius: 3px; padding: 4px 8px; display: inline-block; min-width: 52px; font-weight: 700; }
+.prob-cell-low { background: rgba(255,80,120,.1); color: #ff5078; border-radius: 3px; padding: 4px 8px; display: inline-block; min-width: 52px; font-weight: 700; }
+.prob-panel-tabs { display: none; }
+.prob-panel-tabs.active { display: block; }
+.prob-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px; }
+@media(max-width:700px) { .prob-grid { grid-template-columns: 1fr; } }
+
 /* COMPARAR ANALISES TAB */
 .comp-an-wrap { display: flex; flex-direction: column; gap: 20px; }
 .comp-an-controls { background: var(--dk2); border: 1px solid var(--brd); padding: 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
@@ -723,6 +809,11 @@ body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
 	.comp-modal-content { background: var(--dk2); border: 1px solid var(--brd); padding: 30px; width: 400px; display: flex; flex-direction: column; gap: 20px; }
 	@media(max-width: 768px) { .combat-v2-vs-large { font-size: 60px; } .combat-v2-title { font-size: 24px; } .combat-v2-subtitle { font-size: 20px; } .combat-v2-stat-value { font-size: 14px; } }
 
+
+/* ── GRID 3 COLUNAS (ANÁLISE MAPAS) ── */
+.am-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 14px; }
+@media(max-width:900px) { .am-grid-3 { grid-template-columns: 1fr 1fr; } }
+@media(max-width:600px) { .am-grid-3 { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
@@ -854,12 +945,18 @@ body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
   <div id="app">
     <!-- WELCOME -->
     <div class="welcome" id="welcomeScreen">
+      <div class="team-name" style="margin-top:0; margin-bottom:20px;">SX GG</div>
+      
+      <div class="home-tabs">
+        <button class="home-tab-btn" onclick="goToTab('col')">🏆 Análises Coletivas</button>
+        <button class="home-tab-btn" style="color:#ffd700; border-color:rgba(255,215,0,.3);" onclick="goToTab('comp-an')">⚖️ Comparar Análises</button>
+        <button class="home-tab-btn" style="color:#ff5078; border-color:rgba(255,80,120,.3);" onclick="goToTab('quebra-call')">📞 Quebra de Call</button>
+        <button class="home-tab-btn" style="color:#4dff88; border-color:rgba(77,255,136,.3);" onclick="goToTab('analise-mapas')">🗺️ Análise de Mapas</button>
+      </div>
+
       <div class="player-gallery" id="playerGallery">
         <!-- Populada via JS -->
       </div>
-
-      <div class="team-name">SX GG</div>
-
     </div>
     <!-- PLAYER CONTENT -->
     <div id="playerContent" style="display:none;"></div>
@@ -1886,12 +1983,10 @@ function renderPlayer(name) {
     <!-- TABS -->
     <div class="tab-bar">
       <button class="tab-btn active" onclick="switchTab('stats',this)">📊 Meus Stats</button>
-       <button class="tab-btn" onclick="switchTab('goals',this)">🎯 Metas de Performance</button>
-	      <button class="tab-btn cmp-btn" onclick="switchTab('cmp',this)">⚔️ Análises Comparativas</button>
-	      <button class="tab-btn cmp-btn" style="background:rgba(26,111,255,.1);border-color:var(--bl);color:var(--bl3);" onclick="openCompModal()">⚔️ Comparativo X1</button>
+      <button class="tab-btn" onclick="switchTab('goals',this)">🎯 Metas de Performance</button>
+      <button class="tab-btn cmp-btn" onclick="switchTab('cmp',this)">⚔️ Análises Comparativas</button>
+      <button class="tab-btn cmp-btn" style="background:rgba(26,111,255,.1);border-color:var(--bl);color:var(--bl3);" onclick="openCompModal()">⚔️ Comparativo X1</button>
       <button class="tab-btn cmp-btn" onclick="switchTab('ind',this)">👤 Análises Individuais</button>
-      <button class="tab-btn cmp-btn" onclick="switchTab('col',this)">🏆 Análises Coletivas</button>
-      <button class="tab-btn cmp-btn" style="background:rgba(255,215,0,.1);border-color:rgba(255,215,0,.3);color:#ffd700;" onclick="switchTab('comp-an',this)">⚖️ Comparar Análises</button>
     </div>
 
     <!-- TAB: STATS -->
@@ -2169,6 +2264,16 @@ function renderPlayer(name) {
 	      <div id="x1-inner"></div>
 	    </div>
 	
+	    <!-- TAB: QUEBRA DE CALL -->
+	    <div id="tab-quebra-call" class="tab-content">
+	      <div id="quebra-call-inner"></div>
+	    </div>
+
+	    <!-- TAB: ANÁLISE DE MAPAS -->
+	    <div id="tab-analise-mapas" class="tab-content">
+	      <div id="analise-mapas-inner"></div>
+	    </div>
+	
 	  `;
 
 	  // render charts after DOM update
@@ -2405,6 +2510,46 @@ function toggleCollapse(bodyId, arrowId) {
 }
 
 // ── TAB SWITCH ──
+function goToTab(tab) {
+  // Se estiver na tela inicial, esconde ela e mostra o conteúdo
+  const welcome = document.getElementById('welcomeScreen');
+  const content = document.getElementById('playerContent');
+  if (welcome.style.display !== 'none') {
+    welcome.style.display = 'none';
+    content.style.display = 'block';
+    // Se não houver jogador selecionado, tenta pegar o primeiro ou deixa vazio
+    if (!currentPlayerName) {
+      const players = uniqPl();
+      if (players.length > 0) {
+        currentPlayerName = players[0];
+        renderPlayer(currentPlayerName);
+      }
+    }
+  }
+  
+  // Encontra o botão da aba correspondente para ativar
+  const btn = Array.from(document.querySelectorAll('.tab-btn')).find(b => {
+    const onclick = b.getAttribute('onclick');
+    return onclick && onclick.includes(`'${tab}'`);
+  });
+  
+  if (btn) {
+    switchTab(tab, btn);
+  } else {
+    // Fallback se não achar o botão
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    const targetTab = document.getElementById('tab-'+tab);
+    if (targetTab) targetTab.classList.add('active');
+    
+    // Dispara as funções de renderização específicas
+    if (tab === 'col') renderColetivas();
+    if (tab === 'comp-an') renderCompAn();
+    if (tab === 'quebra-call') renderQuebraCall(currentPlayerName);
+    if (tab === 'analise-mapas') renderAnaliseMapas(currentPlayerName);
+  }
+}
+
 function switchTab(tab, btn) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
@@ -2435,6 +2580,12 @@ function switchTab(tab, btn) {
   }
   if (tab === 'comp-an') {
     renderCompAn();
+  }
+  if (tab === 'quebra-call') {
+    renderQuebraCall(currentPlayerName);
+  }
+  if (tab === 'analise-mapas') {
+    renderAnaliseMapas(currentPlayerName);
   }
 }
 
@@ -6702,6 +6853,1202 @@ window.addEventListener('load', () => {
     }
   }, 2000);
 });
+
+
+// ══════════════════════════════════════════════════════
+// ── QUEBRA DE CALL — Sheet: A - QUEBRA DE CALL ──
+// Colunas: CONTRA | CALL | MAPA | RESULTADO | FOTO DA CALL | DATA | CAMP
+// RESULTADO: 1 = Ganhou, 0 = Perdeu (ou texto "GANHOU"/"PERDEU")
+// ══════════════════════════════════════════════════════
+const QC_SHEET_ID = '1UEOBEj2GT60kdoT7_NV2DJFMvhhcSY0Ao-ej2nka-ec';
+const QC_SHEET_NAME = 'A - QUEBRA DE CALL';
+let qcData = [];
+let qcLoaded = false;
+
+function loadQuebraCallData(callback) {
+  const sheetParam = encodeURIComponent(QC_SHEET_NAME);
+  const url = `https://docs.google.com/spreadsheets/d/${QC_SHEET_ID}/gviz/tq?tqx=out:json%3BresponseHandler:__qcCallback&sheet=${sheetParam}&t=${Date.now()}`;
+
+  window.__qcCallback = function(json) {
+    try {
+      if (!json.table || !json.table.rows) { qcData = []; if(callback) callback(); return; }
+      const cols = (json.table.cols || []).map(c => String(c.label || c.id || '').trim().toUpperCase());
+      const idxOf = (...names) => { for(const n of names){ const i = cols.findIndex(c=>c.includes(n.toUpperCase())); if(i>=0) return i; } return -1; };
+
+      const iContra = idxOf('CONTRA');
+      const iCall   = idxOf('CALL');
+      const iMapa   = idxOf('MAPA');
+      const iRes    = idxOf('RESULTADO');
+      const iFoto   = idxOf('FOTO');
+      const iData   = idxOf('DATA');
+      const iCamp   = idxOf('CAMP');
+
+      qcData = json.table.rows.filter(r => r && r.c).map(r => {
+        const get = i => (i >= 0 && r.c[i] && r.c[i].v !== null) ? r.c[i].v : '';
+        const resRaw = get(iRes);
+        let ganhou = false;
+        if (typeof resRaw === 'number') ganhou = resRaw >= 1;
+        else if (typeof resRaw === 'string') ganhou = resRaw.toUpperCase().includes('GANH') || resRaw === '1';
+        return {
+          contra:  String(get(iContra) || '').trim(),
+          call:    String(get(iCall)   || '').trim(),
+          mapa:    String(get(iMapa)   || '').trim(),
+          resultado: ganhou,
+          foto:    String(get(iFoto)   || '').trim(),
+          data:    formatDate(get(iData)),
+          camp:    String(get(iCamp)   || '').trim(),
+        };
+      }).filter(r => r.call || r.mapa || r.contra);
+
+      qcLoaded = true;
+    } catch(e) { qcData = []; console.error('QC load error:', e); }
+    if(callback) callback();
+  };
+
+  const s = document.createElement('script');
+  s.src = url;
+  s.onerror = () => { qcData = []; if(callback) callback(); };
+  document.head.appendChild(s);
+}
+
+function renderQuebraCall(playerName) {
+  const inner = document.getElementById('quebra-call-inner');
+  if (!inner) return;
+  inner.innerHTML = '<div style="padding:40px;text-align:center;color:var(--mu)"><div class="loader-ring" style="margin:0 auto 12px;width:30px;height:30px;"></div>Carregando dados de Quebra de Call...</div>';
+
+  const doRender = () => {
+    const data = qcData; // todos os dados da aba
+
+    if (!data.length) {
+      inner.innerHTML = `<div style="padding:60px;text-align:center;border:1px dashed var(--brd);">
+        <div style="font-size:36px;margin-bottom:12px;">📞</div>
+        <div style="font-family:Orbitron,sans-serif;font-size:13px;color:var(--mu);">NENHUM DADO DE QUEBRA DE CALL ENCONTRADO</div>
+        <div style="font-size:11px;color:var(--mu);margin-top:8px;">Verifique se a aba "A - QUEBRA DE CALL" existe na planilha e tem dados.</div>
+      </div>`;
+      return;
+    }
+
+    const total   = data.length;
+    const ganhas  = data.filter(d => d.resultado).length;
+    const perdas  = total - ganhas;
+    const winRate = total > 0 ? ((ganhas/total)*100).toFixed(1) : '0.0';
+    const avgGanha = ganhas;
+    const avgPerd  = perdas;
+
+    // ── Normalização de nomes para match robusto ──
+    const normNameQC = s => String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim().toLowerCase().replace(/\s+/g,' ');
+
+    // Lista base = todos os jogadores do banco principal
+    const bankPlayers = typeof uniqPl === 'function' ? uniqPl() : [...new Set((allData||[]).map(d=>d.player).filter(Boolean))];
+
+    // Para cada jogador do banco, calcular médias de kills, dano e derrubados
+    const x1Stats = bankPlayers.map(bName => {
+      const normB = normNameQC(bName);
+      let rows = (allData||[]).filter(d => d.player === bName);
+      if (!rows.length) rows = (allData||[]).filter(d => normNameQC(d.player) === normB);
+      if (!rows.length) rows = (allData||[]).filter(d => { const nd = normNameQC(d.player); return nd.includes(normB) || normB.includes(nd); });
+      const n = rows.length;
+      const foto = rows.find(r => r.foto && r.foto.startsWith('http'))?.foto || '';
+      const avgK  = n > 0 ? rows.reduce((s,d)=>s+(d.kills||0),0)/n    : 0;
+      const avgD  = n > 0 ? rows.reduce((s,d)=>s+(d.dano||0),0)/n     : 0;
+      const avgDr = n > 0 ? rows.reduce((s,d)=>s+(d.derrubou||0),0)/n : 0;
+      return { name: bName, foto, games: n, avgK, avgD, avgDr };
+    }).filter(p => p.games > 0);
+
+    // Score X1 = normaliza cada métrica 0–100 e pondera: Kills 40% · Dano 35% · Derrubados 25%
+    const maxK  = Math.max(...x1Stats.map(p=>p.avgK),  1);
+    const maxD  = Math.max(...x1Stats.map(p=>p.avgD),  1);
+    const maxDr = Math.max(...x1Stats.map(p=>p.avgDr), 1);
+    x1Stats.forEach(p => {
+      p.scoreK  = (p.avgK  / maxK)  * 40;
+      p.scoreD  = (p.avgD  / maxD)  * 35;
+      p.scoreDr = (p.avgDr / maxDr) * 25;
+      p.score   = p.scoreK + p.scoreD + p.scoreDr;
+    });
+
+    // Ranking final por score
+    const playerRanking = [...x1Stats].sort((a,b) => b.score - a.score);
+
+    // Melhor mapa
+    const mapaStats = {};
+    data.forEach(d => {
+      if (!d.mapa) return;
+      if (!mapaStats[d.mapa]) mapaStats[d.mapa] = { wins: 0, total: 0 };
+      mapaStats[d.mapa].total++;
+      if (d.resultado) mapaStats[d.mapa].wins++;
+    });
+    const mapRanking = Object.entries(mapaStats)
+      .map(([mapa, s]) => ({ mapa, ...s, wr: s.total > 0 ? s.wins/s.total*100 : 0 }))
+      .sort((a,b) => b.wr - a.wr);
+    const bestMap = mapRanking[0];
+
+    // Adversários mais frequentes
+    const contraStats = {};
+    data.forEach(d => {
+      if (!d.contra) return;
+      if (!contraStats[d.contra]) contraStats[d.contra] = { wins: 0, total: 0 };
+      contraStats[d.contra].total++;
+      if (d.resultado) contraStats[d.contra].wins++;
+    });
+    const contraRanking = Object.entries(contraStats)
+      .map(([contra, s]) => ({ contra, ...s, wr: s.total > 0 ? (s.wins/s.total*100).toFixed(1) : '0.0' }))
+      .sort((a,b) => b.total - a.total);
+
+    // Histórico cronológico
+    const histData = [...data].sort((a,b) => {
+      const da = parseSheetDate(a.data), db = parseSheetDate(b.data);
+      if (da && db) return da - db;
+      return 0;
+    });
+
+    // Gráfico de histórico (ganhas/perdas acumuladas)
+    let accWin = 0, accLoss = 0;
+    const histLabels = [], accWins = [], accLosses = [];
+    histData.forEach((d, i) => {
+      if (d.resultado) accWin++; else accLoss++;
+      histLabels.push(d.data || `#${i+1}`);
+      accWins.push(accWin);
+      accLosses.push(accLoss);
+    });
+
+    // Dados por mapa (para gráfico de barras)
+    const mapLabels = mapRanking.map(m => m.mapa);
+    const mapWins   = mapRanking.map(m => m.wins);
+    const mapLoss   = mapRanking.map(m => m.total - m.wins);
+
+    inner.innerHTML = `
+      <!-- KPIs -->
+      <div class="stitle">RESUMO GERAL — QUEBRA DE CALL</div>
+      <div class="qc-kpi-grid">
+        <div class="qc-kpi neutral">
+          <div class="qc-kpi-v neutral-v">${total}</div>
+          <div class="qc-kpi-l">Total de Quebras</div>
+        </div>
+        <div class="qc-kpi win">
+          <div class="qc-kpi-v win-v">${ganhas}</div>
+          <div class="qc-kpi-l">Quebras Ganhas</div>
+        </div>
+        <div class="qc-kpi loss">
+          <div class="qc-kpi-v loss-v">${perdas}</div>
+          <div class="qc-kpi-l">Quebras Perdidas</div>
+        </div>
+        <div class="qc-kpi ${parseFloat(winRate)>=50?'win':'loss'}">
+          <div class="qc-kpi-v ${parseFloat(winRate)>=50?'win-v':'loss-v'}">${winRate}%</div>
+          <div class="qc-kpi-l">Win Rate</div>
+        </div>
+        <div class="qc-kpi neutral">
+          <div class="qc-kpi-v neutral-v">${bestMap ? esc(bestMap.mapa) : '—'}</div>
+          <div class="qc-kpi-l">Melhor Mapa</div>
+        </div>
+        <div class="qc-kpi neutral">
+          <div class="qc-kpi-v neutral-v">${playerRanking.length > 0 ? esc(playerRanking[0].name) : '—'}</div>
+          <div class="qc-kpi-l">MELHOR X1 (KDA SCORE)</div>
+        </div>
+      </div>
+
+      <!-- JOGADOR IDEAL PARA X1 -->
+      <div class="stitle">JOGADOR IDEAL PARA X1</div>
+      <div style="font-size:9px;color:var(--mu);letter-spacing:1px;margin-bottom:12px;">
+        Score composto: <span style="color:#ffd700;">Kills 40%</span> · <span style="color:#cc66ff;">Dano 35%</span> · <span style="color:#4dff88;">Derrubados 25%</span> — baseado na média por partida no banco de dados
+      </div>
+      <div class="qc-section">
+        ${playerRanking.length === 0 ? '<div style="color:var(--mu);font-size:12px;">Nenhum jogador encontrado no banco de dados.</div>' :
+          playerRanking.map((p, i) => {
+            const medals  = ['🥇','🥈','🥉'];
+            const rankClr = i===0?'#ffd700':i===1?'#c0c0c0':i===2?'#cd7f32':'rgba(255,255,255,.3)';
+            const scoreColor = i===0?'#ffd700':i===1?'#c0c0c0':i===2?'#cd7f32':'var(--bl3)';
+            const barW = ((p.score / (playerRanking[0].score||1))*100).toFixed(1);
+            const fotoEl = p.foto && p.foto.startsWith('http')
+              ? `<img src="${esc(p.foto)}" class="qc-player-photo" onerror="this.outerHTML='<div style=width:44px;height:56px;background:var(--dk3);display:flex;align-items:center;justify-content:center;font-size:22px;border:1px solid var(--brd);>👤</div>'">`
+              : `<div style="width:44px;height:56px;background:var(--dk3);display:flex;align-items:center;justify-content:center;font-size:22px;border:1px solid rgba(255,215,0,.2);">👤</div>`;
+            return `<div class="qc-player-row ${i===0?'first':''}">
+              <div class="qc-player-rank" style="color:${rankClr};">${medals[i]||i+1}</div>
+              ${fotoEl}
+              <div class="qc-player-info" style="flex:1;">
+                <div class="qc-player-name">${esc(p.name)}</div>
+                <div class="qc-player-stats" style="display:flex;gap:12px;margin-top:4px;">
+                  <span style="color:#ffd700;">💀 ${p.avgK.toFixed(1)} kills</span>
+                  <span style="color:#cc66ff;">💥 ${Math.round(p.avgD)} dano</span>
+                  <span style="color:#4dff88;">👊 ${p.avgDr.toFixed(1)} derru.</span>
+                  <span style="color:var(--mu);">${p.games} partidas</span>
+                </div>
+                <div style="margin-top:6px;height:4px;background:rgba(255,255,255,.07);border-radius:2px;overflow:hidden;">
+                  <div style="height:100%;width:${barW}%;background:linear-gradient(90deg,${rankClr},${rankClr}88);border-radius:2px;transition:width 1s;"></div>
+                </div>
+              </div>
+              <div style="font-family:'Orbitron',sans-serif;font-size:16px;font-weight:900;color:${scoreColor};min-width:52px;text-align:right;">${p.score.toFixed(1)}</div>
+            </div>`;
+          }).join('')
+        }
+      </div>
+
+      <!-- GRÁFICOS -->
+      <div class="stitle">HISTÓRICO VISUAL</div>
+      <div class="qc-charts-row">
+        <div class="cpanel">
+          <div class="cpt">GANHAS vs PERDIDAS ACUMULADAS</div>
+          <div class="chart-box" style="height:200px;"><canvas id="qc_hist_chart"></canvas></div>
+        </div>
+        <div class="cpanel">
+          <div class="cpt">RESULTADO POR MAPA</div>
+          <div class="chart-box" style="height:200px;"><canvas id="qc_mapa_chart"></canvas></div>
+        </div>
+      </div>
+      <div class="cpanel" style="max-width:340px;">
+        <div class="cpt">DISTRIBUIÇÃO GERAL (PIZZA)</div>
+        <div class="chart-box" style="height:200px;"><canvas id="qc_pizza_chart"></canvas></div>
+      </div>
+
+      <!-- COMPETÊNCIAS X1 — BANCO DE DADOS -->
+      <div class="stitle">COMPETÊNCIAS X1 — DADOS DO BANCO DE JOGADORES</div>
+      <div class="qc-charts-row">
+        <div class="cpanel">
+          <div class="cpt">💀 KILLS MÉDIO/PARTIDA — TODOS OS JOGADORES</div>
+          <div class="chart-box" style="height:260px;"><canvas id="qc_x1_kills"></canvas></div>
+        </div>
+        <div class="cpanel">
+          <div class="cpt">💥 DANO MÉDIO/PARTIDA — TODOS OS JOGADORES</div>
+          <div class="chart-box" style="height:260px;"><canvas id="qc_x1_dano"></canvas></div>
+        </div>
+      </div>
+      <div class="cpanel" style="margin-bottom:16px;">
+        <div class="cpt">👊 DERRUBADOS MÉDIO/PARTIDA — TODOS OS JOGADORES</div>
+        <div class="chart-box" style="height:260px;"><canvas id="qc_x1_derru"></canvas></div>
+      </div>
+
+      <!-- ADVERSÁRIOS -->
+      ${contraRanking.length > 0 ? `
+      <div class="stitle">ADVERSÁRIOS MAIS ENFRENTADOS</div>
+      <div class="qc-section" style="overflow-x:auto;">
+        <table class="qc-hist-table">
+          <thead><tr>
+            <th>#</th><th>ADVERSÁRIO</th><th>GANHAS</th><th>PERDIDAS</th><th>TOTAL</th><th>WIN RATE</th>
+          </tr></thead>
+          <tbody>
+            ${contraRanking.map((c,i) => {
+              const wr = parseFloat(c.wr);
+              const wrColor = wr>=60?'#4dff88':wr>=40?'#ffc44d':'#ff5078';
+              return `<tr>
+                <td style="font-weight:700;color:var(--mu);">${i+1}</td>
+                <td style="font-family:Orbitron,sans-serif;font-size:10px;font-weight:700;color:#fff;">${esc(c.contra)}</td>
+                <td><span class="qc-badge-win">${c.wins}</span></td>
+                <td><span class="qc-badge-loss">${c.total - c.wins}</span></td>
+                <td style="color:var(--mu);">${c.total}</td>
+                <td style="font-family:Orbitron,sans-serif;font-weight:900;color:${wrColor};">${c.wr}%</td>
+              </tr>`;
+            }).join('')}
+          </tbody>
+        </table>
+      </div>` : ''}
+
+      <!-- TABELA DE PROBABILIDADES — QUEBRA DE CALL -->
+      <div class="stitle">⚽ PROBABILIDADES — QUEBRA DE CALL</div>
+      <div style="font-size:9px;color:var(--mu);letter-spacing:1px;margin-bottom:14px;">
+        Baseado em <em style="color:var(--bl3);font-style:normal;">${total}</em> quebras registradas. Cores: <span style="color:#4dff88;">■ Alta (≥60%)</span> · <span style="color:#ffc44d;">■ Média (40–59%)</span> · <span style="color:#ff5078;">■ Baixa (&lt;40%)</span>
+      </div>
+
+      <!-- Tabs Geral / Por Mapa -->
+      <div class="prob-grid">
+        <!-- TABELA GERAL -->
+        <div class="prob-section">
+          <div class="prob-tabs">
+            <div class="prob-tab active" style="font-size:9px;">📊 GERAL</div>
+          </div>
+          <div class="prob-table-wrap">
+            <table class="prob-table">
+              <thead>
+                <tr>
+                  <th>RESULTADO</th>
+                  <th>PROBABILIDADE</th>
+                  <th>OCORRÊNCIAS</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${(() => {
+                  const pct = v => total > 0 ? (v/total*100).toFixed(1) : '0.0';
+                  const cell = v => {
+                    const p = parseFloat(v);
+                    const cls = p >= 60 ? 'prob-cell-high' : p >= 40 ? 'prob-cell-mid' : 'prob-cell-low';
+                    return `<span class="${cls}">${v}%</span>`;
+                  };
+                  return [
+                    { label: '✅ Ganhar a Quebra', val: ganhas },
+                    { label: '❌ Perder a Quebra', val: perdas },
+                  ].map(r => `<tr>
+                    <td>${r.label}</td>
+                    <td>${cell(pct(r.val))}</td>
+                    <td style="color:var(--mu);">${r.val}/${total}</td>
+                  </tr>`).join('');
+                })()}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- TABELA POR CALL (JOGADOR) -->
+        ${(() => {
+          const callSt = {};
+          data.forEach(d => {
+            if (!d.call) return;
+            if (!callSt[d.call]) callSt[d.call] = { wins:0, total:0 };
+            callSt[d.call].total++;
+            if (d.resultado) callSt[d.call].wins++;
+          });
+          const callArr = Object.entries(callSt).sort((a,b)=>b[1].total-a[1].total).slice(0,8);
+          if (!callArr.length) return '';
+          const cell = v => {
+            const p = parseFloat(v);
+            const cls = p >= 60 ? 'prob-cell-high' : p >= 40 ? 'prob-cell-mid' : 'prob-cell-low';
+            return `<span class="${cls}">${v}%</span>`;
+          };
+          return `<div class="prob-section">
+            <div class="prob-tabs"><div class="prob-tab active" style="font-size:9px;">📞 WIN RATE POR CALL</div></div>
+            <div class="prob-table-wrap">
+              <table class="prob-table">
+                <thead><tr><th>CALL (JOGADOR)</th><th>WIN RATE</th><th>G/T</th></tr></thead>
+                <tbody>
+                  ${callArr.map(([call, s]) => {
+                    const wr = s.total > 0 ? (s.wins/s.total*100).toFixed(1) : '0.0';
+                    return `<tr>
+                      <td style="font-family:Orbitron,sans-serif;font-size:9px;">${esc(call)}</td>
+                      <td>${cell(wr)}</td>
+                      <td style="color:var(--mu);">${s.wins}/${s.total}</td>
+                    </tr>`;
+                  }).join('')}
+                </tbody>
+              </table>
+            </div>
+          </div>`;
+        })()}
+      </div>
+
+      <!-- TABELA POR MAPA -->
+      ${mapRanking.length > 0 ? (() => {
+        const cell = v => {
+          const p = parseFloat(v);
+          const cls = p >= 60 ? 'prob-cell-high' : p >= 40 ? 'prob-cell-mid' : 'prob-cell-low';
+          return `<span class="${cls}">${v}%</span>`;
+        };
+        return `<div class="prob-section" style="margin-bottom:20px;">
+          <div class="prob-tabs"><div class="prob-tab active" style="font-size:9px;">🗺️ WIN RATE POR MAPA</div></div>
+          <div class="prob-table-wrap">
+            <table class="prob-table">
+              <thead><tr><th>MAPA</th><th>WIN RATE</th><th>GANHAS</th><th>PERDIDAS</th><th>TOTAL</th></tr></thead>
+              <tbody>
+                ${mapRanking.map(m => {
+                  const wr = m.wr.toFixed(1);
+                  return `<tr>
+                    <td><span class="mapb">${esc(m.mapa)}</span></td>
+                    <td>${cell(wr)}</td>
+                    <td style="color:#4dff88;">${m.wins}</td>
+                    <td style="color:#ff5078;">${m.total - m.wins}</td>
+                    <td style="color:var(--mu);">${m.total}</td>
+                  </tr>`;
+                }).join('')}
+              </tbody>
+            </table>
+          </div>
+        </div>`;
+      })() : ''}
+
+      <!-- HISTÓRICO COMPLETO -->
+      <div class="stitle">HISTÓRICO DE QUEBRAS (${total} registros)</div>
+      <div class="qc-section" style="overflow-x:auto;">
+        <table class="qc-hist-table">
+          <thead><tr>
+            <th>#</th><th>DATA</th><th>MAPA</th><th>CALL (JOGADOR)</th><th>CONTRA</th><th>CAMPEONATO</th><th>RESULTADO</th>
+          </tr></thead>
+          <tbody>
+            ${histData.map((d,i) => `<tr style="background:${d.resultado?'rgba(77,255,136,.03)':'rgba(255,80,120,.03)'};">
+              <td style="color:var(--mu);">${i+1}</td>
+              <td style="font-size:10px;color:var(--mu);">${esc(d.data||'—')}</td>
+              <td><span class="mapb">${esc(d.mapa||'—')}</span></td>
+              <td style="font-family:Orbitron,sans-serif;font-size:10px;font-weight:700;">${esc(d.call||'—')}</td>
+              <td style="font-size:11px;color:var(--mu);">${esc(d.contra||'—')}</td>
+              <td style="font-size:10px;color:var(--mu);">${esc(d.camp||'—')}</td>
+              <td>${d.resultado ? '<span class="qc-badge-win">GANHOU ✓</span>' : '<span class="qc-badge-loss">PERDEU ✗</span>'}</td>
+            </tr>`).join('')}
+          </tbody>
+        </table>
+      </div>
+    `;
+
+    // Build charts
+    const ax  = {ticks:{color:'#5A6880',font:{size:9}},grid:{color:'rgba(255,255,255,.07)'},border:{color:'transparent'}};
+    const tt  = {backgroundColor:'rgba(8,12,20,.97)',borderColor:'rgba(255,255,255,.3)',borderWidth:1,titleColor:'#4D9FFF',bodyColor:'#C8D4E8',padding:10};
+
+    // Chart 1: histórico acumulado
+    const c1 = document.getElementById('qc_hist_chart')?.getContext('2d');
+    if (c1 && histLabels.length) {
+      new Chart(c1, { type:'line', data:{
+        labels: histLabels,
+        datasets:[
+          { label:'Ganhas', data: accWins, borderColor:'#4dff88', backgroundColor:'rgba(77,255,136,.1)', fill:true, tension:.4, pointRadius:2 },
+          { label:'Perdidas', data: accLosses, borderColor:'#ff5078', backgroundColor:'rgba(255,80,120,.08)', fill:true, tension:.4, pointRadius:2 },
+        ]
+      }, options:{ responsive:true, maintainAspectRatio:false,
+        plugins:{ legend:{ labels:{ color:'#fff', font:{size:9} } }, tooltip:tt },
+        scales:{ x:{ ...ax, ticks:{ display: histLabels.length <= 20, color:'#5A6880', font:{size:8} } }, y:{ ...ax, beginAtZero:true } }
+      }});
+    }
+
+    // Chart 2: por mapa (ganhas/perdidas)
+    const c2 = document.getElementById('qc_mapa_chart')?.getContext('2d');
+    if (c2 && mapLabels.length) {
+      new Chart(c2, { type:'bar', data:{
+        labels: mapLabels,
+        datasets:[
+          { label:'Ganhas', data: mapWins, backgroundColor:'rgba(77,255,136,.7)', borderColor:'#4dff88', borderWidth:1, borderRadius:3 },
+          { label:'Perdidas', data: mapLoss, backgroundColor:'rgba(255,80,120,.6)', borderColor:'#ff5078', borderWidth:1, borderRadius:3 },
+        ]
+      }, options:{ responsive:true, maintainAspectRatio:false,
+        plugins:{ legend:{ labels:{ color:'#fff', font:{size:9} } }, tooltip:tt },
+        scales:{ x:ax, y:{ ...ax, beginAtZero:true, stacked:false } }
+      }});
+    }
+
+    // Chart 4: pizza geral
+    const c4 = document.getElementById('qc_pizza_chart')?.getContext('2d');
+    if (c4) {
+      new Chart(c4, { type:'doughnut', data:{
+        labels:['Ganhas','Perdidas'],
+        datasets:[{ data:[ganhas, perdas],
+          backgroundColor:['rgba(77,255,136,.75)','rgba(255,80,120,.7)'],
+          borderColor:['#4dff88','#ff5078'], borderWidth:2 }]
+      }, options:{ responsive:true, maintainAspectRatio:false, cutout:'60%',
+        plugins:{ legend:{ position:'bottom', labels:{ color:'#fff', font:{size:10} } }, tooltip:tt }
+      }});
+    }
+
+    // ── COMPETÊNCIAS X1: já calculado em x1Stats acima ──
+    // Helper genérico para montar gráfico horizontal de competências
+    function buildCompChart(canvasId, sorted, getter, label, colorTop, colorMid, unitLabel) {
+      const ctx = document.getElementById(canvasId)?.getContext('2d');
+      if (!ctx) return;
+      const vals  = sorted.map(p => parseFloat(getter(p).toFixed(2)));
+      const bestV = Math.max(...vals, 1);
+      new Chart(ctx, { type:'bar', data:{
+        labels: sorted.map(p=>p.name),
+        datasets:[{ label, data: vals,
+          backgroundColor: vals.map((v,i) => i===0 ? colorTop+'ee' : v >= bestV*0.70 ? colorMid+'99' : 'rgba(255,255,255,.12)'),
+          borderColor:     vals.map((v,i) => i===0 ? colorTop       : v >= bestV*0.70 ? colorMid       : 'rgba(255,255,255,.18)'),
+          borderWidth:1, borderRadius:4
+        }]
+      }, options:{ responsive:true, maintainAspectRatio:false, indexAxis:'y',
+        plugins:{ legend:{display:false}, tooltip:{...tt, callbacks:{ label: c2 => {
+          const p = sorted[c2.dataIndex];
+          return p.games > 0 ? ` ${label}: ${c2.raw}${unitLabel} · ${p.games} partidas` : ' Sem dados no banco';
+        }}}},
+        scales:{ x:{...ax, beginAtZero:true}, y:ax }
+      }});
+    }
+
+    const sortK  = [...x1Stats].sort((a,b)=>b.avgK  - a.avgK);
+    const sortD  = [...x1Stats].sort((a,b)=>b.avgD  - a.avgD);
+    const sortDr = [...x1Stats].sort((a,b)=>b.avgDr - a.avgDr);
+
+    buildCompChart('qc_x1_kills', sortK,  p=>p.avgK,  'Kills Méd',      '#ffd700', '#4D9FFF', '');
+    buildCompChart('qc_x1_dano',  sortD,  p=>p.avgD,  'Dano Méd',       '#cc66ff', '#7A9FFF', '');
+    buildCompChart('qc_x1_derru', sortDr, p=>p.avgDr, 'Derrubados Méd', '#4dff88', '#ffc44d', '');
+  };
+
+  if (qcLoaded) { doRender(); }
+  else { loadQuebraCallData(doRender); }
+}
+
+// ══════════════════════════════════════════════════════
+// ── ANÁLISE DE MAPAS — Sheet: A - MAPAS ──
+// Colunas: MAPA | POSIÇÃO | KILL | PONTUAÇÃO | DATA | CAMP
+// ══════════════════════════════════════════════════════
+const AM_SHEET_NAME = 'A - MAPAS';
+let amData = [];
+let amLoaded = false;
+
+function loadAnaliseMapasData(callback) {
+  const sheetParam = encodeURIComponent(AM_SHEET_NAME);
+  const url = `https://docs.google.com/spreadsheets/d/${QC_SHEET_ID}/gviz/tq?tqx=out:json%3BresponseHandler:__amCallback&sheet=${sheetParam}&t=${Date.now()}`;
+
+  window.__amCallback = function(json) {
+    try {
+      if (!json.table || !json.table.rows) { amData = []; if(callback) callback(); return; }
+      const cols = (json.table.cols || []).map(c => String(c.label || c.id || '').trim().toUpperCase());
+      const idxOf = (...names) => { for(const n of names){ const i = cols.findIndex(c=>c.includes(n.toUpperCase())); if(i>=0) return i; } return -1; };
+
+      const iMapa  = idxOf('MAPA');
+      const iPos   = idxOf('POSIÇÃO','POSICAO','POS');
+      const iKill  = idxOf('KILL','KILLS','ABATE');
+      const iPonts = idxOf('PONTUAÇÃO','PONTUACAO','PONT','PONTOS');
+      const iData  = idxOf('DATA');
+      const iCamp  = idxOf('CAMP');
+
+      amData = json.table.rows.filter(r => r && r.c).map(r => {
+        const get = i => (i >= 0 && r.c[i] && r.c[i].v !== null) ? r.c[i].v : '';
+        return {
+          mapa:     String(get(iMapa)  || '').trim(),
+          posicao:  safeNum(get(iPos)),
+          kills:    safeNum(get(iKill)),
+          pontos:   safeNum(get(iPonts)),
+          data:     formatDate(get(iData)),
+          camp:     String(get(iCamp) || '').trim(),
+        };
+      }).filter(r => r.mapa || r.pontos > 0);
+
+      amLoaded = true;
+    } catch(e) { amData = []; console.error('AM load error:', e); }
+    if(callback) callback();
+  };
+
+  const s = document.createElement('script');
+  s.src = url;
+  s.onerror = () => { amData = []; if(callback) callback(); };
+  document.head.appendChild(s);
+}
+
+function renderAnaliseMapas(playerName) {
+  const inner = document.getElementById('analise-mapas-inner');
+  if (!inner) return;
+  inner.innerHTML = '<div style="padding:40px;text-align:center;color:var(--mu)"><div class="loader-ring" style="margin:0 auto 12px;width:30px;height:30px;"></div>Carregando Análise de Mapas...</div>';
+
+  const doRender = () => {
+    const data = amData;
+
+    if (!data.length) {
+      inner.innerHTML = `<div style="padding:60px;text-align:center;border:1px dashed var(--brd);">
+        <div style="font-size:36px;margin-bottom:12px;">🗺️</div>
+        <div style="font-family:Orbitron,sans-serif;font-size:13px;color:var(--mu);">NENHUM DADO DE MAPAS ENCONTRADO</div>
+        <div style="font-size:11px;color:var(--mu);margin-top:8px;">Verifique se a aba "A - MAPAS" existe na planilha com as colunas: MAPA | POSIÇÃO | KILL | PONTUAÇÃO | DATA | CAMP</div>
+      </div>`;
+      return;
+    }
+
+    // ── MÉTRICAS GERAIS ──
+    const totalPartidas = data.length;
+    const totalPontos   = sum(data.map(d=>d.pontos));
+    const totalKills    = sum(data.map(d=>d.kills));
+    const mediaPontos   = avg(data.map(d=>d.pontos));
+    const mediaKills    = avg(data.map(d=>d.kills));
+    const mediaPosicao  = avg(data.filter(d=>d.posicao>0).map(d=>d.posicao));
+
+    // Booyah = posição 1
+    const booyahs    = data.filter(d=>d.posicao===1).length;
+    const taxaBooyah = totalPartidas > 0 ? (booyahs/totalPartidas*100) : 0;
+    const naoBooyah  = totalPartidas - booyahs;
+
+    // Top 5 = posição <= 5
+    const top5    = data.filter(d=>d.posicao>0&&d.posicao<=5).length;
+    const taxaTop5 = totalPartidas > 0 ? (top5/totalPartidas*100) : 0;
+    const naoTop5  = totalPartidas - top5;
+
+    // ── STATS POR MAPA ──
+    const mapas = [...new Set(data.map(d=>d.mapa).filter(Boolean))];
+    const mapaSt = mapas.map(m => {
+      const rows  = data.filter(d=>d.mapa===m);
+      const mp    = avg(rows.map(d=>d.pontos));
+      const mk    = avg(rows.map(d=>d.kills));
+      const mpos  = avg(rows.filter(d=>d.posicao>0).map(d=>d.posicao));
+      const tp    = sum(rows.map(d=>d.pontos));
+      const tk    = sum(rows.map(d=>d.kills));
+      const tb    = rows.filter(d=>d.posicao===1).length;
+      const tt5   = rows.filter(d=>d.posicao>0&&d.posicao<=5).length;
+      const quedas= rows.length;
+      const mpRKB = avg(rows.filter(d=>d.posicao>0&&d.posicao<=5).map(d=>d.pontos));
+      return { mapa:m, games:quedas, mediaPontos:mp, mediaKills:mk, mediaPosicao:mpos,
+               totalPontos:tp, totalKills:tk, booyahs:tb, top5:tt5, mediaRKB: mpRKB||0 };
+    }).sort((a,b) => b.mediaPontos - a.mediaPontos);
+
+    const bestMap      = mapaSt[0];
+    const bestKillsMap = [...mapaSt].sort((a,b)=>b.totalKills-a.totalKills)[0];
+
+    // ── PONTOS POR POSIÇÃO ──
+    const posSt = {};
+    data.filter(d=>d.posicao>0).forEach(d=>{
+      const p = d.posicao;
+      if(!posSt[p]) posSt[p] = { pontos:[], kills:[], count:0 };
+      posSt[p].pontos.push(d.pontos); posSt[p].kills.push(d.kills); posSt[p].count++;
+    });
+    const posKeys   = Object.keys(posSt).map(Number).sort((a,b)=>a-b);
+    const posLabels = posKeys.map(p=>`#${p}`);
+    const posMediaP = posKeys.map(p=>parseFloat(avg(posSt[p].pontos).toFixed(1)));
+    const posMediaK = posKeys.map(p=>parseFloat(avg(posSt[p].kills).toFixed(1)));
+    const posCount  = posKeys.map(p=>posSt[p].count);
+
+    // ── HISTÓRICO CRONOLÓGICO ──
+    const histSorted = [...data].sort((a,b)=>{
+      const da=parseSheetDate(a.data), db=parseSheetDate(b.data);
+      if(da&&db) return da-db; return 0;
+    });
+    const histLabels = histSorted.map((d,i)=>d.data||`#${i+1}`);
+    const histPontos = histSorted.map(d=>d.pontos);
+    const histKills  = histSorted.map(d=>d.kills);
+    const histPos    = histSorted.map(d=>d.posicao>0?d.posicao:null);
+
+    // ── FAIXAS DE PONTOS (histograma) ──
+    const faixas = [[0,50,'0-50'],[51,100,'51-100'],[101,200,'101-200'],[201,300,'201-300'],[301,500,'301-500'],[501,Infinity,'500+']];
+    const histoLabels = faixas.map(f=>f[2]);
+    const histoData   = faixas.map(f=>data.filter(d=>d.pontos>=f[0]&&d.pontos<=f[1]).length);
+
+    // ── MÉDIA PONTOS RKB (somente Top5) por mapa ──
+    const mapRKB = [...mapaSt].sort((a,b)=>b.mediaRKB - a.mediaRKB);
+
+    // ── QUEDAS por mapa (descendente p/ gráfico área) ──
+    const mapaQuedasSorted = [...mapaSt].sort((a,b)=>b.games - a.games);
+
+    inner.innerHTML = `
+      <!-- ══ KPIs TOPO ══ -->
+      <div class="stitle">VISÃO GERAL — ANÁLISE DE MAPAS</div>
+      <div class="am-kpi-grid">
+        <div class="am-kpi"><div class="am-kpi-v">${totalPartidas}</div><div class="am-kpi-l">Quedas</div></div>
+        <div class="am-kpi"><div class="am-kpi-v">${totalPontos}</div><div class="am-kpi-l">Total Pontos</div></div>
+        <div class="am-kpi"><div class="am-kpi-v">${mediaPontos.toFixed(1)}</div><div class="am-kpi-l">Média Pontos</div></div>
+        <div class="am-kpi"><div class="am-kpi-v">${totalKills}</div><div class="am-kpi-l">Total Kills</div></div>
+        <div class="am-kpi"><div class="am-kpi-v">${mediaKills.toFixed(1)}</div><div class="am-kpi-l">Média Kills</div></div>
+        <div class="am-kpi"><div class="am-kpi-v">${mediaPosicao>0?mediaPosicao.toFixed(1):'—'}</div><div class="am-kpi-l">Média Posição</div></div>
+        <div class="am-kpi"><div class="am-kpi-v" style="color:#ffd700;">${booyahs}</div><div class="am-kpi-l">Booyahs</div></div>
+        <div class="am-kpi"><div class="am-kpi-v" style="color:#ffd700;">${taxaBooyah.toFixed(1)}%</div><div class="am-kpi-l">Taxa Booyah</div></div>
+        <div class="am-kpi"><div class="am-kpi-v" style="color:#4dff88;">${top5}</div><div class="am-kpi-l">Top 5</div></div>
+        <div class="am-kpi"><div class="am-kpi-v" style="color:#4dff88;">${taxaTop5.toFixed(1)}%</div><div class="am-kpi-l">Taxa Top 5</div></div>
+        <div class="am-kpi"><div class="am-kpi-v" style="color:var(--bl3);">${bestMap?esc(bestMap.mapa):'—'}</div><div class="am-kpi-l">Melhor Mapa</div></div>
+        <div class="am-kpi"><div class="am-kpi-v" style="color:var(--bl3);">${bestKillsMap?esc(bestKillsMap.mapa):'—'}</div><div class="am-kpi-l">+ Abates</div></div>
+      </div>
+
+      <!-- ══ LINHA 1: ABATES | TAXA BOOYAH | MÉDIA PONTOS ══ -->
+      <div class="stitle">ABATES · BOOYAH · MÉDIA DE PONTOS</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:14px;" class="am-grid-3">
+        <!-- ABATES por mapa -->
+        <div class="cpanel">
+          <div class="cpt">🔫 ABATES POR MAPA</div>
+          <div style="padding:6px 0;">
+            ${[...mapaSt].sort((a,b)=>b.totalKills-a.totalKills).map((m,i)=>{
+              const maxK = Math.max(...mapaSt.map(x=>x.totalKills),1);
+              const w = Math.max((m.totalKills/maxK*100),3).toFixed(0);
+              const colors = ['#4dff88','#1A6FFF','#ffd700','#cc66ff','#ff9f40','#ff5078','#4D9FFF'];
+              return `<div class="am-pos-bar-wrap">
+                <div class="am-pos-label">${esc(m.mapa)}</div>
+                <div style="flex:1;height:22px;background:rgba(255,255,255,.04);border-radius:2px;position:relative;">
+                  <div style="width:${w}%;height:100%;background:${colors[i%colors.length]};opacity:.8;border-radius:2px;display:flex;align-items:center;padding-left:6px;min-width:30px;transition:.8s;">
+                    <span style="font-size:9px;font-weight:700;color:#fff;">${m.totalKills}</span>
+                  </div>
+                </div>
+              </div>`;
+            }).join('')}
+          </div>
+        </div>
+
+        <!-- TAXA DE BOOYAH -->
+        <div class="cpanel">
+          <div class="cpt">🏆 TAXA DE BOOYAH</div>
+          <div style="height:180px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;">
+            <canvas id="am_pizza_booyah" style="max-height:150px;max-width:150px;"></canvas>
+            <div style="font-size:9px;color:var(--mu);letter-spacing:1px;">
+              SIM <span style="color:#ffd700;font-weight:700;">${taxaBooyah.toFixed(2)}%</span> &nbsp;|&nbsp; NÃO <span style="color:var(--bl3);font-weight:700;">${(100-taxaBooyah).toFixed(2)}%</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- MÉDIA PONTOS por mapa barras -->
+        <div class="cpanel">
+          <div class="cpt">📊 MÉDIA PONTOS POR MAPA</div>
+          <div style="padding:6px 0;">
+            ${mapaSt.map((m,i)=>{
+              const maxP = mapaSt[0].mediaPontos||1;
+              const w = Math.max((m.mediaPontos/maxP*100),3).toFixed(0);
+              const colors = ['#4dff88','#1A6FFF','#ffd700','#cc66ff','#ff9f40','#ff5078'];
+              return `<div class="am-pos-bar-wrap">
+                <div class="am-pos-label">${esc(m.mapa)}</div>
+                <div style="flex:1;height:22px;background:rgba(255,255,255,.04);border-radius:2px;">
+                  <div style="width:${w}%;height:100%;background:${colors[i%colors.length]};opacity:.8;border-radius:2px;display:flex;align-items:center;padding-left:6px;min-width:30px;transition:.8s;">
+                    <span style="font-size:9px;font-weight:700;color:#fff;">${m.mediaPontos.toFixed(0)}</span>
+                  </div>
+                </div>
+              </div>`;
+            }).join('')}
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ LINHA 2: PONTOS TOTAIS | TAXA TOP 5 | MÉDIA PONTOS RKB ══ -->
+      <div class="stitle">PONTOS · TOP 5 · MÉDIA PONTOS RKB</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:14px;" class="am-grid-3">
+
+        <!-- PONTOS TOTAIS por mapa -->
+        <div class="cpanel">
+          <div class="cpt">💰 PONTOS TOTAIS POR MAPA</div>
+          <div style="padding:6px 0;">
+            ${[...mapaSt].sort((a,b)=>b.totalPontos-a.totalPontos).map((m,i)=>{
+              const maxP = Math.max(...mapaSt.map(x=>x.totalPontos),1);
+              const w = Math.max((m.totalPontos/maxP*100),3).toFixed(0);
+              const colors = ['#4dff88','#1A6FFF','#ffd700','#cc66ff','#ff9f40','#ff5078'];
+              return `<div class="am-pos-bar-wrap">
+                <div class="am-pos-label">${esc(m.mapa)}</div>
+                <div style="flex:1;height:22px;background:rgba(255,255,255,.04);border-radius:2px;">
+                  <div style="width:${w}%;height:100%;background:${colors[i%colors.length]};opacity:.8;border-radius:2px;display:flex;align-items:center;padding-left:6px;min-width:30px;transition:.8s;">
+                    <span style="font-size:9px;font-weight:700;color:#fff;">${m.totalPontos}</span>
+                  </div>
+                </div>
+              </div>`;
+            }).join('')}
+          </div>
+        </div>
+
+        <!-- TAXA DE TOP 5 -->
+        <div class="cpanel">
+          <div class="cpt">🎯 TAXA DE TOP 5</div>
+          <div style="height:180px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;">
+            <canvas id="am_pizza_top5" style="max-height:150px;max-width:150px;"></canvas>
+            <div style="font-size:9px;color:var(--mu);letter-spacing:1px;">
+              SIM <span style="color:#4dff88;font-weight:700;">${taxaTop5.toFixed(2)}%</span> &nbsp;|&nbsp; NÃO <span style="color:#ff5078;font-weight:700;">${(100-taxaTop5).toFixed(2)}%</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- MÉDIA PONTOS RKB (Top 5 apenas) -->
+        <div class="cpanel">
+          <div class="cpt">⭐ MÉDIA PONTOS RKB (TOP 5)</div>
+          <div style="padding:6px 0;">
+            ${mapRKB.map((m,i)=>{
+              const maxP = mapRKB[0].mediaRKB||1;
+              const w = Math.max((m.mediaRKB/maxP*100),3).toFixed(0);
+              const colors = ['#ffd700','#4dff88','#1A6FFF','#cc66ff','#ff9f40','#ff5078'];
+              return `<div class="am-pos-bar-wrap">
+                <div class="am-pos-label">${esc(m.mapa)}</div>
+                <div style="flex:1;height:22px;background:rgba(255,255,255,.04);border-radius:2px;">
+                  <div style="width:${w}%;height:100%;background:${colors[i%colors.length]};opacity:.85;border-radius:2px;display:flex;align-items:center;padding-left:6px;min-width:30px;transition:.8s;">
+                    <span style="font-size:9px;font-weight:700;color:#fff;">${m.mediaRKB.toFixed(0)}</span>
+                  </div>
+                </div>
+              </div>`;
+            }).join('')}
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ LINHA 3: PONTOS RKB TOTAIS | TOP POSIÇÕES | QUEDAS POR MAPA ══ -->
+      <div class="stitle">PONTOS RKB · TOP POSIÇÕES · QUEDAS</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:14px;" class="am-grid-3">
+
+        <!-- PONTOS RKB TOTAIS (soma de pontos apenas nos Top5) -->
+        <div class="cpanel">
+          <div class="cpt">💎 PONTOS RKB TOTAIS POR MAPA</div>
+          <div style="padding:6px 0;">
+            ${[...mapaSt].sort((a,b)=>b.mediaRKB*b.top5 - a.mediaRKB*a.top5).map((m,i)=>{
+              const totalRKB = Math.round(m.mediaRKB * m.top5);
+              const allRKB = mapaSt.map(x=>Math.round(x.mediaRKB*x.top5));
+              const maxR = Math.max(...allRKB,1);
+              const w = Math.max((totalRKB/maxR*100),3).toFixed(0);
+              const colors = ['#ffd700','#4dff88','#1A6FFF','#cc66ff','#ff9f40','#ff5078'];
+              return `<div class="am-pos-bar-wrap">
+                <div class="am-pos-label">${esc(m.mapa)}</div>
+                <div style="flex:1;height:22px;background:rgba(255,255,255,.04);border-radius:2px;">
+                  <div style="width:${w}%;height:100%;background:${colors[i%colors.length]};opacity:.8;border-radius:2px;display:flex;align-items:center;padding-left:6px;min-width:30px;transition:.8s;">
+                    <span style="font-size:9px;font-weight:700;color:#fff;">${totalRKB}</span>
+                  </div>
+                </div>
+              </div>`;
+            }).join('')}
+          </div>
+        </div>
+
+        <!-- TOP POSIÇÕES - gráfico de barras -->
+        <div class="cpanel">
+          <div class="cpt">📍 POSIÇÕES MAIS FREQUENTES</div>
+          <div class="chart-box" style="height:180px;"><canvas id="am_top_pos"></canvas></div>
+        </div>
+
+        <!-- QUEDAS POR MAPA - gráfico de área -->
+        <div class="cpanel">
+          <div class="cpt">📉 QUEDAS POR MAPA</div>
+          <div class="chart-box" style="height:180px;"><canvas id="am_quedas_mapa"></canvas></div>
+        </div>
+      </div>
+
+      <!-- ══ GRÁFICOS COMPLEMENTARES ══ -->
+      <div class="stitle">EVOLUÇÃO HISTÓRICA</div>
+      <div class="am-charts-row">
+        <div class="cpanel">
+          <div class="cpt">PONTOS POR QUEDA (HISTÓRICO)</div>
+          <div class="chart-box" style="height:200px;"><canvas id="am_hist_pontos"></canvas></div>
+        </div>
+        <div class="cpanel">
+          <div class="cpt">KILLS POR QUEDA (HISTÓRICO)</div>
+          <div class="chart-box" style="height:200px;"><canvas id="am_hist_kills"></canvas></div>
+        </div>
+      </div>
+
+      ${posKeys.length > 0 ? `
+      <div class="stitle">ANÁLISE POR POSIÇÃO DE CHEGADA</div>
+      <div class="am-charts-row">
+        <div class="cpanel">
+          <div class="cpt">PONTOS MÉDIOS POR POSIÇÃO</div>
+          <div class="chart-box" style="height:200px;"><canvas id="am_pos_pontos"></canvas></div>
+        </div>
+        <div class="cpanel">
+          <div class="cpt">KILLS MÉDIOS POR POSIÇÃO</div>
+          <div class="chart-box" style="height:200px;"><canvas id="am_pos_kills"></canvas></div>
+        </div>
+      </div>` : ''}
+
+      <div class="stitle">DISTRIBUIÇÃO & RADAR</div>
+      <div class="am-charts-row">
+        <div class="cpanel">
+          <div class="cpt">HISTOGRAMA — FAIXAS DE PONTUAÇÃO</div>
+          <div class="chart-box" style="height:200px;"><canvas id="am_histo_pontos"></canvas></div>
+        </div>
+        <div class="cpanel">
+          <div class="cpt">RADAR — VISÃO GERAL POR MAPA</div>
+          <div class="chart-box" style="height:200px;"><canvas id="am_radar_mapa"></canvas></div>
+        </div>
+      </div>
+
+      <!-- ══ RANKING MAPA (cards) ══ -->
+      <div class="stitle">RANKING POR MAPA</div>
+      <div class="am-section">
+        ${mapaSt.map((m,i)=>{
+          const maxP = mapaSt[0].mediaPontos||1;
+          const barW = Math.max((m.mediaPontos/maxP*100),3).toFixed(0);
+          const colors = ['#4dff88','#1A6FFF','#ffd700','#cc66ff','#ff9f40','#ff5078','#4D9FFF'];
+          const medals = ['🥇','🥈','🥉'];
+          return `<div class="am-map-card ${i===0?'best':''}">
+            <div class="am-map-name">${medals[i]||''} ${esc(m.mapa)}</div>
+            <div class="am-map-stats">
+              <div class="am-map-stat"><div class="am-map-stat-v">${m.mediaPontos.toFixed(1)}</div><div class="am-map-stat-l">MÉD PONTOS</div></div>
+              <div class="am-map-stat"><div class="am-map-stat-v">${m.mediaKills.toFixed(1)}</div><div class="am-map-stat-l">MÉD KILLS</div></div>
+              <div class="am-map-stat"><div class="am-map-stat-v">${m.mediaRKB.toFixed(0)}</div><div class="am-map-stat-l">MÉD RKB</div></div>
+              <div class="am-map-stat"><div class="am-map-stat-v">${m.booyahs}</div><div class="am-map-stat-l">BOOYAHS</div></div>
+              <div class="am-map-stat"><div class="am-map-stat-v">${m.top5}</div><div class="am-map-stat-l">TOP 5</div></div>
+              <div class="am-map-stat"><div class="am-map-stat-v">${m.games}</div><div class="am-map-stat-l">QUEDAS</div></div>
+              <div class="am-map-stat"><div class="am-map-stat-v">${m.totalPontos}</div><div class="am-map-stat-l">PTS TOTAL</div></div>
+              <div class="am-map-stat"><div class="am-map-stat-v">${m.totalKills}</div><div class="am-map-stat-l">KILLS TOTAL</div></div>
+            </div>
+            <div style="flex-shrink:0;width:110px;">
+              <div style="display:flex;align-items:center;gap:6px;">
+                <div style="flex:1;height:18px;background:rgba(255,255,255,.04);border-radius:2px;overflow:hidden;">
+                  <div style="width:${barW}%;height:100%;background:${colors[i%colors.length]};opacity:.8;border-radius:2px;display:flex;align-items:center;padding-left:5px;">
+                    <span style="font-size:8px;font-weight:700;color:#fff;">${m.mediaPontos.toFixed(0)}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>`;
+        }).join('')}
+      </div>
+
+      <!-- ══ TABELA DE PROBABILIDADES — ANÁLISE DE MAPAS ══ -->
+      <div class="stitle">⚽ PROBABILIDADES — ANÁLISE DE MAPAS</div>
+      <div style="font-size:9px;color:var(--mu);letter-spacing:1px;margin-bottom:14px;">
+        Baseado em <em style="color:#4dff88;font-style:normal;">${totalPartidas}</em> quedas registradas. Cores: <span style="color:#4dff88;">■ Alta (≥60%)</span> · <span style="color:#ffc44d;">■ Média (40–59%)</span> · <span style="color:#ff5078;">■ Baixa (&lt;40%)</span>
+      </div>
+
+      <div class="prob-grid">
+        <!-- MAIS/MENOS KILLS -->
+        <div class="prob-section">
+          <div class="prob-tabs">
+            <div class="prob-tab active" style="font-size:9px;">💀 MAIS/MENOS KILLS</div>
+          </div>
+          <div class="prob-table-wrap">
+            <table class="prob-table">
+              <thead><tr>
+                <th>LINHA</th><th>PROBABILIDADE</th><th>OCORRÊNCIAS</th>
+              </tr></thead>
+              <tbody>
+                ${[0.5, 1.5, 2.5, 3.5, 4.5, 5.5].map(line => {
+                  const cnt = data.filter(d => d.kills > line).length;
+                  const pct = totalPartidas > 0 ? (cnt/totalPartidas*100).toFixed(1) : '0.0';
+                  const p = parseFloat(pct);
+                  const cls = p >= 60 ? 'prob-cell-high' : p >= 40 ? 'prob-cell-mid' : 'prob-cell-low';
+                  return `<tr>
+                    <td>Mais de ${line}</td>
+                    <td><span class="${cls}">${pct}%</span></td>
+                    <td style="color:var(--mu);">${cnt}/${totalPartidas}</td>
+                  </tr>`;
+                }).join('')}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- MAIS/MENOS PONTOS -->
+        <div class="prob-section">
+          <div class="prob-tabs">
+            <div class="prob-tab active" style="font-size:9px;">🏆 MAIS/MENOS PONTOS</div>
+          </div>
+          <div class="prob-table-wrap">
+            <table class="prob-table">
+              <thead><tr>
+                <th>LINHA</th><th>PROBABILIDADE</th><th>OCORRÊNCIAS</th>
+              </tr></thead>
+              <tbody>
+                ${[50, 100, 150, 200, 300, 500].map(line => {
+                  const cnt = data.filter(d => d.pontos > line).length;
+                  const pct = totalPartidas > 0 ? (cnt/totalPartidas*100).toFixed(1) : '0.0';
+                  const p = parseFloat(pct);
+                  const cls = p >= 60 ? 'prob-cell-high' : p >= 40 ? 'prob-cell-mid' : 'prob-cell-low';
+                  return `<tr>
+                    <td>Mais de ${line} pts</td>
+                    <td><span class="${cls}">${pct}%</span></td>
+                    <td style="color:var(--mu);">${cnt}/${totalPartidas}</td>
+                  </tr>`;
+                }).join('')}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- TABELA DE POSIÇÕES (Top N) -->
+      <div class="prob-grid">
+        <div class="prob-section">
+          <div class="prob-tabs">
+            <div class="prob-tab active" style="font-size:9px;">📍 TAXA DE CHEGADA (POSIÇÃO)</div>
+          </div>
+          <div class="prob-table-wrap">
+            <table class="prob-table">
+              <thead><tr>
+                <th>LINHA</th><th>PROBABILIDADE</th><th>OCORRÊNCIAS</th>
+              </tr></thead>
+              <tbody>
+                ${[
+                  { label: '🏆 Booyah (Top 1)', max: 1 },
+                  { label: 'Top 3', max: 3 },
+                  { label: 'Top 5', max: 5 },
+                  { label: 'Top 10', max: 10 },
+                  { label: 'Top 15', max: 15 },
+                ].map(r => {
+                  const valid = data.filter(d => d.posicao > 0);
+                  const cnt = valid.filter(d => d.posicao <= r.max).length;
+                  const base = valid.length || 1;
+                  const pct = (cnt/base*100).toFixed(1);
+                  const p = parseFloat(pct);
+                  const cls = p >= 60 ? 'prob-cell-high' : p >= 40 ? 'prob-cell-mid' : 'prob-cell-low';
+                  return `<tr>
+                    <td>${r.label}</td>
+                    <td><span class="${cls}">${pct}%</span></td>
+                    <td style="color:var(--mu);">${cnt}/${base}</td>
+                  </tr>`;
+                }).join('')}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- KILLS POR MAPA (linha de média) -->
+        ${mapaSt.length > 0 ? `<div class="prob-section">
+          <div class="prob-tabs">
+            <div class="prob-tab active" style="font-size:9px;">🗺️ KILLS MÉDIOS POR MAPA</div>
+          </div>
+          <div class="prob-table-wrap">
+            <table class="prob-table">
+              <thead><tr>
+                <th>MAPA</th><th>MÉD KILLS</th><th>MÉD PONTOS</th><th>QUEDAS</th>
+              </tr></thead>
+              <tbody>
+                ${mapaSt.map(m => {
+                  const kp = m.mediaKills;
+                  const cls = kp >= 4 ? 'prob-cell-high' : kp >= 2 ? 'prob-cell-mid' : 'prob-cell-low';
+                  return `<tr>
+                    <td><span class="mapb">${esc(m.mapa)}</span></td>
+                    <td><span class="${cls}">${m.mediaKills.toFixed(1)}</span></td>
+                    <td style="color:var(--bl3);">${m.mediaPontos.toFixed(0)}</td>
+                    <td style="color:var(--mu);">${m.games}</td>
+                  </tr>`;
+                }).join('')}
+              </tbody>
+            </table>
+          </div>
+        </div>` : ''}
+      </div>
+
+      <!-- ══ TABELA COMPLETA ══ -->
+      <div class="stitle">DADOS POR QUEDA (${totalPartidas} registros)</div>
+      <div class="am-section" style="overflow-x:auto;">
+        <table class="qc-hist-table">
+          <thead><tr>
+            <th>#</th><th>DATA</th><th>MAPA</th><th>POSIÇÃO</th><th>KILLS</th><th>PONTUAÇÃO</th><th>CAMPEONATO</th>
+          </tr></thead>
+          <tbody>
+            ${histSorted.map((d,i)=>{
+              const ptsColor = d.pontos>=300?'#4dff88':d.pontos>=150?'#ffc44d':d.pontos>=50?'var(--bl3)':'var(--mu)';
+              const isBooyah = d.posicao===1;
+              return `<tr style="background:${isBooyah?'rgba(255,215,0,.04)':d.posicao<=5&&d.posicao>0?'rgba(77,255,136,.02)':''};">
+                <td style="color:var(--mu);">${i+1}</td>
+                <td style="font-size:10px;color:var(--mu);">${esc(d.data||'—')}</td>
+                <td><span class="mapb">${esc(d.mapa||'—')}</span></td>
+                <td style="font-family:Orbitron,sans-serif;font-size:11px;text-align:center;color:${isBooyah?'#ffd700':d.posicao<=5&&d.posicao>0?'#4dff88':'var(--bl3)'};">${d.posicao>0?`#${d.posicao}${isBooyah?' 🏆':''}`:' —'}</td>
+                <td style="font-weight:700;color:var(--bl3);">${d.kills}</td>
+                <td style="font-family:Orbitron,sans-serif;font-size:13px;font-weight:900;color:${ptsColor};">${d.pontos}</td>
+                <td style="font-size:10px;color:var(--mu);">${esc(d.camp||'—')}</td>
+              </tr>`;
+            }).join('')}
+          </tbody>
+        </table>
+      </div>
+    `;
+
+    // ── BUILD ALL CHARTS ──
+    const ax  = {ticks:{color:'#5A6880',font:{size:9,family:"'Barlow Condensed'"}},grid:{color:'rgba(255,255,255,.07)'},border:{color:'transparent'}};
+    const tt  = {backgroundColor:'rgba(8,12,20,.97)',borderColor:'rgba(255,255,255,.3)',borderWidth:1,titleColor:'#4D9FFF',bodyColor:'#C8D4E8',padding:10};
+    const pal = ['#4dff88','#1A6FFF','#ffd700','#cc66ff','#ff9f40','#ff5078','#4D9FFF','#00ffcc'];
+
+    // Pizza Booyah
+    const cpb = document.getElementById('am_pizza_booyah')?.getContext('2d');
+    if (cpb) new Chart(cpb, { type:'doughnut', data:{
+      labels:['BOOYAH','NÃO'],
+      datasets:[{ data:[booyahs, naoBooyah],
+        backgroundColor:['rgba(255,215,0,.85)','rgba(255,255,255,.12)'],
+        borderColor:['#ffd700','rgba(255,255,255,.15)'], borderWidth:2 }]
+    }, options:{ responsive:true, maintainAspectRatio:false, cutout:'55%',
+      plugins:{ legend:{display:false}, tooltip:{...tt, callbacks:{ label: ctx=>`${ctx.label}: ${ctx.raw} (${(ctx.raw/totalPartidas*100).toFixed(1)}%)` }} }
+    }});
+
+    // Pizza Top5
+    const cpt5 = document.getElementById('am_pizza_top5')?.getContext('2d');
+    if (cpt5) new Chart(cpt5, { type:'doughnut', data:{
+      labels:['TOP 5','FORA'],
+      datasets:[{ data:[top5, naoTop5],
+        backgroundColor:['rgba(77,255,136,.85)','rgba(255,80,120,.35)'],
+        borderColor:['#4dff88','#ff5078'], borderWidth:2 }]
+    }, options:{ responsive:true, maintainAspectRatio:false, cutout:'55%',
+      plugins:{ legend:{display:false}, tooltip:{...tt, callbacks:{ label: ctx=>`${ctx.label}: ${ctx.raw} (${(ctx.raw/totalPartidas*100).toFixed(1)}%)` }} }
+    }});
+
+    // Top Posições (barras)
+    const ctp = document.getElementById('am_top_pos')?.getContext('2d');
+    if (ctp && posKeys.length) {
+      new Chart(ctp, { type:'bar', data:{
+        labels: posLabels,
+        datasets:[{ label:'Partidas', data:posCount,
+          backgroundColor: posCount.map((_,i)=>i===0?'rgba(255,215,0,.8)':i<5?'rgba(77,255,136,.6)':'rgba(77,159,255,.5)'),
+          borderColor: posCount.map((_,i)=>i===0?'#ffd700':i<5?'#4dff88':'#1A6FFF'),
+          borderWidth:1, borderRadius:3 }]
+      }, options:{ responsive:true, maintainAspectRatio:false,
+        plugins:{ legend:{display:false}, tooltip:{...tt, callbacks:{ label: ctx=>`${ctx.raw} partidas nesta posição` }} },
+        scales:{ x:ax, y:{...ax, beginAtZero:true} }
+      }});
+    }
+
+    // Quedas por mapa - gráfico de área (igual ao da imagem)
+    const cqm = document.getElementById('am_quedas_mapa')?.getContext('2d');
+    if (cqm && mapaQuedasSorted.length) {
+      const grad = cqm.createLinearGradient(0,0,0,180);
+      grad.addColorStop(0,'rgba(77,255,136,.55)'); grad.addColorStop(1,'rgba(77,255,136,.02)');
+      new Chart(cqm, { type:'line', data:{
+        labels: mapaQuedasSorted.map(m=>m.mapa),
+        datasets:[{ label:'Quedas', data:mapaQuedasSorted.map(m=>m.games),
+          borderColor:'#4dff88', backgroundColor:grad, fill:true, tension:.4,
+          pointBackgroundColor:'#4dff88', pointRadius:4, pointHoverRadius:6, borderWidth:2 }]
+      }, options:{ responsive:true, maintainAspectRatio:false,
+        plugins:{ legend:{display:false}, tooltip:{...tt, callbacks:{ label: ctx=>`${ctx.raw} quedas em ${ctx.label}` }} },
+        scales:{ x:ax, y:{...ax, beginAtZero:true} }
+      }});
+    }
+
+    // Chart: Pontos por queda histórico
+    const ch1 = document.getElementById('am_hist_pontos')?.getContext('2d');
+    if (ch1 && histLabels.length) {
+      const avgLine = histPontos.map(()=>parseFloat(mediaPontos.toFixed(1)));
+      const g1 = ch1.createLinearGradient(0,0,0,180);
+      g1.addColorStop(0,'rgba(77,255,136,.45)'); g1.addColorStop(1,'rgba(77,255,136,.02)');
+      new Chart(ch1, { type:'bar', data:{
+        labels: histLabels,
+        datasets:[
+          { label:'Pontos', data:histPontos, backgroundColor:'rgba(77,255,136,.55)', borderColor:'#4dff88', borderWidth:1, borderRadius:2 },
+          { type:'line', label:'Média', data:avgLine, borderColor:'rgba(255,215,0,.7)', borderWidth:1.5, borderDash:[4,3], pointRadius:0, fill:false }
+        ]
+      }, options:{ responsive:true, maintainAspectRatio:false,
+        plugins:{ legend:{ labels:{ color:'#5A6880', font:{size:9} } }, tooltip:tt },
+        scales:{ x:{...ax, ticks:{display:histLabels.length<=20, color:'#5A6880', font:{size:8}}}, y:{...ax, beginAtZero:true} }
+      }});
+    }
+
+    // Chart: Kills por queda histórico
+    const ch2 = document.getElementById('am_hist_kills')?.getContext('2d');
+    if (ch2 && histLabels.length) {
+      const avgLineK = histKills.map(()=>parseFloat(mediaKills.toFixed(1)));
+      new Chart(ch2, { type:'bar', data:{
+        labels: histLabels,
+        datasets:[
+          { label:'Kills', data:histKills, backgroundColor:'rgba(26,111,255,.6)', borderColor:'#1A6FFF', borderWidth:1, borderRadius:2 },
+          { type:'line', label:'Média', data:avgLineK, borderColor:'rgba(255,215,0,.7)', borderWidth:1.5, borderDash:[4,3], pointRadius:0, fill:false }
+        ]
+      }, options:{ responsive:true, maintainAspectRatio:false,
+        plugins:{ legend:{ labels:{ color:'#5A6880', font:{size:9} } }, tooltip:tt },
+        scales:{ x:{...ax, ticks:{display:histLabels.length<=20, color:'#5A6880', font:{size:8}}}, y:{...ax, beginAtZero:true} }
+      }});
+    }
+
+    // Chart: Pontos por posição
+    const ch5 = document.getElementById('am_pos_pontos')?.getContext('2d');
+    if (ch5 && posKeys.length) {
+      new Chart(ch5, { type:'bar', data:{
+        labels: posLabels,
+        datasets:[{ label:'Média Pontos', data:posMediaP,
+          backgroundColor:posMediaP.map(v=>v>=300?'rgba(255,215,0,.75)':v>=100?'rgba(77,255,136,.65)':'rgba(77,159,255,.55)'),
+          borderColor:posMediaP.map(v=>v>=300?'#ffd700':v>=100?'#4dff88':'#1A6FFF'),
+          borderWidth:1, borderRadius:3 }]
+      }, options:{ responsive:true, maintainAspectRatio:false,
+        plugins:{ legend:{display:false}, tooltip:{...tt, callbacks:{ label: ctx=>`Média: ${ctx.raw} pts · ${posCount[ctx.dataIndex]} partidas` }} },
+        scales:{ x:ax, y:{...ax, beginAtZero:true} }
+      }});
+    }
+
+    // Chart: Kills por posição
+    const ch6 = document.getElementById('am_pos_kills')?.getContext('2d');
+    if (ch6 && posKeys.length) {
+      new Chart(ch6, { type:'bar', data:{
+        labels: posLabels,
+        datasets:[{ label:'Média Kills', data:posMediaK,
+          backgroundColor:'rgba(204,102,255,.65)', borderColor:'#cc66ff', borderWidth:1, borderRadius:3 }]
+      }, options:{ responsive:true, maintainAspectRatio:false,
+        plugins:{ legend:{display:false}, tooltip:{...tt, callbacks:{ label: ctx=>`Média: ${ctx.raw} kills` }} },
+        scales:{ x:ax, y:{...ax, beginAtZero:true} }
+      }});
+    }
+
+    // Chart: Histograma de pontos
+    const ch7 = document.getElementById('am_histo_pontos')?.getContext('2d');
+    if (ch7) {
+      new Chart(ch7, { type:'bar', data:{
+        labels: histoLabels,
+        datasets:[{ label:'Partidas', data:histoData,
+          backgroundColor:histoData.map((_,i)=>pal[i%pal.length]+'88'),
+          borderColor:histoData.map((_,i)=>pal[i%pal.length]),
+          borderWidth:1, borderRadius:3 }]
+      }, options:{ responsive:true, maintainAspectRatio:false,
+        plugins:{ legend:{display:false}, tooltip:{...tt, callbacks:{ label: ctx=>`${ctx.raw} partidas` }} },
+        scales:{ x:ax, y:{...ax, beginAtZero:true} }
+      }});
+    }
+
+    // Chart: Radar por mapa
+    const ch8 = document.getElementById('am_radar_mapa')?.getContext('2d');
+    if (ch8 && mapaSt.length >= 2) {
+      const maxP2  = Math.max(...mapaSt.map(m=>m.mediaPontos),1);
+      const maxK2  = Math.max(...mapaSt.map(m=>m.mediaKills),1);
+      const maxR2  = Math.max(...mapaSt.map(m=>m.mediaRKB),1);
+      const maxG2  = Math.max(...mapaSt.map(m=>m.games),1);
+      const maxB2  = Math.max(...mapaSt.map(m=>m.booyahs),1);
+      new Chart(ch8, { type:'radar', data:{
+        labels:['MÉD PONTOS','MÉD KILLS','MÉD RKB','QUEDAS','BOOYAHS'],
+        datasets: mapaSt.slice(0,6).map((m,i)=>({
+          label: m.mapa,
+          data: [(m.mediaPontos/maxP2)*100,(m.mediaKills/maxK2)*100,(m.mediaRKB/maxR2)*100,(m.games/maxG2)*100,(m.booyahs/maxB2)*100],
+          fill:true, backgroundColor:pal[i%pal.length]+'22',
+          borderColor:pal[i%pal.length], pointBackgroundColor:pal[i%pal.length],
+          borderWidth:1.5, pointRadius:3
+        }))
+      }, options:{ responsive:true, maintainAspectRatio:false,
+        plugins:{ legend:{ labels:{ color:'#5A6880', font:{size:8,family:"'Barlow Condensed'"}, boxWidth:8 } } },
+        scales:{ r:{ ticks:{display:false}, grid:{color:'rgba(255,255,255,.1)'},
+          pointLabels:{ color:'#5A6880', font:{size:8} }, angleLines:{color:'rgba(255,255,255,.07)'} } }
+      }});
+    }
+  };
+
+  if (amLoaded) { doRender(); }
+  else { loadAnaliseMapasData(doRender); }
+}
+
+
+
 
 </script>
 </body>
