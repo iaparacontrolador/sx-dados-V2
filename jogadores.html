@@ -814,6 +814,175 @@ body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
 .am-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 14px; }
 @media(max-width:900px) { .am-grid-3 { grid-template-columns: 1fr 1fr; } }
 @media(max-width:600px) { .am-grid-3 { grid-template-columns: 1fr; } }
+
+/* ══════════════════════════════════════════
+   RECURSOS DE COMBATE — estilos integrados
+══════════════════════════════════════════ */
+:root {
+  --gold: #FFA500; --gold2: #FFD700;
+  --green: #4DFF88; --red: #FF5078; --purple: #CC66FF;
+  --bg2-rc: #0F1018; --bg3-rc: #141520; --bg4-rc: #1A1B28;
+  --brd2-rc: rgba(255,255,255,.08);
+  --glow-gold: 0 0 24px rgba(255,165,0,.4);
+}
+/* Filter bar recursos */
+.rc-filter-bar { display:flex; align-items:flex-end; gap:10px; margin-bottom:16px; flex-wrap:wrap;
+  background:rgba(10,12,22,.8); border:1px solid var(--brd); padding:14px 16px; }
+.rc-filter-item { display:flex; flex-direction:column; gap:4px; min-width:130px; }
+.rc-filter-label { font-family:'Orbitron',sans-serif; font-size:8px; letter-spacing:2px; color:var(--mu); font-weight:700; }
+.rc-filter-select, .rc-filter-input { background:rgba(255,255,255,.06); border:1px solid var(--brd);
+  color:var(--owh); padding:7px 10px; font-family:'Barlow Condensed',sans-serif; font-size:12px;
+  letter-spacing:1px; outline:none; cursor:pointer; transition:border-color .2s; }
+.rc-filter-select:focus, .rc-filter-input:focus { border-color:var(--bl); background:rgba(26,111,255,.08); }
+.rc-filter-select option { background:#0a0c16; }
+.rc-filter-input::-webkit-calendar-picker-indicator { filter:invert(.6) sepia(1) saturate(3) hue-rotate(190deg); cursor:pointer; }
+.rc-filter-clear { background:transparent; border:1px solid rgba(255,80,120,.3); color:#ff5078;
+  padding:7px 14px; font-family:'Orbitron',sans-serif; font-size:9px; font-weight:700; letter-spacing:2px;
+  cursor:pointer; transition:all .2s; align-self:flex-end; white-space:nowrap; }
+.rc-filter-clear:hover { background:rgba(255,80,120,.1); border-color:#ff5078; }
+/* KPI strip recursos */
+.rc-kpi-strip { display:flex; gap:8px; margin-bottom:20px; flex-wrap:wrap; }
+.rc-kpi-chip { flex:1; min-width:120px; background:var(--dk3); border:1px solid var(--brd);
+  padding:12px 16px; display:flex; align-items:center; gap:10px; position:relative; overflow:hidden;
+  transition:border-color .3s;
+  clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px)); }
+.rc-kpi-chip:hover { border-color:var(--bl); }
+.rc-kpi-chip::after { content:''; position:absolute; top:0; left:0; right:0; height:1px;
+  background:linear-gradient(90deg,transparent,rgba(26,111,255,.5),transparent); }
+.rc-kpi-chip-icon { font-size:18px; flex-shrink:0; }
+.rc-kpi-chip-body { display:flex; flex-direction:column; }
+.rc-kpi-chip-val { font-family:'Orbitron',sans-serif; font-size:18px; font-weight:900; line-height:1; }
+.rc-kpi-chip-lbl { font-size:9px; letter-spacing:2px; color:var(--mu); margin-top:2px; }
+/* Sidebar recursos */
+.rc-sidebar { width:200px; flex-shrink:0; background:rgba(6,8,16,.98);
+  border-right:1px solid var(--brd2-rc); padding:16px 0; display:flex; flex-direction:column; gap:2px; }
+.rc-sidebar-label { font-family:'Orbitron',sans-serif; font-size:7px; letter-spacing:4px;
+  color:var(--mu); padding:8px 20px 4px; font-weight:700; }
+.rc-cat-btn { display:flex; align-items:center; gap:10px; padding:12px 20px;
+  font-family:'Orbitron',sans-serif; font-size:10px; font-weight:700; letter-spacing:2px;
+  color:var(--mu); cursor:pointer; background:none; border:none; transition:all .2s;
+  position:relative; text-align:left; width:100%; }
+.rc-cat-btn:hover { color:var(--owh); background:rgba(255,255,255,.04); }
+.rc-cat-btn.active { color:var(--wh); background:rgba(26,111,255,.1); }
+.rc-cat-btn.active::before { content:''; position:absolute; left:0; top:0; bottom:0; width:3px; background:var(--bl); }
+.rc-cat-btn-icon { font-size:14px; flex-shrink:0; }
+.rc-cat-btn-count { margin-left:auto; font-size:9px; color:var(--mu);
+  background:rgba(255,255,255,.06); border:1px solid var(--brd2-rc); padding:1px 6px; font-weight:400; }
+.rc-cat-btn.active .rc-cat-btn-count { color:var(--bl3); border-color:var(--brd); }
+.rc-sidebar-div { height:1px; background:var(--brd2-rc); margin:8px 16px; }
+/* Layout recursos */
+.rc-main-layout { display:flex; min-height:400px; }
+.rc-content-area { flex:1; min-width:0; padding:20px 0 20px 20px; }
+/* Resource cards grid */
+.rec-grid-rc { display:grid; grid-template-columns:repeat(auto-fill,minmax(340px,1fr)); gap:12px; }
+/* Resource card */
+.rc { background:var(--dk3); border:1px solid var(--brd);
+  position:relative; overflow:hidden; transition:border-color .3s,box-shadow .3s;
+  clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,14px 100%,0 calc(100% - 14px)); }
+.rc:hover { border-color:rgba(26,111,255,.4); box-shadow:var(--glow); }
+.rc.gold-cat:hover { border-color:rgba(255,165,0,.4); box-shadow:var(--glow-gold); }
+.rc::after { content:''; position:absolute; top:0; left:0; right:0; height:1px;
+  background:linear-gradient(90deg,transparent,var(--bl),transparent); opacity:.7; }
+.rc.gold-cat::after { background:linear-gradient(90deg,transparent,var(--gold),transparent); }
+.rc::before { content:''; position:absolute; top:0; right:0;
+  border-top:14px solid rgba(26,111,255,.4); border-left:14px solid transparent; z-index:1; }
+.rc.gold-cat::before { border-top-color:rgba(255,165,0,.4); }
+.rc-top { display:flex; align-items:stretch; min-height:110px; border-bottom:1px solid var(--brd); position:relative; }
+.rc-img-wrap { width:130px; flex-shrink:0; position:relative; overflow:hidden; background:rgba(0,0,0,.4); }
+.rc-img { width:100%; height:100%; object-fit:cover; object-position:center; display:block; }
+.rc-img-ph { width:100%; height:100%; min-height:110px; display:flex; align-items:center;
+  justify-content:center; font-size:40px;
+  background:radial-gradient(circle at 60% 40%,rgba(26,111,255,.12),rgba(0,0,0,.4)); }
+.rc-img-wrap::after { content:''; position:absolute; inset:0;
+  background:linear-gradient(90deg,transparent 60%,var(--dk3)); pointer-events:none; }
+.rc-info { flex:1; padding:14px 16px 14px 12px; display:flex; flex-direction:column; justify-content:space-between; }
+.rc-name { font-family:'Orbitron',sans-serif; font-size:13px; font-weight:900; color:var(--wh); letter-spacing:1px; line-height:1.1; }
+.rc-cat-row { display:flex; align-items:center; gap:6px; margin-top:5px; }
+.rc-cat-badge { font-size:8px; font-weight:700; letter-spacing:2px; border:1px solid; padding:2px 8px;
+  color:var(--bl3); border-color:var(--brd); background:rgba(26,111,255,.08); }
+.rc-uses-badge { font-size:9px; color:var(--mu); letter-spacing:1px; }
+/* Accuracy block */
+.rc-acc-block { padding:10px 16px 8px; border-bottom:1px solid var(--brd); }
+.rc-acc-top { display:flex; align-items:baseline; gap:8px; margin-bottom:6px; }
+.rc-acc-pct { font-family:'Orbitron',sans-serif; font-size:26px; font-weight:900; line-height:1; }
+.rc-acc-pct.good { color:var(--gold); }
+.rc-acc-pct.great { color:var(--green); }
+.rc-acc-pct.bad { color:var(--red); }
+.rc-acc-bars-wrap { display:flex; flex-direction:column; gap:2px; flex:1; }
+.rc-acc-bars { display:flex; gap:2px; flex-wrap:wrap; }
+.rc-acc-bar-seg { width:5px; height:14px; border-radius:1px; background:rgba(255,255,255,.08); transition:background .3s; }
+.rc-acc-bar-seg.hit { background:var(--gold); }
+.rc-acc-bar-seg.great { background:var(--green); }
+.rc-acc-bar-seg.bad { background:var(--red); }
+.rc-acc-label { font-size:9px; color:var(--mu); letter-spacing:1px; display:flex; justify-content:space-between; }
+.rc-acc-label em { color:var(--owh); font-style:normal; }
+.rc-acc-gradient-bar { height:4px; border-radius:2px; background:rgba(255,255,255,.06); position:relative; overflow:hidden; margin-top:6px; }
+.rc-acc-gradient-fill { position:absolute; left:0; top:0; bottom:0; border-radius:2px; transition:width 1s ease-out; }
+.rc-acc-gradient-fill.good { background:linear-gradient(90deg,var(--gold),var(--gold2)); }
+.rc-acc-gradient-fill.great { background:linear-gradient(90deg,var(--green),#00ffcc); }
+.rc-acc-gradient-fill.bad { background:linear-gradient(90deg,var(--red),#ff8080); }
+/* Stats row */
+.rc-stats-row { display:grid; grid-template-columns:1fr 1fr; border-bottom:1px solid var(--brd); }
+.rc-stat { padding:10px 16px; border-right:1px solid var(--brd); display:flex; flex-direction:column; gap:3px; }
+.rc-stat:last-child { border-right:none; }
+.rc-stat-label { font-size:8px; letter-spacing:2px; color:var(--mu); font-weight:700; }
+.rc-stat-val { font-family:'Orbitron',sans-serif; font-size:20px; font-weight:900; line-height:1; }
+.rc-stat-val .unit { font-size:11px; font-weight:400; color:var(--mu); margin-left:2px; }
+.rc-stat-sub { font-size:9px; color:var(--mu); letter-spacing:1px; }
+.val-blue-rc { color:var(--bl3); } .val-gold-rc { color:var(--gold); }
+/* Mini chart */
+.rc-chart-wrap { padding:10px 16px 12px; background:rgba(0,0,0,.2); position:relative; }
+.rc-chart-label { font-size:8px; letter-spacing:2px; color:var(--mu); margin-bottom:6px; display:flex; justify-content:space-between; }
+.rc-chart-label em { color:var(--bl3); font-style:normal; }
+.rc-chart-canvas-wrap { width:100%; height:44px; position:relative; }
+.rc-chart-canvas-wrap canvas { position:absolute; top:0; left:0; width:100%!important; height:100%!important; }
+/* Top players strip */
+.rc-players-strip { display:flex; padding:8px 16px; gap:8px; border-top:1px solid var(--brd); flex-wrap:wrap; }
+.rc-pl-chip { display:flex; align-items:center; gap:5px; background:rgba(255,255,255,.04);
+  border:1px solid var(--brd2-rc); padding:4px 8px; }
+.rc-pl-photo { width:20px; height:25px; object-fit:cover; border:1px solid var(--brd2-rc); }
+.rc-pl-photo-ph { width:20px; height:25px; background:var(--dk2); display:flex; align-items:center; justify-content:center; font-size:10px; }
+.rc-pl-name { font-family:'Orbitron',sans-serif; font-size:8px; font-weight:700; color:var(--owh); }
+.rc-pl-dmg { font-size:9px; color:var(--gold); font-weight:700; }
+/* Team ranking */
+.rc-team-rank-wrap { background:var(--dk3); border:1px solid var(--brd); margin-top:20px; }
+.rc-team-rank-hdr { display:flex; align-items:center; gap:10px; padding:12px 18px;
+  border-bottom:1px solid var(--brd); font-family:'Orbitron',sans-serif; font-size:9px;
+  font-weight:700; letter-spacing:4px; color:var(--bl3); }
+.rc-team-rank-hdr::before { content:''; width:3px; height:12px; background:var(--gold); flex-shrink:0; }
+.rc-team-rank-row { display:flex; align-items:center; gap:14px; padding:10px 18px;
+  border-bottom:1px solid rgba(255,255,255,.03); transition:background .2s; }
+.rc-team-rank-row:last-child { border-bottom:none; }
+.rc-team-rank-row:hover { background:rgba(255,255,255,.03); }
+.rc-team-rank-pos { font-size:14px; width:28px; text-align:center; flex-shrink:0; }
+.rc-team-rank-photo { width:34px; height:42px; object-fit:cover; object-position:top; border:1px solid var(--brd); flex-shrink:0; }
+.rc-team-rank-photo-ph { width:34px; height:42px; background:var(--dk2); border:1px solid var(--brd);
+  display:flex; align-items:center; justify-content:center; font-size:16px; flex-shrink:0; }
+.rc-team-rank-name { font-family:'Orbitron',sans-serif; font-size:11px; font-weight:700; color:var(--wh); flex:1; }
+.rc-team-rank-stats { display:flex; gap:20px; }
+.rc-team-rank-stat { display:flex; flex-direction:column; gap:1px; text-align:right; }
+.rc-team-rank-stat-val { font-family:'Orbitron',sans-serif; font-size:14px; font-weight:900; }
+.rc-team-rank-stat-lbl { font-size:8px; letter-spacing:1px; color:var(--mu); }
+/* Section header recursos */
+.rc-section-hdr { display:flex; align-items:center; gap:10px; margin-bottom:16px; }
+.rc-section-hdr-line { width:3px; height:16px; background:var(--bl); flex-shrink:0; }
+.rc-section-hdr-txt { font-family:'Orbitron',sans-serif; font-size:10px; font-weight:700; letter-spacing:4px; color:var(--bl3); }
+.rc-section-hdr::after { content:''; flex:1; height:1px; background:linear-gradient(90deg,var(--brd),transparent); }
+.rc-section-hdr-badge { font-size:9px; color:var(--mu); letter-spacing:1px; border:1px solid var(--brd); padding:2px 10px; }
+/* Empty state */
+.rc-empty-state { display:flex; flex-direction:column; align-items:center; justify-content:center;
+  min-height:300px; gap:14px; text-align:center; }
+.rc-empty-icon { font-size:48px; opacity:.5; }
+.rc-empty-title { font-family:'Orbitron',sans-serif; font-size:13px; color:var(--mu); letter-spacing:3px; }
+/* Responsive */
+@media(max-width:900px) { .rc-sidebar{width:160px;} .rec-grid-rc{grid-template-columns:1fr;} }
+@media(max-width:680px) {
+  .rc-main-layout{flex-direction:column;}
+  .rc-sidebar{width:100%;flex-direction:row;flex-wrap:wrap;padding:8px;gap:4px;border-right:none;border-bottom:1px solid var(--brd);}
+  .rc-sidebar-label{display:none;} .rc-sidebar-div{display:none;}
+  .rc-cat-btn{border:1px solid var(--brd);flex:auto;justify-content:center;padding:8px 12px;}
+  .rc-content-area{padding:14px 0;}
+}
 </style>
 </head>
 <body>
@@ -952,6 +1121,7 @@ body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
         <button class="home-tab-btn" style="color:#ffd700; border-color:rgba(255,215,0,.3);" onclick="goToTab('comp-an')">⚖️ Comparar Análises</button>
         <button class="home-tab-btn" style="color:#ff5078; border-color:rgba(255,80,120,.3);" onclick="goToTab('quebra-call')">📞 Quebra de Call</button>
         <button class="home-tab-btn" style="color:#4dff88; border-color:rgba(77,255,136,.3);" onclick="goToTab('analise-mapas')">🗺️ Análise de Mapas</button>
+        <button class="home-tab-btn" style="color:#ffa500; border-color:rgba(255,165,0,.3);" onclick="goToTab('recursos')">🎯 Recursos de Combate</button>
       </div>
 
       <div class="player-gallery" id="playerGallery">
@@ -960,8 +1130,77 @@ body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
     </div>
     <!-- PLAYER CONTENT -->
     <div id="playerContent" style="display:none;"></div>
+
+    <!-- STANDALONE: ANÁLISE DE MAPAS (acesso direto, sem jogador) -->
+    <div id="standaloneMapas" style="display:none;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:10px;">
+        <div style="font-family:'Orbitron',sans-serif;font-size:13px;font-weight:900;letter-spacing:3px;color:var(--wh);">🗺️ ANÁLISE DE MAPAS</div>
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+          <div style="display:flex;flex-direction:column;gap:3px;">
+            <label style="font-family:'Orbitron',sans-serif;font-size:8px;letter-spacing:2px;color:var(--mu);">👤 JOGADOR</label>
+            <select id="am-filter-player" onchange="renderAnaliseMapas('','standalone-analise-mapas-inner')" style="background:rgba(255,255,255,.06);border:1px solid var(--brd);color:var(--owh);padding:7px 10px;font-family:'Barlow Condensed',sans-serif;font-size:12px;letter-spacing:1px;outline:none;cursor:pointer;">
+              <option value="">TODOS OS JOGADORES</option>
+            </select>
+          </div>
+          <button onclick="backToHome()" style="background:transparent;border:1px solid var(--brd);color:var(--mu);padding:8px 16px;font-family:'Orbitron',sans-serif;font-size:9px;letter-spacing:2px;cursor:pointer;transition:all .2s;align-self:flex-end;" onmouseover="this.style.borderColor='var(--bl)';this.style.color='#fff'" onmouseout="this.style.borderColor='var(--brd)';this.style.color='var(--mu)'">← VOLTAR</button>
+        </div>
+      </div>
+      <div id="standalone-analise-mapas-inner"></div>
+    </div> (acesso direto, sem jogador) -->
+    <div id="standaloneRecursos" style="display:none;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:10px;">
+        <div style="font-family:'Orbitron',sans-serif;font-size:13px;font-weight:900;letter-spacing:3px;color:var(--wh);">🎯 RECURSOS DE COMBATE</div>
+        <button onclick="backToHome()" style="background:transparent;border:1px solid var(--brd);color:var(--mu);padding:8px 16px;font-family:'Orbitron',sans-serif;font-size:9px;letter-spacing:2px;cursor:pointer;transition:all .2s;" onmouseover="this.style.borderColor='var(--bl)';this.style.color='#fff'" onmouseout="this.style.borderColor='var(--brd)';this.style.color='var(--mu)'">← VOLTAR</button>
+      </div>
+      <div class="rc-main-layout">
+        <aside class="rc-sidebar">
+          <div class="rc-sidebar-label">CATEGORIAS</div>
+          <button class="rc-cat-btn active gold-cat" data-cat="TODOS" onclick="rcSetCat(this)"><span class="rc-cat-btn-icon">🔫</span> TODOS<span class="rc-cat-btn-count" id="rc-count-TODOS">0</span></button>
+          <button class="rc-cat-btn" data-cat="GRANADAS" onclick="rcSetCat(this)"><span class="rc-cat-btn-icon">💣</span> GRANADAS<span class="rc-cat-btn-count" id="rc-count-GRANADAS">0</span></button>
+          <button class="rc-cat-btn" data-cat="PISTOLAS" onclick="rcSetCat(this)"><span class="rc-cat-btn-icon">🔫</span> PISTOLAS<span class="rc-cat-btn-count" id="rc-count-PISTOLAS">0</span></button>
+          <button class="rc-cat-btn" data-cat="RIFLES" onclick="rcSetCat(this)"><span class="rc-cat-btn-icon">🎯</span> RIFLES<span class="rc-cat-btn-count" id="rc-count-RIFLES">0</span></button>
+          <div class="rc-sidebar-div"></div>
+          <button class="rc-cat-btn" data-cat="LANÇADORES" onclick="rcSetCat(this)"><span class="rc-cat-btn-icon">🚀</span> LANÇADORES<span class="rc-cat-btn-count" id="rc-count-LANÇADORES">0</span></button>
+          <button class="rc-cat-btn" data-cat="SNIPERS" onclick="rcSetCat(this)"><span class="rc-cat-btn-icon">🔭</span> SNIPERS<span class="rc-cat-btn-count" id="rc-count-SNIPERS">0</span></button>
+          <button class="rc-cat-btn" data-cat="MELEE" onclick="rcSetCat(this)"><span class="rc-cat-btn-icon">⚔️</span> MELEE<span class="rc-cat-btn-count" id="rc-count-MELEE">0</span></button>
+          <button class="rc-cat-btn" data-cat="EQUIPAMENTOS" onclick="rcSetCat(this)"><span class="rc-cat-btn-icon">🛡️</span> EQUIPAMENTOS<span class="rc-cat-btn-count" id="rc-count-EQUIPAMENTOS">0</span></button>
+          <div class="rc-sidebar-div"></div>
+          <button class="rc-cat-btn" data-cat="OUTROS" onclick="rcSetCat(this)"><span class="rc-cat-btn-icon">🔧</span> OUTROS<span class="rc-cat-btn-count" id="rc-count-OUTROS">0</span></button>
+        </aside>
+        <div class="rc-content-area">
+          <div class="rc-filter-bar" id="rc-filter-bar">
+            <div class="rc-filter-item"><label class="rc-filter-label">👤 JOGADOR</label><select class="rc-filter-select" id="rc-filter-player" onchange="rcApplyFilters()"><option value="">TODOS</option></select></div>
+            <div class="rc-filter-item"><label class="rc-filter-label">🗺️ MAPA</label><select class="rc-filter-select" id="rc-filter-mapa" onchange="rcApplyFilters()"><option value="">TODOS</option></select></div>
+            <div class="rc-filter-item"><label class="rc-filter-label">📅 DATA INÍCIO</label><input type="date" class="rc-filter-input" id="rc-filter-data-ini" onchange="rcApplyFilters()"></div>
+            <div class="rc-filter-item"><label class="rc-filter-label">📅 DATA FIM</label><input type="date" class="rc-filter-input" id="rc-filter-data-fim" onchange="rcApplyFilters()"></div>
+            <button class="rc-filter-clear" onclick="rcClearFilters()">✕ LIMPAR</button>
+          </div>
+          <div class="rc-kpi-strip">
+            <div class="rc-kpi-chip"><div class="rc-kpi-chip-icon">🧨</div><div class="rc-kpi-chip-body"><div class="rc-kpi-chip-val" style="color:var(--gold);" id="rc-kpiUsos">—</div><div class="rc-kpi-chip-lbl">TOTAL DE USOS</div></div></div>
+            <div class="rc-kpi-chip"><div class="rc-kpi-chip-icon">🎯</div><div class="rc-kpi-chip-body"><div class="rc-kpi-chip-val" id="rc-kpiAcc" style="color:var(--green);">—%</div><div class="rc-kpi-chip-lbl">TAXA DE ACERTO</div></div></div>
+            <div class="rc-kpi-chip"><div class="rc-kpi-chip-icon">💥</div><div class="rc-kpi-chip-body"><div class="rc-kpi-chip-val val-gold-rc" id="rc-kpiDano">—</div><div class="rc-kpi-chip-lbl">DANO TOTAL</div></div></div>
+            <div class="rc-kpi-chip"><div class="rc-kpi-chip-icon">📊</div><div class="rc-kpi-chip-body"><div class="rc-kpi-chip-val val-blue-rc" id="rc-kpiMed">—</div><div class="rc-kpi-chip-lbl">MÉDIA DE DANO</div></div></div>
+            <div class="rc-kpi-chip"><div class="rc-kpi-chip-icon">✅</div><div class="rc-kpi-chip-body"><div class="rc-kpi-chip-val val-green" id="rc-kpiAcertos">—</div><div class="rc-kpi-chip-lbl">ACERTOS</div></div></div>
+            <div class="rc-kpi-chip"><div class="rc-kpi-chip-icon">❌</div><div class="rc-kpi-chip-body"><div class="rc-kpi-chip-val" style="color:var(--red);" id="rc-kpiErros">—</div><div class="rc-kpi-chip-lbl">ERROS</div></div></div>
+          </div>
+          <div class="rc-section-hdr">
+            <div class="rc-section-hdr-line"></div>
+            <div class="rc-section-hdr-txt" id="rc-sectionTitle">⚡ ESTATÍSTICAS POR RECURSO</div>
+            <div class="rc-section-hdr-badge" id="rc-sectionBadge">TODOS</div>
+          </div>
+          <div class="rec-grid-rc" id="rc-recGrid">
+            <div class="rc-empty-state"><div class="rc-empty-icon">🎮</div><div class="rc-empty-title">CARREGANDO RECURSOS</div></div>
+          </div>
+          <div id="rc-teamRankSection" style="display:none;">
+            <div class="rc-team-rank-wrap">
+              <div class="rc-team-rank-hdr">🏆 RANKING DE JOGADORES — DANO COM RECURSOS</div>
+              <div id="rc-teamRankList"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-</div>
 
 <script>
 // ══════════════════════════════════════════════
@@ -1987,6 +2226,7 @@ function renderPlayer(name) {
       <button class="tab-btn cmp-btn" onclick="switchTab('cmp',this)">⚔️ Análises Comparativas</button>
       <button class="tab-btn cmp-btn" style="background:rgba(26,111,255,.1);border-color:var(--bl);color:var(--bl3);" onclick="openCompModal()">⚔️ Comparativo X1</button>
       <button class="tab-btn cmp-btn" onclick="switchTab('ind',this)">👤 Análises Individuais</button>
+      <button class="tab-btn cmp-btn" onclick="switchTab('recursos',this)">🎯 Recursos de Combate</button>
     </div>
 
     <!-- TAB: STATS -->
@@ -2273,7 +2513,112 @@ function renderPlayer(name) {
 	    <div id="tab-analise-mapas" class="tab-content">
 	      <div id="analise-mapas-inner"></div>
 	    </div>
-	
+
+      <div id="tab-recursos" class="tab-content">
+        <div class="rc-main-layout">
+          <!-- SIDEBAR CATEGORIAS -->
+          <aside class="rc-sidebar">
+            <div class="rc-sidebar-label">CATEGORIAS</div>
+            <button class="rc-cat-btn active gold-cat" data-cat="TODOS" onclick="rcSetCat(this)">
+              <span class="rc-cat-btn-icon">🔫</span> TODOS
+              <span class="rc-cat-btn-count" id="rc-count-TODOS">0</span>
+            </button>
+            <button class="rc-cat-btn" data-cat="GRANADAS" onclick="rcSetCat(this)">
+              <span class="rc-cat-btn-icon">💣</span> GRANADAS
+              <span class="rc-cat-btn-count" id="rc-count-GRANADAS">0</span>
+            </button>
+            <button class="rc-cat-btn" data-cat="PISTOLAS" onclick="rcSetCat(this)">
+              <span class="rc-cat-btn-icon">🔫</span> PISTOLAS
+              <span class="rc-cat-btn-count" id="rc-count-PISTOLAS">0</span>
+            </button>
+            <button class="rc-cat-btn" data-cat="RIFLES" onclick="rcSetCat(this)">
+              <span class="rc-cat-btn-icon">🎯</span> RIFLES
+              <span class="rc-cat-btn-count" id="rc-count-RIFLES">0</span>
+            </button>
+            <div class="rc-sidebar-div"></div>
+            <button class="rc-cat-btn" data-cat="LANÇADORES" onclick="rcSetCat(this)">
+              <span class="rc-cat-btn-icon">🚀</span> LANÇADORES
+              <span class="rc-cat-btn-count" id="rc-count-LANÇADORES">0</span>
+            </button>
+            <button class="rc-cat-btn" data-cat="SNIPERS" onclick="rcSetCat(this)">
+              <span class="rc-cat-btn-icon">🔭</span> SNIPERS
+              <span class="rc-cat-btn-count" id="rc-count-SNIPERS">0</span>
+            </button>
+            <button class="rc-cat-btn" data-cat="MELEE" onclick="rcSetCat(this)">
+              <span class="rc-cat-btn-icon">⚔️</span> MELEE
+              <span class="rc-cat-btn-count" id="rc-count-MELEE">0</span>
+            </button>
+            <button class="rc-cat-btn" data-cat="EQUIPAMENTOS" onclick="rcSetCat(this)">
+              <span class="rc-cat-btn-icon">🛡️</span> EQUIPAMENTOS
+              <span class="rc-cat-btn-count" id="rc-count-EQUIPAMENTOS">0</span>
+            </button>
+            <div class="rc-sidebar-div"></div>
+            <button class="rc-cat-btn" data-cat="OUTROS" onclick="rcSetCat(this)">
+              <span class="rc-cat-btn-icon">🔧</span> OUTROS
+              <span class="rc-cat-btn-count" id="rc-count-OUTROS">0</span>
+            </button>
+          </aside>
+
+          <!-- CONTENT -->
+          <div class="rc-content-area">
+            <!-- FILTROS -->
+            <div class="rc-filter-bar" id="rc-filter-bar">
+              <div class="rc-filter-item">
+                <label class="rc-filter-label">👤 JOGADOR</label>
+                <select class="rc-filter-select" id="rc-filter-player" onchange="rcApplyFilters()">
+                  <option value="">TODOS</option>
+                </select>
+              </div>
+              <div class="rc-filter-item">
+                <label class="rc-filter-label">🗺️ MAPA</label>
+                <select class="rc-filter-select" id="rc-filter-mapa" onchange="rcApplyFilters()">
+                  <option value="">TODOS</option>
+                </select>
+              </div>
+              <div class="rc-filter-item">
+                <label class="rc-filter-label">📅 DATA INÍCIO</label>
+                <input type="date" class="rc-filter-input" id="rc-filter-data-ini" onchange="rcApplyFilters()">
+              </div>
+              <div class="rc-filter-item">
+                <label class="rc-filter-label">📅 DATA FIM</label>
+                <input type="date" class="rc-filter-input" id="rc-filter-data-fim" onchange="rcApplyFilters()">
+              </div>
+              <button class="rc-filter-clear" onclick="rcClearFilters()">✕ LIMPAR</button>
+            </div>
+
+          <!-- KPI STRIP -->
+            <div class="rc-kpi-strip">
+              <div class="rc-kpi-chip"><div class="rc-kpi-chip-icon">🧨</div><div class="rc-kpi-chip-body"><div class="rc-kpi-chip-val" style="color:var(--gold);" id="rc-kpiUsos">—</div><div class="rc-kpi-chip-lbl">TOTAL DE USOS</div></div></div>
+              <div class="rc-kpi-chip"><div class="rc-kpi-chip-icon">🎯</div><div class="rc-kpi-chip-body"><div class="rc-kpi-chip-val" id="rc-kpiAcc" style="color:var(--green);">—%</div><div class="rc-kpi-chip-lbl">TAXA DE ACERTO</div></div></div>
+              <div class="rc-kpi-chip"><div class="rc-kpi-chip-icon">💥</div><div class="rc-kpi-chip-body"><div class="rc-kpi-chip-val val-gold-rc" id="rc-kpiDano">—</div><div class="rc-kpi-chip-lbl">DANO TOTAL</div></div></div>
+              <div class="rc-kpi-chip"><div class="rc-kpi-chip-icon">📊</div><div class="rc-kpi-chip-body"><div class="rc-kpi-chip-val val-blue-rc" id="rc-kpiMed">—</div><div class="rc-kpi-chip-lbl">MÉDIA DE DANO</div></div></div>
+              <div class="rc-kpi-chip"><div class="rc-kpi-chip-icon">✅</div><div class="rc-kpi-chip-body"><div class="rc-kpi-chip-val val-green" id="rc-kpiAcertos">—</div><div class="rc-kpi-chip-lbl">ACERTOS</div></div></div>
+              <div class="rc-kpi-chip"><div class="rc-kpi-chip-icon">❌</div><div class="rc-kpi-chip-body"><div class="rc-kpi-chip-val" style="color:var(--red);" id="rc-kpiErros">—</div><div class="rc-kpi-chip-lbl">ERROS</div></div></div>
+            </div>
+            <!-- SECTION HEADER -->
+            <div class="rc-section-hdr">
+              <div class="rc-section-hdr-line"></div>
+              <div class="rc-section-hdr-txt" id="rc-sectionTitle">⚡ ESTATÍSTICAS POR RECURSO</div>
+              <div class="rc-section-hdr-badge" id="rc-sectionBadge">TODOS</div>
+            </div>
+            <!-- RESOURCE CARDS -->
+            <div class="rec-grid-rc" id="rc-recGrid">
+              <div class="rc-empty-state">
+                <div class="rc-empty-icon">🎮</div>
+                <div class="rc-empty-title">CARREGANDO RECURSOS</div>
+              </div>
+            </div>
+            <!-- TEAM RANKING -->
+            <div id="rc-teamRankSection" style="display:none;">
+              <div class="rc-team-rank-wrap">
+                <div class="rc-team-rank-hdr">🏆 RANKING DE JOGADORES — DANO COM RECURSOS</div>
+                <div id="rc-teamRankList"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
 	  `;
 
 	  // render charts after DOM update
@@ -2510,7 +2855,60 @@ function toggleCollapse(bodyId, arrowId) {
 }
 
 // ── TAB SWITCH ──
+function backToHome() {
+  document.getElementById('welcomeScreen').style.display = '';
+  document.getElementById('playerContent').style.display = 'none';
+  document.getElementById('standaloneMapas').style.display = 'none';
+  document.getElementById('standaloneRecursos').style.display = 'none';
+  document.getElementById('periodBar').style.display = 'none';
+}
+
+function hideAllScreens() {
+  document.getElementById('welcomeScreen').style.display = 'none';
+  document.getElementById('playerContent').style.display = 'none';
+  document.getElementById('standaloneMapas').style.display = 'none';
+  document.getElementById('standaloneRecursos').style.display = 'none';
+}
+
 function goToTab(tab) {
+  // Abas que têm container standalone próprio (não precisam de jogador)
+  if (tab === 'analise-mapas') {
+    hideAllScreens();
+    const sm = document.getElementById('standaloneMapas');
+    sm.style.display = 'block';
+    document.getElementById('periodBar').style.display = 'none';
+    // Popula filtro de jogadores se ainda não foi
+    const selAm = document.getElementById('am-filter-player');
+    if (selAm && selAm.options.length <= 1) {
+      const players = uniqPl();
+      selAm.innerHTML = '<option value="">TODOS OS JOGADORES</option>' +
+        players.map(p=>`<option value="${p}">${p}</option>`).join('');
+    }
+    if (!amLoaded) {
+      loadAnaliseMapasData(() => renderAnaliseMapas('', 'standalone-analise-mapas-inner'));
+    } else {
+      renderAnaliseMapas('', 'standalone-analise-mapas-inner');
+    }
+    return;
+  }
+
+  if (tab === 'recursos') {
+    hideAllScreens();
+    document.getElementById('standaloneRecursos').style.display = 'block';
+    document.getElementById('periodBar').style.display = 'none';
+    // Limpa currentPlayerName temporariamente para mostrar todos
+    const savedPlayer = currentPlayerName;
+    currentPlayerName = '';
+    if (!rcLoaded) {
+      rcLoadData();
+    } else {
+      rcPopulateFilters();
+      rcRender();
+    }
+    currentPlayerName = savedPlayer;
+    return;
+  }
+
   // Se estiver na tela inicial, esconde ela e mostra o conteúdo
   const welcome = document.getElementById('welcomeScreen');
   const content = document.getElementById('playerContent');
@@ -2546,7 +2944,6 @@ function goToTab(tab) {
     if (tab === 'col') renderColetivas();
     if (tab === 'comp-an') renderCompAn();
     if (tab === 'quebra-call') renderQuebraCall(currentPlayerName);
-    if (tab === 'analise-mapas') renderAnaliseMapas(currentPlayerName);
   }
 }
 
@@ -7380,10 +7777,12 @@ function loadAnaliseMapasData(callback) {
       const iPonts = idxOf('PONTUAÇÃO','PONTUACAO','PONT','PONTOS');
       const iData  = idxOf('DATA');
       const iCamp  = idxOf('CAMP');
+      const iNome  = idxOf('NOME','JOGADOR','PLAYER');
 
       amData = json.table.rows.filter(r => r && r.c).map(r => {
         const get = i => (i >= 0 && r.c[i] && r.c[i].v !== null) ? r.c[i].v : '';
         return {
+          nome:     String(get(iNome)  || '').trim(),
           mapa:     String(get(iMapa)  || '').trim(),
           posicao:  safeNum(get(iPos)),
           kills:    safeNum(get(iKill)),
@@ -7395,6 +7794,16 @@ function loadAnaliseMapasData(callback) {
 
       amLoaded = true;
     } catch(e) { amData = []; console.error('AM load error:', e); }
+    // Popula filtro de jogadores da Análise de Mapas
+    const selAm = document.getElementById('am-filter-player');
+    if (selAm) {
+      const curVal = selAm.value;
+      const amPlayers = [...new Set(amData.map(d=>d.nome).filter(Boolean))].sort();
+      // Mescla com jogadores da planilha principal
+      const allPlayers = [...new Set([...uniqPl(), ...amPlayers])].sort();
+      selAm.innerHTML = '<option value="">TODOS OS JOGADORES</option>' +
+        allPlayers.map(p=>`<option value="${p}" ${p===curVal?'selected':''}>${p}</option>`).join('');
+    }
     if(callback) callback();
   };
 
@@ -7404,13 +7813,23 @@ function loadAnaliseMapasData(callback) {
   document.head.appendChild(s);
 }
 
-function renderAnaliseMapas(playerName) {
-  const inner = document.getElementById('analise-mapas-inner');
+function renderAnaliseMapas(playerName, containerId) {
+  const innerId = containerId || 'analise-mapas-inner';
+  const inner = document.getElementById(innerId);
   if (!inner) return;
   inner.innerHTML = '<div style="padding:40px;text-align:center;color:var(--mu)"><div class="loader-ring" style="margin:0 auto 12px;width:30px;height:30px;"></div>Carregando Análise de Mapas...</div>';
 
   const doRender = () => {
-    const data = amData;
+    // No modo standalone, lê filtro de jogador do select (se existir)
+    const standaloneVisible = document.getElementById('standaloneMapas')?.style.display !== 'none';
+    const selPlayer = standaloneVisible ? (document.getElementById('am-filter-player')?.value || '') : '';
+    const effectivePlayer = selPlayer || playerName || '';
+
+    // Se a planilha tem coluna NOME, filtra pelo jogador selecionado
+    const hasNome = amData.some(d => d.nome);
+    const data = (hasNome && effectivePlayer)
+      ? amData.filter(d => d.nome.toUpperCase() === effectivePlayer.toUpperCase())
+      : amData;
 
     if (!data.length) {
       inner.innerHTML = `<div style="padding:60px;text-align:center;border:1px dashed var(--brd);">
@@ -8048,6 +8467,331 @@ function renderAnaliseMapas(playerName) {
 }
 
 
+// ═══════════════════════════════════════════════════════════
+// RECURSOS DE COMBATE — lógica integrada
+// ═══════════════════════════════════════════════════════════
+const RC_SHEET_ID   = '1UEOBEj2GT60kdoT7_NV2DJFMvhhcSY0Ao-ej2nka-ec';
+const RC_SHEET_NAME = 'RECURSO';
+
+let rcData   = [];
+let rcLoaded = false;
+let rcCatFilter = 'TODOS';
+let rcChartInstances = {};
+
+// Mock data para demo caso planilha vazia
+const RC_MOCK_DATA = [
+  ...[...Array(18)].map((_,i) => ({ nome:'DEMO', recurso:'GRANADA DE FRAGMENTAÇÃO MKII', dano:200+Math.floor(Math.random()*200), acertou:i<13, fotoRecurso:'', fotoJogador:'' })),
+  ...[...Array(70)].map((_,i) => ({ nome:'DEMO', recurso:'PISTOLA 9MM G17', dano:80+Math.floor(Math.random()*200), acertou:i<62, fotoRecurso:'', fotoJogador:'' })),
+];
+
+function rcSafeNum(v) { const n=parseFloat(String(v).replace(/[^\d.-]/g,'')); return isNaN(n)?0:n; }
+function rcNormKey(k) { return String(k).toLowerCase().replace(/[\s_-]+/g,''); }
+function rcEsc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function rcFmt(n) { return Number(n).toLocaleString('pt-BR'); }
+function rcFmtK(n) { return n>=1000?(n/1000).toFixed(1)+'K':String(n); }
+
+function rcGetCategoria(recurso) {
+  const r = recurso.toUpperCase();
+  if (/GRANA|FRAG|FLASH|FUMACA|FUMAÇA|SMOKE|MOLOTOV|INCEND|LUZ/.test(r)) return 'GRANADAS';
+  if (/PISTOLA|REVOLVER|GLOCK|DEAGLE/.test(r)) return 'PISTOLAS';
+  if (/RIFLE|AK|M4|AR|FUZIL|SCAR|FAL/.test(r)) return 'RIFLES';
+  if (/LANÇA|LANCA|ROCKET|RPG|BAZUCA/.test(r)) return 'LANÇADORES';
+  if (/MIRA|SNIPER|AWP|LUNETA|SCOUT/.test(r)) return 'SNIPERS';
+  if (/FACA|FACAO|MACHETE|FOICE|MELEE|PUNHO/.test(r)) return 'MELEE';
+  if (/COLETE|CAPACETE|KIT|MEDKIT|CURA|BANDAGEM/.test(r)) return 'EQUIPAMENTOS';
+  return 'OUTROS';
+}
+function rcGetCatColor(cat) {
+  return ({GRANADAS:'var(--gold)',PISTOLAS:'var(--bl3)',RIFLES:'var(--green)',LANÇADORES:'var(--red)',SNIPERS:'var(--purple)',MELEE:'#ff8800',EQUIPAMENTOS:'#00ffee',OUTROS:'var(--mu)'})[cat]||'var(--bl3)';
+}
+function rcAccClass(pct) { return pct>=70?'great':pct>=40?'good':'bad'; }
+
+function rcLoadData() {
+  const url = `https://docs.google.com/spreadsheets/d/${RC_SHEET_ID}/gviz/tq?tqx=out:json%3BresponseHandler:__rcCb&sheet=${encodeURIComponent(RC_SHEET_NAME)}&t=${Date.now()}`;
+  const s = document.createElement('script');
+  window.__rcCb = function(json) {
+    try {
+      const cols = json.table.cols.map(c=>(c.label||c.id).trim());
+      rcData = json.table.rows
+        .filter(r=>r&&r.c&&r.c.some(c=>c&&c.v!==null&&c.v!==''))
+        .map(r=>{ const raw={}; cols.forEach((col,i)=>{ raw[col]=r.c[i]?(r.c[i].v!==null?r.c[i].v:''):''; }); return rcNormRow(raw); })
+        .filter(r=>r.nome&&r.recurso);
+      rcLoaded = true;
+    } catch(e) { rcData=[]; rcLoaded=true; }
+    if (!rcData.length) rcData = RC_MOCK_DATA;
+    rcPopulateFilters();
+    rcRender();
+  };
+  s.src = url;
+  s.onerror = ()=>{ rcData=RC_MOCK_DATA; rcLoaded=true; rcPopulateFilters(); rcRender(); };
+  document.head.appendChild(s);
+}
+
+function rcNormRow(r) {
+  const keys = Object.keys(r);
+  const g = (...ns) => {
+    for (const n of ns) { const nk=rcNormKey(n); let k=keys.find(k=>rcNormKey(k)===nk); if(k!==undefined&&String(r[k]).trim()!=='') return r[k]; }
+    for (const n of ns) { const nk=rcNormKey(n); let k=keys.find(k=>rcNormKey(k).includes(nk)); if(k!==undefined&&String(r[k]).trim()!=='') return r[k]; }
+    return '';
+  };
+  const av = String(g('ACERTOU OU ERROU','acertou','acerto','hit')||'').trim().toUpperCase();
+  const rawData = g('DATA','data','date')||'';
+  let dataFmt = '';
+  if (rawData) {
+    const d = rawData instanceof Date ? rawData : new Date(rawData);
+    if (!isNaN(d)) dataFmt = `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;
+    else dataFmt = String(rawData).trim();
+  }
+  return {
+    nome: String(g('NOME','nome','player','jogador')||'').trim(),
+    recurso: String(g('RECURSO','recurso','item','arma')||'').trim().toUpperCase(),
+    dano: rcSafeNum(g('DANO','dano','damage','dmg')),
+    acertou: av==='S'||av==='SIM'||av==='1'||av==='TRUE',
+    fotoRecurso: String(g('FOTO DO RECURSO','foto recurso','fotorecurso')||'').trim(),
+    fotoJogador: String(g('FOTO DO JOGADOR','foto jogador','fotojogador')||'').trim(),
+    mapa: String(g('MAPA','mapa','map')||'').trim().toUpperCase(),
+    data: dataFmt,
+  };
+}
+
+function rcPopulateFilters() {
+  const selPlayer = document.getElementById('rc-filter-player');
+  const selMapa   = document.getElementById('rc-filter-mapa');
+  if (!selPlayer || !selMapa) return;
+
+  // Keep current selections
+  const curPlayer = selPlayer.value;
+  const curMapa   = selMapa.value;
+
+  // Players
+  const players = [...new Set(rcData.map(r=>r.nome).filter(Boolean))].sort();
+  selPlayer.innerHTML = '<option value="">TODOS</option>' +
+    players.map(p=>`<option value="${rcEsc(p)}" ${p===curPlayer?'selected':''}>${rcEsc(p)}</option>`).join('');
+
+  // Mapas
+  const mapas = [...new Set(rcData.map(r=>r.mapa).filter(Boolean))].sort();
+  selMapa.innerHTML = '<option value="">TODOS</option>' +
+    mapas.map(m=>`<option value="${rcEsc(m)}" ${m===curMapa?'selected':''}>${rcEsc(m)}</option>`).join('');
+}
+
+function rcApplyFilters() {
+  rcRender();
+}
+
+function rcClearFilters() {
+  const sp = document.getElementById('rc-filter-player');
+  const sm = document.getElementById('rc-filter-mapa');
+  const di = document.getElementById('rc-filter-data-ini');
+  const df = document.getElementById('rc-filter-data-fim');
+  if (sp) sp.value = '';
+  if (sm) sm.value = '';
+  if (di) di.value = '';
+  if (df) df.value = '';
+  rcRender();
+}
+
+function rcParseFilterDate(s) {
+  if (!s) return null;
+  const [y,m,d] = s.split('-').map(Number);
+  return new Date(y, m-1, d);
+}
+
+function rcRender() {
+  // Pega valores dos filtros
+  const fPlayer  = (document.getElementById('rc-filter-player')?.value || '').trim().toUpperCase();
+  const fMapa    = (document.getElementById('rc-filter-mapa')?.value || '').trim().toUpperCase();
+  const fDataIni = rcParseFilterDate(document.getElementById('rc-filter-data-ini')?.value);
+  const fDataFim = rcParseFilterDate(document.getElementById('rc-filter-data-fim')?.value);
+
+  // No modo standalone (standalone visível), não filtra por currentPlayerName — usa o filtro da UI
+  const standaloneVisible = document.getElementById('standaloneRecursos')?.style.display !== 'none';
+  let base = (!standaloneVisible && currentPlayerName)
+    ? rcData.filter(r=>r.nome.toUpperCase()===currentPlayerName.toUpperCase())
+    : rcData;
+
+  // Aplica filtros adicionais
+  if (fPlayer) base = base.filter(r=>r.nome.toUpperCase()===fPlayer);
+  if (fMapa)   base = base.filter(r=>r.mapa && r.mapa.toUpperCase()===fMapa);
+  if (fDataIni || fDataFim) {
+    base = base.filter(r => {
+      if (!r.data) return false;
+      const d = parseSheetDate(r.data);
+      if (!d) return false;
+      if (fDataIni && d < fDataIni) return false;
+      if (fDataFim && d > fDataFim) return false;
+      return true;
+    });
+  }
+
+  const cats = ['TODOS','GRANADAS','PISTOLAS','RIFLES','LANÇADORES','SNIPERS','MELEE','EQUIPAMENTOS','OUTROS'];
+  cats.forEach(cat => {
+    const el = document.getElementById('rc-count-'+cat);
+    if (!el) return;
+    const n = cat==='TODOS' ? base.length : base.filter(r=>rcGetCategoria(r.recurso)===cat).length;
+    el.textContent = n;
+    el.style.display = n===0 ? 'none' : '';
+  });
+
+  const filtered = rcCatFilter==='TODOS' ? base : base.filter(r=>rcGetCategoria(r.recurso)===rcCatFilter);
+
+  const totalUsos    = base.length;
+  const totalAcertos = base.filter(r=>r.acertou).length;
+  const totalErros   = base.filter(r=>!r.acertou).length;
+  const taxa         = totalUsos ? Math.round(totalAcertos/totalUsos*100) : 0;
+  const totalDano    = base.reduce((s,r)=>s+r.dano,0);
+  const mediaDano    = totalUsos ? Math.round(totalDano/totalUsos) : 0;
+
+  const taxaColor = taxa>=70?'var(--green)':taxa>=40?'var(--gold)':'var(--red)';
+  const ku=document.getElementById('rc-kpiUsos'); if(ku) ku.textContent=totalUsos;
+  const ka=document.getElementById('rc-kpiAcc'); if(ka){ka.textContent=taxa+'%';ka.style.color=taxaColor;}
+  const kd=document.getElementById('rc-kpiDano'); if(kd) kd.textContent=rcFmtK(totalDano);
+  const km=document.getElementById('rc-kpiMed'); if(km) km.textContent=rcFmt(mediaDano);
+  const kac=document.getElementById('rc-kpiAcertos'); if(kac) kac.textContent=totalAcertos;
+  const ke=document.getElementById('rc-kpiErros'); if(ke) ke.textContent=totalErros;
+  const sb=document.getElementById('rc-sectionBadge'); if(sb) sb.textContent=rcCatFilter+' · '+filtered.length+' registros';
+
+  const recursos = [...new Set(filtered.map(r=>r.recurso))].sort();
+  const photoMap = {};
+  rcData.forEach(d=>{ if(d.nome&&d.fotoJogador) photoMap[d.nome.toUpperCase()]=d.fotoJogador; });
+
+  const plStats = {};
+  base.forEach(r=>{ const k=r.nome.toUpperCase(); if(!plStats[k]) plStats[k]={nome:r.nome,dano:0,usos:0,acertos:0,foto:photoMap[k]||''}; plStats[k].dano+=r.dano; plStats[k].usos++; if(r.acertou) plStats[k].acertos++; });
+  const ranking = Object.values(plStats).sort((a,b)=>b.dano-a.dano).slice(0,6);
+
+  Object.values(rcChartInstances).forEach(c=>{ try{c.destroy();}catch(e){} });
+  rcChartInstances = {};
+
+  const grid = document.getElementById('rc-recGrid');
+  if (!grid) return;
+  if (!recursos.length) {
+    grid.innerHTML = `<div class="rc-empty-state"><div class="rc-empty-icon">🧨</div><div class="rc-empty-title">SEM DADOS DE RECURSOS</div></div>`;
+  } else {
+    grid.innerHTML = recursos.map((rec,idx)=>rcBuildCard(rec,idx,filtered,photoMap)).join('');
+    requestAnimationFrame(()=>{ recursos.forEach((rec,idx)=>{ const rows=filtered.filter(r=>r.recurso===rec); rcDrawMiniChart('rc-chart-'+idx, rows); }); });
+  }
+
+  const rankSection = document.getElementById('rc-teamRankSection');
+  const rankList    = document.getElementById('rc-teamRankList');
+  if (!rankSection || !rankList) return;
+  if (!currentPlayerName && ranking.length > 1) {
+    rankSection.style.display = '';
+    const maxDano = Math.max(...ranking.map(p=>p.dano),1);
+    rankList.innerHTML = ranking.map((p,i)=>{
+      const pAcc = p.usos ? Math.round(p.acertos/p.usos*100) : 0;
+      const bar  = Math.round(p.dano/maxDano*100);
+      const medals = ['🥇','🥈','🥉'];
+      const accColor = pAcc>=70?'var(--green)':pAcc>=40?'var(--gold)':'var(--red)';
+      return `<div class="rc-team-rank-row">
+        <div class="rc-team-rank-pos">${medals[i]||'#'+(i+1)}</div>
+        ${p.foto?`<img class="rc-team-rank-photo" src="${rcEsc(p.foto)}" onerror="this.outerHTML='<div class=rc-team-rank-photo-ph>👤</div>'">`:'<div class="rc-team-rank-photo-ph">👤</div>'}
+        <div class="rc-team-rank-name">${rcEsc(p.nome)}</div>
+        <div class="rc-team-rank-stats">
+          <div class="rc-team-rank-stat"><div class="rc-team-rank-stat-val" style="color:var(--gold);">${rcFmt(p.dano)}</div><div class="rc-team-rank-stat-lbl">DANO TOTAL</div></div>
+          <div class="rc-team-rank-stat"><div class="rc-team-rank-stat-val" style="color:${accColor};">${pAcc}%</div><div class="rc-team-rank-stat-lbl">PRECISÃO</div></div>
+        </div>
+      </div>`;
+    }).join('');
+  } else { rankSection.style.display='none'; }
+}
+
+function rcBuildCard(rec, idx, filtered, photoMap) {
+  const rows  = filtered.filter(r=>r.recurso===rec);
+  const hits  = rows.filter(r=>r.acertou).length;
+  const miss  = rows.filter(r=>!r.acertou).length;
+  const usos  = rows.length;
+  const acc   = usos ? Math.round(hits/usos*100) : 0;
+  const dTot  = rows.reduce((s,r)=>s+r.dano,0);
+  const dMed  = usos ? Math.round(dTot/usos) : 0;
+  const dMax  = dTot>0 ? Math.max(...rows.map(r=>r.dano)) : 0;
+  const cat   = rcGetCategoria(rec);
+  const fotoR = rows.find(r=>r.fotoRecurso&&r.fotoRecurso.startsWith('http'))?.fotoRecurso||'';
+  const aClass = rcAccClass(acc);
+  const isGold = ['GRANADAS','LANÇADORES','MELEE'].includes(cat);
+  const plS={};
+  rows.forEach(r=>{ const k=r.nome.toUpperCase(); if(!plS[k]) plS[k]={nome:r.nome,dano:0,usos:0}; plS[k].dano+=r.dano; plS[k].usos++; });
+  const topPl=Object.values(plS).sort((a,b)=>b.dano-a.dano).slice(0,3);
+  const segsTotal=20, segsHit=Math.round(acc/100*segsTotal);
+  const segs=[...Array(segsTotal)].map((_,i)=>`<div class="rc-acc-bar-seg${i<segsHit?' '+aClass:''}"></div>`).join('');
+  const catColor=rcGetCatColor(cat);
+  return `<div class="rc${isGold?' gold-cat':''}">
+    <div class="rc-top">
+      <div class="rc-img-wrap">
+        ${fotoR?`<img class="rc-img" src="${rcEsc(fotoR)}" alt="${rcEsc(rec)}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`:'' }
+        <div class="rc-img-ph" style="${fotoR?'display:none':''}">
+          ${cat==='GRANADAS'?'💣':cat==='PISTOLAS'?'🔫':cat==='RIFLES'?'🎯':cat==='LANÇADORES'?'🚀':cat==='SNIPERS'?'🔭':cat==='MELEE'?'⚔️':'🛡️'}
+        </div>
+      </div>
+      <div class="rc-info">
+        <div>
+          <div class="rc-name">${rcEsc(rec)}</div>
+          <div class="rc-cat-row">
+            <div class="rc-cat-badge" style="color:${catColor};border-color:${catColor}33;background:${catColor}11;">${rcEsc(cat)}</div>
+            <div class="rc-uses-badge">${usos} uso${usos!==1?'s':''}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="rc-acc-block">
+      <div class="rc-acc-top">
+        <div class="rc-acc-pct ${aClass}">${acc}%</div>
+        <div class="rc-acc-bars-wrap">
+          <div class="rc-acc-bars">${segs}</div>
+          <div class="rc-acc-label"><span>${hits} acertos</span><em>${miss} erros</em></div>
+        </div>
+      </div>
+      <div class="rc-acc-gradient-bar"><div class="rc-acc-gradient-fill ${aClass}" style="width:${acc}%"></div></div>
+    </div>
+    <div class="rc-stats-row">
+      <div class="rc-stat"><div class="rc-stat-label">TOTAL DE DANO</div><div class="rc-stat-val val-gold-rc">${rcFmtK(dTot)}<span class="unit">(${rcFmt(dTot)})</span></div><div class="rc-stat-sub">Recorde: ${rcFmt(dMax)}</div></div>
+      <div class="rc-stat"><div class="rc-stat-label">MÉDIA DE DANO</div><div class="rc-stat-val val-blue-rc">${rcFmt(dMed)}</div><div class="rc-stat-sub">${hits} acertos · ${miss} erros</div></div>
+    </div>
+    <div class="rc-chart-wrap">
+      <div class="rc-chart-label"><span>EVOLUÇÃO DE DANO</span><em>${usos} partidas</em></div>
+      <div class="rc-chart-canvas-wrap"><canvas id="rc-chart-${idx}"></canvas></div>
+    </div>
+    ${topPl.length>1?`<div class="rc-players-strip">${topPl.map((p,i)=>{ const foto=photoMap[p.nome.toUpperCase()]||''; const medals=['🥇','🥈','🥉']; return `<div class="rc-pl-chip"><span>${medals[i]||''}</span>${foto?`<img class="rc-pl-photo" src="${rcEsc(foto)}" onerror="this.outerHTML='<div class=rc-pl-photo-ph>👤</div>'">`:'<div class="rc-pl-photo-ph">👤</div>'}<span class="rc-pl-name">${rcEsc(p.nome)}</span><span class="rc-pl-dmg">${rcFmt(p.dano)}</span></div>`; }).join('')}</div>`:''}
+  </div>`;
+}
+
+function rcDrawMiniChart(canvasId, rows) {
+  const canvas = document.getElementById(canvasId);
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const pts = rows.slice(-10).map(r=>r.dano);
+  if (!pts.length) return;
+  const isBlue = rows[0] && rcGetCategoria(rows[0].recurso)==='PISTOLAS';
+  const lineColor = isBlue?'rgba(122,175,255,.9)':'rgba(255,165,0,.9)';
+  const fillColor = isBlue?'rgba(26,111,255,.12)':'rgba(255,165,0,.08)';
+  const grad = ctx.createLinearGradient(0,0,0,44);
+  grad.addColorStop(0,fillColor); grad.addColorStop(1,'transparent');
+  rcChartInstances[canvasId] = new Chart(ctx, {
+    type:'line', data:{ labels:pts.map(()=>''),
+      datasets:[{data:pts,borderColor:lineColor,backgroundColor:grad,borderWidth:1.5,pointRadius:0,tension:.4,fill:true}]},
+    options:{responsive:true,maintainAspectRatio:false,animation:{duration:800},
+      plugins:{legend:{display:false},tooltip:{enabled:false}},
+      scales:{x:{display:false},y:{display:false,beginAtZero:false}}}
+  });
+}
+
+function rcSetCat(btn) {
+  document.querySelectorAll('.rc-cat-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  rcCatFilter = btn.getAttribute('data-cat');
+  rcRender();
+}
+
+// Hook na função switchTab para carregar dados ao abrir a aba
+const _origSwitchTab = switchTab;
+switchTab = function(tab, btn) {
+  _origSwitchTab(tab, btn);
+  if (tab === 'recursos') {
+    if (!rcLoaded) {
+      rcLoadData();
+    } else {
+      rcRender();
+    }
+  }
+};
 
 
 </script>
