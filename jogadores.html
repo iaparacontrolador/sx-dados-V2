@@ -105,8 +105,22 @@ body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
     transition:all .3s;text-transform:uppercase;clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px));}
   .home-tab-btn:hover{background:rgba(255,255,255,.15);border-color:var(--bl);color:#fff;box-shadow:var(--glow);transform:translateY(-2px);}
 
+  /* LINE TABS */
+  .line-tabs{display:flex;justify-content:center;gap:8px;margin-top:22px;flex-wrap:wrap;width:100%;max-width:1200px;}
+  .line-tab-btn{padding:8px 18px;font-family:'Orbitron',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;
+    color:var(--mu);background:rgba(255,255,255,.04);border:1px solid var(--brd);cursor:pointer;
+    transition:all .25s;text-transform:uppercase;}
+  .line-tab-btn:hover{color:#fff;border-color:var(--bl);background:rgba(255,255,255,.1);}
+  .line-tab-btn.active{color:#fff;background:var(--bl);border-color:var(--bl);box-shadow:var(--glow);}
+
   /* PLAYER GALLERY */
-  .player-gallery{display:flex;justify-content:center;flex-wrap:wrap;gap:30px;width:100%;max-width:1200px;margin-top:40px;}
+  .player-gallery{display:flex;flex-direction:column;align-items:center;gap:36px;width:100%;max-width:1200px;margin-top:40px;}
+  .line-group{width:100%;display:flex;flex-direction:column;align-items:center;}
+  .line-group-header{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:20px;width:100%;max-width:900px;}
+  .line-group-header::before,.line-group-header::after{content:'';flex:1;height:1px;background:var(--bline);}
+  .line-group-title{font-family:'Orbitron',sans-serif;font-size:13px;font-weight:900;color:var(--wh);letter-spacing:4px;text-transform:uppercase;white-space:nowrap;text-shadow:0 0 16px rgba(255,255,255,.25);}
+  .line-group-count{font-size:10px;color:var(--mu);letter-spacing:2px;white-space:nowrap;}
+  .line-group-grid{display:flex;justify-content:center;flex-wrap:wrap;gap:30px;width:100%;}
   .gallery-item{width:160px;cursor:pointer;transition:all .3s;text-align:center;position:relative;}
   .gallery-item{cursor:pointer;transition:all .3s;text-align:center;position:relative;}
   .gallery-item:hover{transform:translateY(-10px);}
@@ -1124,6 +1138,10 @@ body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
         <button class="home-tab-btn" style="color:#ffa500; border-color:rgba(255,165,0,.3);" onclick="goToTab('recursos')">🎯 Recursos de Combate</button>
       </div>
 
+      <div class="line-tabs" id="lineTabs" style="display:none;">
+        <!-- Populada via JS -->
+      </div>
+
       <div class="player-gallery" id="playerGallery">
         <!-- Populada via JS -->
       </div>
@@ -1214,6 +1232,8 @@ const GOOGLE_SCRIPT_URL = 'https://docs.google.com/spreadsheets/d/1UEOBEj2GT60kd
 // ══════════════════════════════════════════════
 
 let allData = [];
+let allDataFull = []; // ← guarda TODOS os registros (todas as lines), allData é filtrado pela line ativa
+let currentLine = 'TODAS'; // ← 'TODAS' | 'PRINCIPAL' | 'LINE B' | ... (dinâmico, conforme planilha)
 let charts  = {};
 let currentPeriod = 'todos';
 let currentPlayerName = '';
@@ -1874,7 +1894,7 @@ function loadSheetData() {
         throw new Error('Planilha vazia. O coach precisa publicar os dados primeiro.');
       }
       const cols = json.table.cols.map(c => c.label || c.id);
-      allData = json.table.rows
+      allDataFull = json.table.rows
         .filter(r => r && r.c && r.c.some(c => c && c.v !== null && c.v !== ''))
         .map(r => {
           const raw = {};
@@ -1883,11 +1903,15 @@ function loadSheetData() {
         })
         .filter(r => r.player);
 
-      if (!allData.length) throw new Error('Nenhum jogador encontrado. Verifique se a planilha tem dados.');
+      if (!allDataFull.length) throw new Error('Nenhum jogador encontrado. Verifique se a planilha tem dados.');
+
+      // Mantém a line selecionada se ela ainda existir na base recarregada; senão volta para TODAS
+      if (currentLine !== 'TODAS' && !uniqLines().includes(currentLine)) currentLine = 'TODAS';
+      applyLineFilter();
 
       document.getElementById('loadingScreen').style.display = 'none';
       document.getElementById('mainWrap').style.display       = 'block';
-      document.getElementById('statusInfo').textContent = allData.length + ' registros · ' + uniqPl().length + ' jogadores';
+      document.getElementById('statusInfo').textContent = allData.length + ' registros · ' + uniqPl().length + ' jogadores' + (currentLine !== 'TODAS' ? ' · ' + (currentLine === 'PRINCIPAL' ? 'LINE PRINCIPAL' : currentLine) : '');
       document.getElementById('statusTime').textContent = 'Atualizado: ' + new Date().toLocaleTimeString('pt-BR');
       buildDatesWithData();
       // Navigate calendar to most recent month with data
@@ -1898,6 +1922,7 @@ function loadSheetData() {
       }
       renderSearchDropdown();
       renderPlayerGallery();
+      renderLineTabs();
     } catch(err) {
       document.getElementById('loadingScreen').style.display = 'none';
       document.getElementById('errorScreen').style.display   = 'flex';
@@ -1990,8 +2015,58 @@ function normRow(r){
     funcao:      (v => v.startsWith('http') ? '' : v)(String(g('FUNCAO','FUNÇÃO','funcao','função','role','cargo')||'').trim()),
     tipo:        String(g('TIPO','tipo','liga','campeonato','torneio','evento','event')||'').trim(),
     diaSemana:   String(g('DIA DA SEMANA','diasemana','weekday')||'').trim(),
+    line:        normLine(g('LINE','line','LINHA','linha')),
     foto, video,
   };
+}
+
+// ── NORMALIZA A LINE (PRINCIPAL é o padrão quando a célula vem vazia) ──
+function normLine(v){
+  let s = String(v||'').trim().toUpperCase();
+  if (!s) return 'PRINCIPAL';
+  if (s === 'PRINCIPAL' || s === 'LINE A' || s === 'LINE PRINCIPAL' || s === 'A') return 'PRINCIPAL';
+  return s;
+}
+
+// ── LISTA DE LINES ÚNICAS PRESENTES NA BASE COMPLETA (PRINCIPAL sempre primeiro) ──
+function uniqLines(){
+  const set = new Set(allDataFull.map(r => r.line).filter(Boolean));
+  return [...set].sort((a,b) => {
+    if (a === 'PRINCIPAL') return -1;
+    if (b === 'PRINCIPAL') return 1;
+    return a.localeCompare(b, 'pt-BR');
+  });
+}
+
+// ── APLICA O FILTRO DE LINE ATIVO SOBRE allDataFull → allData ──
+function applyLineFilter(){
+  allData = currentLine === 'TODAS' ? allDataFull : allDataFull.filter(r => r.line === currentLine);
+}
+
+// ── TROCA A LINE ATIVA E RE-RENDERIZA TUDO QUE DEPENDE DE allData ──
+function selectLine(line){
+  currentLine = line;
+  applyLineFilter();
+  buildDatesWithData();
+  renderSearchDropdown();
+  renderPlayerGallery();
+  renderLineTabs();
+  const statusEl = document.getElementById('statusInfo');
+  if (statusEl) statusEl.textContent = allData.length + ' registros · ' + uniqPl().length + ' jogadores' + (currentLine !== 'TODAS' ? ' · ' + (currentLine === 'PRINCIPAL' ? 'LINE PRINCIPAL' : currentLine) : '');
+}
+
+// ── RENDERIZA AS ABAS DE LINE NA TELA INICIAL ──
+function renderLineTabs(){
+  const wrap = document.getElementById('lineTabs');
+  if (!wrap) return;
+  const lines = uniqLines();
+  if (lines.length < 2){ wrap.innerHTML = ''; wrap.style.display = 'none'; return; }
+  wrap.style.display = 'flex';
+  const label = l => l === 'PRINCIPAL' ? 'LINE PRINCIPAL' : l;
+  const opts = ['TODAS', ...lines];
+  wrap.innerHTML = opts.map(l => `
+    <button class="line-tab-btn${l === currentLine ? ' active' : ''}" onclick="selectLine('${esc(l)}')">${esc(l === 'TODAS' ? 'TODAS AS LINES' : label(l))}</button>
+  `).join('');
 }
 
 // ── HELPERS ──
@@ -2054,16 +2129,51 @@ function renderPlayerGallery() {
     return;
   }
 
-  galleryEl.innerHTML = players.map(name => {
+  const cardHtml = name => {
     const pd = plData(name);
     const foto = pd.find(r => r.foto && r.foto.startsWith('http'))?.foto || '';
     const role = noUrl(pd.find(r => noUrl(r.funcao))?.funcao) || 'PLAYER';
-    
     return `
       <div class="gallery-item" onclick="selectPlayer('${esc(name)}')">
         <img class="gallery-photo" src="${esc(foto)}" alt="${esc(name)}" onerror="this.style.display='none'">
         <div class="gallery-name">${esc(name)}</div>
         <div class="gallery-role">${esc(role)}</div>
+      </div>
+    `;
+  };
+
+  // Se uma line específica está ativa (filtro selecionado), mostra apenas a grade normal, sem repetir o cabeçalho
+  if (currentLine !== 'TODAS') {
+    galleryEl.innerHTML = `<div class="line-group-grid">${players.map(cardHtml).join('')}</div>`;
+    return;
+  }
+
+  // TODAS AS LINES: agrupa os jogadores pela line predominante de cada um e alinha as fotos por line
+  const groups = {};
+  players.forEach(name => {
+    const pd = plData(name);
+    const lineCounts = {};
+    pd.forEach(r => { const l = r.line || 'PRINCIPAL'; lineCounts[l] = (lineCounts[l]||0) + 1; });
+    const playerLine = Object.keys(lineCounts).sort((a,b) => lineCounts[b] - lineCounts[a])[0] || 'PRINCIPAL';
+    (groups[playerLine] = groups[playerLine] || []).push(name);
+  });
+
+  const lineOrder = Object.keys(groups).sort((a,b) => {
+    if (a === 'PRINCIPAL') return -1;
+    if (b === 'PRINCIPAL') return 1;
+    return a.localeCompare(b, 'pt-BR');
+  });
+
+  galleryEl.innerHTML = lineOrder.map(lineName => {
+    const names = groups[lineName];
+    const title = lineName === 'PRINCIPAL' ? 'LINE PRINCIPAL' : lineName;
+    return `
+      <div class="line-group">
+        <div class="line-group-header">
+          <span class="line-group-title">${esc(title)}</span>
+          <span class="line-group-count">${names.length} JOGADOR${names.length !== 1 ? 'ES' : ''}</span>
+        </div>
+        <div class="line-group-grid">${names.map(cardHtml).join('')}</div>
       </div>
     `;
   }).join('');
@@ -2879,10 +2989,12 @@ function goToTab(tab) {
     document.getElementById('periodBar').style.display = 'none';
     // Popula filtro de jogadores se ainda não foi
     const selAm = document.getElementById('am-filter-player');
-    if (selAm && selAm.options.length <= 1) {
+    if (selAm) {
       const players = uniqPl();
+      const prevSel = selAm.value;
       selAm.innerHTML = '<option value="">TODOS OS JOGADORES</option>' +
         players.map(p=>`<option value="${p}">${p}</option>`).join('');
+      if (players.includes(prevSel)) selAm.value = prevSel;
     }
     if (!amLoaded) {
       loadAnaliseMapasData(() => renderAnaliseMapas('', 'standalone-analise-mapas-inner'));
