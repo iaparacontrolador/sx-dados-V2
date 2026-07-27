@@ -7366,8 +7366,10 @@ window.addEventListener('load', () => {
 
 // ══════════════════════════════════════════════════════
 // ── QUEBRA DE CALL — Sheet: A - QUEBRA DE CALL ──
-// Colunas: CONTRA | CALL | MAPA | RESULTADO | FOTO DA CALL | DATA | CAMP
-// RESULTADO: 1 = Ganhou, 0 = Perdeu (ou texto "GANHOU"/"PERDEU")
+// Colunas: JOGADORES | MAPA | ABATES | CAIU/MORREU | ASS | DANO | DERRUBOU | CURA |
+//          LEVANTADOS | RESSURGIDOS | % DE ACERTO NA CABEÇA | CONTRA | CALL | MAPA |
+//          RESULTADO | FOTO DA CALL | DATA | TIPO
+// RESULTADO: 1 = Ganhou, 0 = Perdeu (ou texto "GANHOU"/"PERDEU"/"GANHA"/"PERDIDA")
 // ══════════════════════════════════════════════════════
 const QC_SHEET_ID = '1UEOBEj2GT60kdoT7_NV2DJFMvhhcSY0Ao-ej2nka-ec';
 const QC_SHEET_NAME = 'A - QUEBRA DE CALL';
@@ -7381,16 +7383,29 @@ function loadQuebraCallData(callback) {
   window.__qcCallback = function(json) {
     try {
       if (!json.table || !json.table.rows) { qcData = []; if(callback) callback(); return; }
-      const cols = (json.table.cols || []).map(c => String(c.label || c.id || '').trim().toUpperCase());
-      const idxOf = (...names) => { for(const n of names){ const i = cols.findIndex(c=>c.includes(n.toUpperCase())); if(i>=0) return i; } return -1; };
+      // Normaliza removendo acentos para casar nomes de colunas com segurança (ex: "CABEÇA" vs "CABECA")
+      const normCol = s => String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim().toUpperCase();
+      const cols = (json.table.cols || []).map(c => normCol(c.label || c.id || ''));
+      const idxOf = (...names) => { for(const n of names){ const nn = normCol(n); const i = cols.findIndex(c=>c.includes(nn)); if(i>=0) return i; } return -1; };
 
+      const iJog    = idxOf('JOGADOR');
       const iContra = idxOf('CONTRA');
       const iCall   = idxOf('CALL');
       const iMapa   = idxOf('MAPA');
       const iRes    = idxOf('RESULTADO');
       const iFoto   = idxOf('FOTO');
       const iData   = idxOf('DATA');
-      const iCamp   = idxOf('CAMP');
+      const iCamp   = idxOf('TIPO', 'CAMP');
+      // Estatísticas individuais do jogador dentro da própria quebra de call
+      const iAbates = idxOf('ABATE');
+      const iMorreu = idxOf('CAIU', 'MORREU');
+      const iAss    = idxOf('ASS');
+      const iDano   = idxOf('DANO');
+      const iDerrub = idxOf('DERRUBOU');
+      const iCura   = idxOf('CURA');
+      const iLevant = idxOf('LEVANTADO');
+      const iRessur = idxOf('RESSURGIDO');
+      const iHead   = idxOf('CABECA', 'HEADSHOT', 'ACERTO');
 
       qcData = json.table.rows.filter(r => r && r.c).map(r => {
         const get = i => (i >= 0 && r.c[i] && r.c[i].v !== null) ? r.c[i].v : '';
@@ -7399,6 +7414,7 @@ function loadQuebraCallData(callback) {
         if (typeof resRaw === 'number') ganhou = resRaw >= 1;
         else if (typeof resRaw === 'string') ganhou = resRaw.toUpperCase().includes('GANH') || resRaw === '1';
         return {
+          jogador: String(get(iJog)   || '').trim(),
           contra:  String(get(iContra) || '').trim(),
           call:    String(get(iCall)   || '').trim(),
           mapa:    String(get(iMapa)   || '').trim(),
@@ -7406,8 +7422,17 @@ function loadQuebraCallData(callback) {
           foto:    String(get(iFoto)   || '').trim(),
           data:    formatDate(get(iData)),
           camp:    String(get(iCamp)   || '').trim(),
+          abates:     safeNum(get(iAbates)),
+          morreu:     safeNum(get(iMorreu)),
+          assistencias: safeNum(get(iAss)),
+          dano:       safeNum(get(iDano)),
+          derrubou:   safeNum(get(iDerrub)),
+          cura:       safeNum(get(iCura)),
+          levantados: safeNum(get(iLevant)),
+          ressurgidos: safeNum(get(iRessur)),
+          headshot:   safeNum(get(iHead)),
         };
-      }).filter(r => r.call || r.mapa || r.contra);
+      }).filter(r => r.call || r.mapa || r.contra || r.jogador);
 
       qcLoaded = true;
     } catch(e) { qcData = []; console.error('QC load error:', e); }
@@ -7477,6 +7502,46 @@ function renderQuebraCall(playerName) {
 
     // Ranking final por score
     const playerRanking = [...x1Stats].sort((a,b) => b.score - a.score);
+
+    // ── DESEMPENHO POR JOGADOR NAS QUEBRAS DE CALL (dados reais da aba, por linha) ──
+    // Agrupa as próprias linhas de "A - QUEBRA DE CALL" pelo nome em "jogador",
+    // já que cada linha representa a participação de um jogador numa quebra específica.
+    const qcByPlayer = {};
+    data.forEach(d => {
+      if (!d.jogador) return;
+      if (!qcByPlayer[d.jogador]) {
+        qcByPlayer[d.jogador] = {
+          name: d.jogador, total: 0, wins: 0,
+          abates: 0, morreu: 0, ass: 0, dano: 0, derrubou: 0, cura: 0, levantados: 0, ressurgidos: 0, headshot: 0,
+          foto: ''
+        };
+      }
+      const p = qcByPlayer[d.jogador];
+      p.total++;
+      if (d.resultado) p.wins++;
+      p.abates += d.abates || 0;
+      p.morreu += d.morreu || 0;
+      p.ass += d.assistencias || 0;
+      p.dano += d.dano || 0;
+      p.derrubou += d.derrubou || 0;
+      p.cura += d.cura || 0;
+      p.levantados += d.levantados || 0;
+      p.ressurgidos += d.ressurgidos || 0;
+      p.headshot += d.headshot || 0;
+      if (!p.foto && d.foto && d.foto.startsWith('http')) p.foto = d.foto;
+    });
+    const qcPlayerRanking = Object.values(qcByPlayer).map(p => ({
+      ...p,
+      wr: p.total > 0 ? (p.wins/p.total*100) : 0,
+      avgAbates: p.total > 0 ? p.abates/p.total : 0,
+      avgMorreu: p.total > 0 ? p.morreu/p.total : 0,
+      avgAss: p.total > 0 ? p.ass/p.total : 0,
+      avgDano: p.total > 0 ? p.dano/p.total : 0,
+      avgDerrubou: p.total > 0 ? p.derrubou/p.total : 0,
+      avgHeadshot: p.total > 0 ? p.headshot/p.total : 0,
+    })).sort((a,b) => (b.wr - a.wr) || (b.total - a.total));
+    const qcHasPlayerData = qcPlayerRanking.length > 0;
+    const bestQcPlayer = qcHasPlayerData ? qcPlayerRanking[0] : null;
 
     // Melhor mapa
     const mapaStats = {};
@@ -7549,16 +7614,55 @@ function renderQuebraCall(playerName) {
           <div class="qc-kpi-v neutral-v">${bestMap ? esc(bestMap.mapa) : '—'}</div>
           <div class="qc-kpi-l">Melhor Mapa</div>
         </div>
-        <div class="qc-kpi neutral">
-          <div class="qc-kpi-v neutral-v">${playerRanking.length > 0 ? esc(playerRanking[0].name) : '—'}</div>
-          <div class="qc-kpi-l">MELHOR X1 (KDA SCORE)</div>
+        <div class="qc-kpi ${bestQcPlayer && bestQcPlayer.wr>=50?'win':'neutral'}">
+          <div class="qc-kpi-v ${bestQcPlayer && bestQcPlayer.wr>=50?'win-v':'neutral-v'}">${bestQcPlayer ? esc(bestQcPlayer.name) : '—'}</div>
+          <div class="qc-kpi-l">MELHOR NAS QUEBRAS${bestQcPlayer ? ' ('+bestQcPlayer.wr.toFixed(0)+'% WR)' : ''}</div>
         </div>
       </div>
+
+      <!-- DESEMPENHO POR JOGADOR NAS QUEBRAS DE CALL (dados reais da aba) -->
+      <div class="stitle">🎯 COM QUAL JOGADOR O TIME MAIS GANHA A QUEBRA DE CALL</div>
+      <div style="font-size:9px;color:var(--mu);letter-spacing:1px;margin-bottom:12px;">
+        Baseado no resultado real (GANHA/PERDIDA) de cada linha da aba "A - QUEBRA DE CALL" em que o jogador participou. Ordenado por Win Rate do time com aquele jogador na call.
+      </div>
+      <div class="qc-section" style="overflow-x:auto;">
+        ${!qcHasPlayerData ? '<div style="color:var(--mu);font-size:12px;">Nenhuma coluna de jogador ("JOGADORES") encontrada na aba de Quebra de Call, ou nenhuma linha preenchida com o nome do jogador.</div>' : `
+        <table class="qc-hist-table">
+          <thead><tr>
+            <th>#</th><th>JOGADOR</th><th>QUEBRAS</th><th>GANHAS</th><th>PERDIDAS</th><th>WIN RATE</th>
+            <th>ABATES MÉD</th><th>DERRUBOU MÉD</th><th>DANO MÉD</th><th>ASS MÉD</th><th>% CABEÇA MÉD</th>
+          </tr></thead>
+          <tbody>
+            ${qcPlayerRanking.map((p,i) => {
+              const wrColor = p.wr>=60?'#4dff88':p.wr>=40?'#ffc44d':'#ff5078';
+              const medals  = ['🥇','🥈','🥉'];
+              return `<tr style="${i===0?'background:rgba(77,255,136,.05);':''}">
+                <td style="font-weight:700;color:var(--mu);">${medals[i]||i+1}</td>
+                <td style="font-family:Orbitron,sans-serif;font-size:10px;font-weight:700;color:#fff;">${esc(p.name)}</td>
+                <td style="color:var(--mu);">${p.total}</td>
+                <td><span class="qc-badge-win">${p.wins}</span></td>
+                <td><span class="qc-badge-loss">${p.total - p.wins}</span></td>
+                <td style="font-family:Orbitron,sans-serif;font-weight:900;color:${wrColor};">${p.wr.toFixed(1)}%</td>
+                <td>${p.avgAbates.toFixed(1)}</td>
+                <td>${p.avgDerrubou.toFixed(1)}</td>
+                <td>${Math.round(p.avgDano)}</td>
+                <td>${p.avgAss.toFixed(1)}</td>
+                <td>${p.avgHeadshot.toFixed(0)}%</td>
+              </tr>`;
+            }).join('')}
+          </tbody>
+        </table>`}
+      </div>
+      ${qcHasPlayerData ? `
+      <div class="cpanel" style="margin-bottom:16px;">
+        <div class="cpt">🏆 WIN RATE DO TIME POR JOGADOR NA QUEBRA</div>
+        <div class="chart-box" style="height:${Math.max(160, qcPlayerRanking.length*32)}px;"><canvas id="qc_player_wr_chart"></canvas></div>
+      </div>` : ''}
 
       <!-- JOGADOR IDEAL PARA X1 -->
       <div class="stitle">JOGADOR IDEAL PARA X1</div>
       <div style="font-size:9px;color:var(--mu);letter-spacing:1px;margin-bottom:12px;">
-        Score composto: <span style="color:#ffd700;">Kills 40%</span> · <span style="color:#cc66ff;">Dano 35%</span> · <span style="color:#4dff88;">Derrubados 25%</span> — baseado na média por partida no banco de dados
+        Score composto: <span style="color:#ffd700;">Kills 40%</span> · <span style="color:#cc66ff;">Dano 35%</span> · <span style="color:#4dff88;">Derrubados 25%</span> — baseado na média por partida no banco geral de jogadores (não é específico de quebra de call)
       </div>
       <div class="qc-section">
         ${playerRanking.length === 0 ? '<div style="color:var(--mu);font-size:12px;">Nenhum jogador encontrado no banco de dados.</div>' :
@@ -7765,14 +7869,15 @@ function renderQuebraCall(playerName) {
       <div class="qc-section" style="overflow-x:auto;">
         <table class="qc-hist-table">
           <thead><tr>
-            <th>#</th><th>DATA</th><th>MAPA</th><th>CALL (JOGADOR)</th><th>CONTRA</th><th>CAMPEONATO</th><th>RESULTADO</th>
+            <th>#</th><th>DATA</th><th>MAPA</th><th>JOGADOR</th><th>CALL</th><th>CONTRA</th><th>TIPO</th><th>RESULTADO</th>
           </tr></thead>
           <tbody>
             ${histData.map((d,i) => `<tr style="background:${d.resultado?'rgba(77,255,136,.03)':'rgba(255,80,120,.03)'};">
               <td style="color:var(--mu);">${i+1}</td>
               <td style="font-size:10px;color:var(--mu);">${esc(d.data||'—')}</td>
               <td><span class="mapb">${esc(d.mapa||'—')}</span></td>
-              <td style="font-family:Orbitron,sans-serif;font-size:10px;font-weight:700;">${esc(d.call||'—')}</td>
+              <td style="font-family:Orbitron,sans-serif;font-size:10px;font-weight:700;color:#fff;">${esc(d.jogador||'—')}</td>
+              <td style="font-size:11px;color:var(--bl3);">${esc(d.call||'—')}</td>
               <td style="font-size:11px;color:var(--mu);">${esc(d.contra||'—')}</td>
               <td style="font-size:10px;color:var(--mu);">${esc(d.camp||'—')}</td>
               <td>${d.resultado ? '<span class="qc-badge-win">GANHOU ✓</span>' : '<span class="qc-badge-loss">PERDEU ✗</span>'}</td>
@@ -7849,6 +7954,26 @@ function renderQuebraCall(playerName) {
           return p.games > 0 ? ` ${label}: ${c2.raw}${unitLabel} · ${p.games} partidas` : ' Sem dados no banco';
         }}}},
         scales:{ x:{...ax, beginAtZero:true}, y:ax }
+      }});
+    }
+
+    // Chart: Win Rate do time por jogador nas quebras de call
+    const c5 = document.getElementById('qc_player_wr_chart')?.getContext('2d');
+    if (c5 && qcPlayerRanking.length) {
+      const wrVals = qcPlayerRanking.map(p => parseFloat(p.wr.toFixed(1)));
+      new Chart(c5, { type:'bar', data:{
+        labels: qcPlayerRanking.map(p=>p.name),
+        datasets:[{ label:'Win Rate', data: wrVals,
+          backgroundColor: wrVals.map(v => v>=60?'rgba(77,255,136,.75)':v>=40?'rgba(255,196,77,.7)':'rgba(255,80,120,.65)'),
+          borderColor:     wrVals.map(v => v>=60?'#4dff88':v>=40?'#ffc44d':'#ff5078'),
+          borderWidth:1, borderRadius:4
+        }]
+      }, options:{ responsive:true, maintainAspectRatio:false, indexAxis:'y',
+        plugins:{ legend:{display:false}, tooltip:{...tt, callbacks:{ label: c => {
+          const p = qcPlayerRanking[c.dataIndex];
+          return ` ${p.wins}V / ${p.total - p.wins}D · ${p.total} quebras`;
+        }}}},
+        scales:{ x:{...ax, beginAtZero:true, max:100}, y:ax }
       }});
     }
 
